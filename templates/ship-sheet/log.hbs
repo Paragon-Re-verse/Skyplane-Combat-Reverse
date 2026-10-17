@@ -1,0 +1,25 @@
+<section class="tab skyplane-tab-log {{tab.cssClass}}" data-tab="log" data-group="primary">
+  <div class="skyplane-log-toolbar">
+    <select name="logFilter">
+      <option value="">{{sky "log.filterAll"}}</option>
+      {{selectOptions logTypes selected=logFilter valueAttr="value" labelAttr="label"}}
+    </select>
+    <button type="button" class="skyplane-button" data-action="clearLog"><i class="fa-solid fa-broom"></i> {{sky "log.clear"}}</button>
+  </div>
+  <div class="skyplane-log-note">
+    <textarea name="logNote" rows="2" placeholder="{{sky "log.notePlaceholder"}}"></textarea>
+    <button type="button" class="skyplane-button" data-action="addNote"><i class="fa-solid fa-pen"></i> {{sky "log.addNote"}}</button>
+  </div>
+  <ol class="skyplane-log-list">
+    {{#each log}}
+    <li class="skyplane-log-entry type-{{type}}">
+      <span class="time">{{timeLabel}}</span>
+      <span class="type">{{typeLabel}}</span>
+      <span class="user">{{userName}}</span>
+      <span class="text">{{text}}</span>
+    </li>
+    {{else}}
+    <li class="skyplane-empty">{{sky "log.empty"}}</li>
+    {{/each}}
+  </ol>
+</section>

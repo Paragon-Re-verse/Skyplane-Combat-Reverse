@@ -1,0 +1,27 @@
+<div class="skyplane-permissions-body">
+  <p class="skyplane-hint">{{sky "settings.permissions.hint"}}</p>
+  <table class="skyplane-table">
+    <thead>
+      <tr>
+        <th>{{sky "permissions.player"}}</th>
+        {{#each rights}}<th data-tooltip="{{hint}}">{{label}}</th>{{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr>
+        <td>{{name}} <small>({{character}})</small></td>
+        {{#each rights}}
+        <td class="center"><input type="checkbox" name="{{../id}}.{{id}}" {{checked checked}}></td>
+        {{/each}}
+      </tr>
+      {{else}}
+      <tr><td colspan="5" class="skyplane-empty">{{sky "permissions.noPlayers"}}</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="skyplane-hint">{{sky "permissions.gmOnlyNote"}}</p>
+  <footer class="form-footer">
+    <button type="submit"><i class="fa-solid fa-floppy-disk"></i> {{sky "permissions.save"}}</button>
+  </footer>
+</div>

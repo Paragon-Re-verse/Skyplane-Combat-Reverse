@@ -1,0 +1,55 @@
+{
+  "_id": "e4in6EyqZ0bEQXIY",
+  "_key": "!items!e4in6EyqZ0bEQXIY",
+  "name": "Батарея ATA-лазеров",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/weapons.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Вооружение"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Против истребителей и перехватчиков: каждая кость — отдельная цель.",
+    "checkSkill": "prc",
+    "checkDc": 10,
+    "ranges": [
+      "close",
+      "medium"
+    ],
+    "special": "volley",
+    "damageDice": 3,
+    "damageDie": 4,
+    "damageBonus": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2t_ata",
+    "systemCategory": "weapons",
+    "width": 2,
+    "height": 1,
+    "hp": 10,
+    "description": "<p>Скорострельные лазеры «воздух — воздух».</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

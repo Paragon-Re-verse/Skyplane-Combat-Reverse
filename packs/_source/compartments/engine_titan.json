@@ -1,0 +1,57 @@
+{
+  "_id": "kZAjz2AaWJjqBOWb",
+  "_key": "!items!kZAjz2AaWJjqBOWb",
+  "name": "Двигатель «Тихоокеанский титан V-12»",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/engine.svg",
+  "system": {
+    "catalogId": "engine_titan",
+    "systemCategory": "engine",
+    "width": 3,
+    "height": 5,
+    "hp": 30,
+    "img": "",
+    "keywords": [
+      "Машинное отделение",
+      "Тяжелый"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": 5,
+    "fuelEconomy": 3,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Повышенная тяга для массивных крейсеров.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Колоссальная турбина с инжекторами жидкого флогистона.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

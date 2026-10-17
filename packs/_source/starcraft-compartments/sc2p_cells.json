@@ -1,0 +1,56 @@
+{
+  "_id": "cuxU432Rk36CgkrC",
+  "_key": "!items!cuxU432Rk36CgkrC",
+  "name": "Зал медитации",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Жилой"
+    ],
+    "isResidential": true,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Жилой отсек для тамплиеров экипажа.",
+    "checkSkill": "",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2p_cells",
+    "systemCategory": "equipment",
+    "width": 2,
+    "height": 1,
+    "hp": 8,
+    "description": "<p>Тихие кельи, где слышно Кхалу.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

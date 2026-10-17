@@ -1,0 +1,75 @@
+<div class="skyplane-compartment-body">
+  {{#if missing}}
+  <p class="skyplane-empty">{{sky "compartment.missing"}}</p>
+  {{else}}
+  <div class="skyplane-compartment-meta">
+    <span><strong>{{sky "compartment.category"}}:</strong> {{categoryLabel}}</span>
+    <span><strong>{{sky "compartment.size"}}:</strong> {{sizeLabel}}</span>
+    {{#if keywords}}<span><strong>{{sky "compartment.keywords"}}:</strong> {{keywords}}</span>{{/if}}
+    {{#if (eq compartment.systemCategory "engine")}}<span><strong>{{sky "params.speed"}}:</strong> {{compartment.speed}} · <strong>{{sky "params.fuelEconomy"}}:</strong> {{compartment.fuelEconomy}}</span>{{/if}}
+  </div>
+
+  {{#if compartment.isNoHp}}
+  <p class="skyplane-hint">{{sky "compartment.noHp"}}</p>
+  {{else}}
+  <div class="skyplane-hp-bar {{#if destroyed}}destroyed{{/if}}">
+    <div class="fill" style="width: {{hpPercent}}%"></div>
+    <span>{{compartment.currentHp}} / {{compartment.maxHp}}{{#if destroyed}} · {{sky "compartment.destroyed"}}{{/if}}</span>
+  </div>
+  {{/if}}
+
+  {{#if compartment.effect}}<p class="skyplane-effect"><strong>{{sky "systems.effect"}}:</strong> {{compartment.effect}}</p>{{/if}}
+  {{#if effects.length}}
+  <ul class="skyplane-effect-list compact">
+    {{#each effects}}<li class="{{#if disabled}}disabled{{/if}}"><img src="{{img}}" alt=""> <strong>{{name}}</strong>: {{summary}}</li>{{/each}}
+  </ul>
+  {{/if}}
+  {{#if description}}<div class="skyplane-description">{{{description}}}</div>{{/if}}
+
+  {{#if combat}}
+  <fieldset class="skyplane-combat">
+    <legend>{{sky "combat.section"}}</legend>
+    {{#if combat.weapon}}
+    <span><strong>{{sky "systems.firepower"}}:</strong> {{combat.formula}} · <strong>{{sky "combat.ranges"}}:</strong> {{combat.rangeLabel}}</span>
+    {{#if combat.specialLabel}}<span data-tooltip="{{combat.specialHint}}"><strong>{{sky "combat.special"}}:</strong> {{combat.specialLabel}} <i class="fa-solid fa-circle-info"></i></span>{{/if}}
+    <span><strong>{{sky "combat.hitCheck"}}:</strong> {{combat.skillLabel}}, {{sky "combat.dc"}} {{combat.dc}}
+      {{#if combat.penalized}}<em class="skyplane-warning">({{sky "combat.rangePenalty"}})</em>{{/if}}
+      {{#if combat.modifier}}<em>({{combat.modifier}})</em>{{/if}}
+      {{#if combat.disadvantage}}<em class="skyplane-warning">({{sky "combat.disadvantage"}})</em>{{/if}}</span>
+    {{#if combat.canFire}}
+      {{#if combat.charging}}<p class="skyplane-hint">{{sky "combat.charging"}}</p>
+      {{else if combat.fired}}<p class="skyplane-hint">{{sky "combat.alreadyFired"}}</p>
+      {{else if combat.needsCharge}}<button type="button" class="skyplane-button" data-action="fire"><i class="fa-solid fa-bolt"></i> {{sky "combat.charge"}}</button>
+      {{else}}<button type="button" class="skyplane-button" data-action="fire"><i class="fa-solid fa-burst"></i> {{sky "combat.fire"}}</button>{{/if}}
+    {{/if}}
+    {{/if}}
+    {{#if combat.recon}}
+    <span><strong>{{sky "combat.scoutCheck"}}:</strong> {{combat.skillLabel}}, {{sky "combat.dc"}} {{combat.dc}}</span>
+    {{#if combat.canScout}}<button type="button" class="skyplane-button" data-action="scout"><i class="fa-solid fa-satellite-dish"></i> {{sky "combat.scout"}}</button>{{/if}}
+    {{/if}}
+  </fieldset>
+  {{/if}}
+
+  {{#if canRepair}}
+  <button type="button" class="skyplane-button" data-action="repair"><i class="fa-solid fa-screwdriver-wrench"></i> {{sky "repair.button"}}</button>
+  {{/if}}
+
+  {{#if isGM}}
+  <fieldset class="skyplane-gm">
+    <legend>{{sky "compartment.gmSection"}}</legend>
+    {{#unless compartment.isNoHp}}
+    <div class="skyplane-hp-input">
+      <input type="text" name="hpDelta" placeholder="{{sky "compartment.hpPlaceholder"}}">
+      <button type="button" class="skyplane-button" data-action="applyHp">{{sky "compartment.apply"}}</button>
+    </div>
+    {{/unless}}
+    <label><input type="checkbox" data-flag="passageUp" {{checked compartment.passageUp}}> {{sky "compartment.passageUp"}}</label>
+    <label><input type="checkbox" data-flag="passageDown" {{checked compartment.passageDown}}> {{sky "compartment.passageDown"}}</label>
+    <label><input type="checkbox" data-flag="isNarrow" {{checked compartment.isNarrow}}> {{sky "keyword.isNarrow"}}</label>
+    {{#if hasEffects}}
+    <label><input type="checkbox" data-flag="effectActive" {{checked compartment.effectActive}}> {{sky "compartment.effectActive"}}</label>
+    {{/if}}
+  </fieldset>
+  {{/if}}
+  {{/if}}
+</div>

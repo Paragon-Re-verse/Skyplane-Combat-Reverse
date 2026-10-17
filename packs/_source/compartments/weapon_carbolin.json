@@ -1,0 +1,55 @@
+{
+  "_id": "ljWYVnkxEQBtMdkX",
+  "_key": "!items!ljWYVnkxEQBtMdkX",
+  "name": "Пушка «Карболин»",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/weapons.svg",
+  "system": {
+    "catalogId": "weapon_carbolin",
+    "systemCategory": "weapons",
+    "width": 1,
+    "height": 1,
+    "hp": 12,
+    "img": "",
+    "keywords": [
+      "Вооружение"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "prc",
+    "checkDc": 13,
+    "damageDice": 2,
+    "damageDie": 10,
+    "damageBonus": 0,
+    "effect": "Бронебойные снаряды.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Дальнобойное нарезное орудие калибра 120мм на поворотном лафете.</p>",
+    "ranges": [
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1600,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

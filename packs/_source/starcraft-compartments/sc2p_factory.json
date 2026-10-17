@@ -1,0 +1,56 @@
+{
+  "_id": "itazDV8tzDPYF9Lw",
+  "_key": "!items!itazDV8tzDPYF9Lw",
+  "name": "Фабрика перехватчиков",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Оборудование"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Каждый раунд восстанавливает 1 перехватчик в повреждённом ангаре.",
+    "checkSkill": "",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2p_factory",
+    "systemCategory": "equipment",
+    "width": 2,
+    "height": 1,
+    "hp": 12,
+    "description": "<p>Автоматические кузни собирают перехватчики из света и металла.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1800,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

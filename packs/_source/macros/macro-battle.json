@@ -1,0 +1,22 @@
+{
+  "_id": "goRPL7kt2RFYdxc0",
+  "_key": "!macros!goRPL7kt2RFYdxc0",
+  "name": "Начать бой",
+  "type": "script",
+  "img": "icons/svg/combat.svg",
+  "command": "// Собирает сцену боя двух кораблей: первый встаёт слева.\nconst api = game.modules.get(\"skyplane-combat-reverse\").api;\nconst ships = game.actors.filter((actor) => actor.type === \"skyplane-combat-reverse.ship\");\nif (!ships.length) return ui.notifications.warn(\"Нет ни одного неболёта.\");\nconst options = ships.map((ship) => `<option value=\"${ship.uuid}\">${foundry.utils.escapeHTML(ship.name)}</option>`).join(\"\");\nif (ships.length < 2) return ui.notifications.warn(\"Для боя нужны два корабля.\");\nconst pair = await foundry.applications.api.DialogV2.prompt({\n  window: { title: \"Начать бой\" },\n  content: `<div class=\"form-group\"><label>Слева</label><select name=\"left\">${options}</select></div>\n    <div class=\"form-group\"><label>Справа</label><select name=\"right\">${options}</select></div>`,\n  ok: { label: \"Собрать сцену боя\", callback: (event, button) => [button.form.elements.left.value, button.form.elements.right.value] },\n  rejectClose: false\n});\nif (!pair) return;\nif (pair[0] === pair[1]) return ui.notifications.warn(\"Выберите два разных корабля.\");\n(await api.startBattle(pair[0], pair[1]))?.view();",
+  "scope": "global",
+  "folder": null,
+  "sort": 200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

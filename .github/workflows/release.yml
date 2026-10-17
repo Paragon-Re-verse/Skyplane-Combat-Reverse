@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Версия и ссылки берутся из тега: module.json релиза указывает на свой архив,
+      # а manifest — на последний релиз (по нему Foundry проверяет обновления).
+      - name: Set version and links in module.json
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          REPOSITORY_URL="https://github.com/${GITHUB_REPOSITORY}"
+          jq --arg version "$VERSION" \
+             --arg manifest "$REPOSITORY_URL/releases/latest/download/module.json" \
+             --arg download "$REPOSITORY_URL/releases/download/$GITHUB_REF_NAME/module.zip" \
+             '.version = $version | .manifest = $manifest | .download = $download' module.json > module.tmp.json
+          mv module.tmp.json module.json
+
+      # Собранные компендиумы лежат в репозитории (npm run build); исходники JSON и инструменты в архив не идут.
+      - name: Build module.zip
+        run: zip -r module.zip module.json LICENSE README.md CHANGELOG.md assets lang packs scripts styles templates -x "*.DS_Store" -x "packs/*/LOCK" -x "packs/_source/*"
+
+      # Заметки релиза — раздел CHANGELOG этой версии (от заголовка до следующего «## »).
+      - name: Release notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v version="$VERSION" '
+            /^## / { inside = index($0, "## " version) == 1; next }
+            inside { print }
+          ' CHANGELOG.md > release-notes.md
+
+      # Релиз с тем же тегом может уже быть (перевыпуск версии): заменяем его целиком.
+      - name: Remove previous release with this tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete "$GITHUB_REF_NAME" --yes --repo "$GITHUB_REPOSITORY" || true
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: SkyPlane Combat Re:verse ${{ github.ref_name }}
+          body_path: release-notes.md
+          prerelease: false
+          make_latest: true
+          files: |
+            module.zip
+            module.json

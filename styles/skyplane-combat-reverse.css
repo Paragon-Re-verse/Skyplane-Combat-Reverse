@@ -1,0 +1,968 @@
+.skyplane-combat-reverse {
+  --skyplane-transition: 150ms ease;
+  color: #191813;
+}
+.skyplane-combat-reverse .window-content {
+  background: #f1e6cc;
+  color: #191813;
+  font-family: "Signika", sans-serif;
+  background-image: radial-gradient(circle at 10px 10px, rgb(83.8807998447%, 61.1036691904%, 45.3348864298%) 0 2px, #9c5b2e 3px 5px, transparent 6px), radial-gradient(circle at calc(100% - 10px) 10px, rgb(83.8807998447%, 61.1036691904%, 45.3348864298%) 0 2px, #9c5b2e 3px 5px, transparent 6px), radial-gradient(circle at 10px calc(100% - 10px), rgb(83.8807998447%, 61.1036691904%, 45.3348864298%) 0 2px, #9c5b2e 3px 5px, transparent 6px), radial-gradient(circle at calc(100% - 10px) calc(100% - 10px), rgb(83.8807998447%, 61.1036691904%, 45.3348864298%) 0 2px, #9c5b2e 3px 5px, transparent 6px);
+}
+.skyplane-combat-reverse .window-header {
+  background: #2b1d14;
+  color: #f1e6cc;
+  border-bottom: 2px solid #b08d57;
+}
+.skyplane-combat-reverse input,
+.skyplane-combat-reverse select,
+.skyplane-combat-reverse textarea {
+  color: #191813;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(43, 29, 20, 0.45);
+  min-width: 0;
+}
+.skyplane-combat-reverse label {
+  color: #191813;
+}
+.skyplane-combat-reverse .skyplane-heading {
+  font-family: "Modesto Condensed", serif;
+  color: #6b1f1a;
+  font-size: 1.4em;
+  border-bottom: 1px solid #b08d57;
+  margin: 0.8em 0 0.4em;
+}
+.skyplane-combat-reverse .skyplane-button,
+.skyplane-combat-reverse .window-content button {
+  color: #191813;
+  background: linear-gradient(rgb(80.5337778836%, 71.9095022624%, 58.6034770183%), #b08d57);
+  border: 1px solid #2b1d14;
+  transition: filter var(--skyplane-transition);
+}
+.skyplane-combat-reverse .skyplane-button:hover:not(:disabled),
+.skyplane-combat-reverse .window-content button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.skyplane-combat-reverse .skyplane-button:disabled,
+.skyplane-combat-reverse .window-content button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.skyplane-combat-reverse .skyplane-hint {
+  font-size: 0.85em;
+  color: rgba(25, 24, 19, 0.7);
+  font-style: italic;
+}
+.skyplane-combat-reverse .skyplane-empty {
+  color: rgba(25, 24, 19, 0.6);
+  font-style: italic;
+}
+.skyplane-combat-reverse .skyplane-error {
+  color: #a3271c;
+  margin: 0.2em 0;
+}
+.skyplane-combat-reverse .skyplane-warning {
+  color: #9a6a12;
+  margin: 0.2em 0;
+}
+.skyplane-combat-reverse .skyplane-ok {
+  color: #3c6b2f;
+}
+.skyplane-combat-reverse .skyplane-pair {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.skyplane-combat-reverse .skyplane-pair input {
+  flex: 1;
+}
+.skyplane-combat-reverse .skyplane-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.skyplane-combat-reverse .skyplane-table th {
+  background: #2b1d14;
+  color: #f1e6cc;
+  text-align: left;
+  padding: 4px 6px;
+}
+.skyplane-combat-reverse .skyplane-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.5);
+}
+.skyplane-combat-reverse .skyplane-table td.center {
+  text-align: center;
+}
+.skyplane-combat-reverse .skyplane-table tr[data-action] {
+  cursor: pointer;
+}
+.skyplane-combat-reverse .skyplane-table tr[data-action]:hover {
+  background: rgba(176, 141, 87, 0.2);
+}
+.skyplane-combat-reverse .skyplane-table tr.destroyed td {
+  text-decoration: line-through;
+  color: rgba(25, 24, 19, 0.55);
+}
+.skyplane-combat-reverse .skyplane-phlogiston {
+  display: flex;
+  gap: 6px;
+}
+.skyplane-combat-reverse .skyplane-phlogiston .skyplane-slot {
+  flex: 1;
+  font-size: 1.4em;
+  font-weight: bold;
+  background: rgb(95.8021116139%, 92.5037707391%, 84.7076923077%);
+}
+.skyplane-combat-reverse .skyplane-phlogiston .skyplane-slot.active {
+  background: #9c5b2e;
+  color: #f1e6cc;
+}
+.skyplane-combat-reverse .skyplane-phlogiston .skyplane-slot.critical {
+  color: #a3271c;
+}
+.skyplane-combat-reverse .skyplane-phlogiston .skyplane-slot.critical.active {
+  background: #a3271c;
+  color: #f1e6cc;
+}
+.skyplane-combat-reverse .skyplane-phlogiston.small .skyplane-slot {
+  font-size: 1em;
+  padding: 0;
+}
+.skyplane-combat-reverse .skyplane-hp-bar {
+  position: relative;
+  height: 26px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  background: rgb(91.0636500754%, 84.0422322775%, 67.4461538462%);
+  margin: 0.5em 0;
+}
+.skyplane-combat-reverse .skyplane-hp-bar .fill {
+  height: 100%;
+  background: #6b1f1a;
+  transition: width var(--skyplane-transition);
+}
+.skyplane-combat-reverse .skyplane-hp-bar span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f1e6cc;
+  font-weight: bold;
+  text-shadow: 0 0 3px #2b1d14;
+}
+.skyplane-combat-reverse .skyplane-hp-bar.destroyed .fill {
+  background: #2b1d14;
+}
+.skyplane-combat-reverse .skyplane-hp-input {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.skyplane-combat-reverse .skyplane-hp-input input {
+  flex: 1;
+}
+.skyplane-combat-reverse .skyplane-hp-input button {
+  flex: 0 0 auto;
+}
+
+.skyplane-ship-sheet .window-content {
+  padding: 0 12px 12px;
+}
+.skyplane-ship-sheet .skyplane-sheet-header {
+  padding: 10px 0 6px;
+}
+.skyplane-ship-sheet .skyplane-sheet-header .skyplane-title-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 8px;
+}
+.skyplane-ship-sheet .skyplane-sheet-header .skyplane-ship-name {
+  font-family: "Modesto Condensed", serif;
+  font-size: 2em;
+  height: auto;
+  color: #6b1f1a;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #b08d57;
+}
+.skyplane-ship-sheet .skyplane-sheet-header .skyplane-ship-class {
+  align-self: end;
+  font-style: italic;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #b08d57;
+}
+.skyplane-ship-sheet .skyplane-statuses {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.skyplane-ship-sheet .skyplane-statuses .skyplane-status {
+  background: #6b1f1a;
+  color: #f1e6cc;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.skyplane-ship-sheet .sheet-tabs {
+  border-top: 1px solid #b08d57;
+  border-bottom: 1px solid #b08d57;
+  margin-bottom: 8px;
+}
+.skyplane-ship-sheet .sheet-tabs a {
+  color: #2b1d14;
+}
+.skyplane-ship-sheet .sheet-tabs a.active {
+  color: #6b1f1a;
+  text-shadow: none;
+  font-weight: bold;
+}
+.skyplane-ship-sheet .skyplane-params-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 6px 12px;
+  align-items: center;
+  padding: 10px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  margin-bottom: 8px;
+}
+.skyplane-ship-sheet .skyplane-distances {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.skyplane-ship-sheet .skyplane-distances .skyplane-distance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  height: auto;
+  padding: 6px;
+  line-height: 1.2;
+  background: rgb(95.8021116139%, 92.5037707391%, 84.7076923077%);
+}
+.skyplane-ship-sheet .skyplane-distances .skyplane-distance span {
+  font-size: 0.8em;
+}
+.skyplane-ship-sheet .skyplane-distances .skyplane-distance.active {
+  background: #6b1f1a;
+  color: #f1e6cc;
+}
+.skyplane-ship-sheet .skyplane-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.skyplane-ship-sheet .skyplane-buttons .skyplane-button {
+  flex: 1 1 30%;
+}
+.skyplane-ship-sheet .skyplane-stale {
+  color: #9a6a12;
+  font-weight: bold;
+}
+.skyplane-ship-sheet .skyplane-builder-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.skyplane-ship-sheet .skyplane-builder-toolbar .skyplane-size {
+  font-weight: bold;
+}
+.skyplane-ship-sheet .skyplane-builder-toolbar .skyplane-size-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.skyplane-ship-sheet .skyplane-builder-toolbar .skyplane-size-controls button {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  line-height: 1;
+  padding: 0;
+}
+.skyplane-ship-sheet .skyplane-builder-toolbar .skyplane-button {
+  margin-left: auto;
+  width: auto;
+}
+.skyplane-ship-sheet .skyplane-builder-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 12px;
+  align-items: start;
+}
+.skyplane-ship-sheet .skyplane-grid-frame {
+  min-width: 0;
+}
+.skyplane-ship-sheet .skyplane-grid-columns {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  margin-left: 26px;
+  font-size: 0.85em;
+  text-align: center;
+  color: #9c5b2e;
+}
+.skyplane-ship-sheet .skyplane-grid-wrap {
+  display: flex;
+}
+.skyplane-ship-sheet .skyplane-grid-rows {
+  display: grid;
+  grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+  flex: 0 0 26px;
+  font-size: 0.85em;
+  align-items: center;
+  color: #9c5b2e;
+}
+.skyplane-ship-sheet .skyplane-grid {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+  aspect-ratio: var(--columns)/var(--rows);
+  border: 3px solid #b08d57;
+  background: #2b1d14;
+}
+.skyplane-ship-sheet .skyplane-cell {
+  border: 1px dashed rgba(176, 141, 87, 0.35);
+}
+.skyplane-ship-sheet .skyplane-compartment {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #b08d57;
+  background: #2b1d14;
+  cursor: pointer;
+  transition: box-shadow var(--skyplane-transition), opacity var(--skyplane-transition);
+}
+.skyplane-ship-sheet .skyplane-compartment img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.skyplane-ship-sheet .skyplane-compartment .skyplane-compartment-name,
+.skyplane-ship-sheet .skyplane-compartment .skyplane-compartment-hp {
+  position: relative;
+  display: block;
+  padding: 2px 4px;
+  font-size: 0.78em;
+  line-height: 1.15;
+  color: #f1e6cc;
+  text-shadow: 0 0 2px #000, 0 0 2px #000;
+  pointer-events: none;
+}
+.skyplane-ship-sheet .skyplane-compartment .skyplane-compartment-name {
+  font-weight: bold;
+}
+.skyplane-ship-sheet .skyplane-compartment .skyplane-remove {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  color: #f1e6cc;
+  display: none;
+}
+.skyplane-ship-sheet .skyplane-compartment:hover {
+  box-shadow: 0 0 0 2px #f1e6cc inset;
+}
+.skyplane-ship-sheet .skyplane-compartment:hover .skyplane-remove {
+  display: block;
+}
+.skyplane-ship-sheet .skyplane-compartment.damaged {
+  border-color: #9a6a12;
+}
+.skyplane-ship-sheet .skyplane-compartment.destroyed {
+  border-color: #a3271c;
+}
+.skyplane-ship-sheet .skyplane-compartment.destroyed img {
+  filter: grayscale(1) brightness(0.35);
+}
+.skyplane-ship-sheet .skyplane-compartment.category-equipment {
+  background: rgb(36.1419385568%, 28.6123680241%, 16.9953163452%);
+}
+.skyplane-ship-sheet .skyplane-compartment.category-recon {
+  background: rgb(12.8611261018%, 22.466270912%, 22.6290699766%);
+}
+.skyplane-ship-sheet .skyplane-compartment.category-control {
+  background: rgb(9.7406137343%, 18.4735777719%, 27.7103666579%);
+}
+.skyplane-ship-sheet .skyplane-compartment.category-engine {
+  background: rgb(22.5626092021%, 13.1615220346%, 6.6530770724%);
+}
+.skyplane-ship-sheet .skyplane-compartment.category-weapons {
+  background: rgb(1.735220404%, 0.5027274068%, 0.4216423411%);
+}
+.skyplane-ship-sheet .skyplane-grid.has-highlight .skyplane-compartment:not(.skyplane-highlight) {
+  opacity: 0.35;
+}
+.skyplane-ship-sheet .skyplane-compartment.skyplane-highlight {
+  z-index: 1;
+  border-color: #ffd36b;
+  box-shadow: 0 0 0 3px #ffd36b, 0 0 14px 4px rgba(255, 211, 107, 0.75);
+}
+.skyplane-ship-sheet .skyplane-palette {
+  max-height: 560px;
+  overflow-y: auto;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-header .skyplane-heading {
+  flex: 1;
+  margin: 0;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-header .skyplane-button {
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry {
+  position: relative;
+  padding: 4px 6px;
+  margin-bottom: 4px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  background: rgb(96.2328808446%, 93.2730015083%, 86.2769230769%);
+  cursor: grab;
+  border-left-width: 6px;
+  transition: background var(--skyplane-transition);
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry:hover {
+  background: rgb(100%, 93.4478007419%, 77.9607843137%);
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry .name {
+  display: block;
+  font-size: 0.85em;
+  font-weight: bold;
+  padding-right: 40px;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry .meta {
+  font-size: 0.75em;
+  color: rgba(25, 24, 19, 0.7);
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry .skyplane-palette-controls {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  display: flex;
+  gap: 6px;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry .skyplane-palette-controls a {
+  color: #2b1d14;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry.category-equipment {
+  border-left-color: #b08d57;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry.category-recon {
+  border-left-color: #4f8a8b;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry.category-control {
+  border-left-color: #3a6ea5;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry.category-engine {
+  border-left-color: #9c5b2e;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry.category-weapons {
+  border-left-color: #6b1f1a;
+}
+.skyplane-ship-sheet .skyplane-validation {
+  margin-top: 10px;
+  padding: 6px 10px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+}
+.skyplane-ship-sheet .skyplane-crew {
+  min-height: 200px;
+}
+.skyplane-ship-sheet .skyplane-crew-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.skyplane-ship-sheet .skyplane-crew-member {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 20px auto minmax(0, 1.2fr) 20px;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.5);
+}
+.skyplane-ship-sheet .skyplane-crew-member img {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #b08d57;
+  cursor: pointer;
+  object-fit: cover;
+}
+.skyplane-ship-sheet .skyplane-crew-member .name {
+  font-weight: bold;
+}
+.skyplane-ship-sheet .skyplane-crew-member label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 0.85em;
+}
+.skyplane-ship-sheet .skyplane-crew-member label input {
+  width: 48px;
+}
+.skyplane-ship-sheet .skyplane-crew-member .skyplane-captain {
+  color: #6b1f1a;
+}
+.skyplane-ship-sheet .skyplane-drop-zone {
+  border: 2px dashed #b08d57;
+  padding: 10px;
+  text-align: center;
+}
+.skyplane-ship-sheet .skyplane-tab-description.active {
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+.skyplane-ship-sheet .skyplane-tab-description.active prose-mirror {
+  flex: 1;
+  min-height: 380px;
+}
+.skyplane-ship-sheet .skyplane-log-toolbar,
+.skyplane-ship-sheet .skyplane-log-note {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.skyplane-ship-sheet .skyplane-log-toolbar select,
+.skyplane-ship-sheet .skyplane-log-toolbar textarea,
+.skyplane-ship-sheet .skyplane-log-note select,
+.skyplane-ship-sheet .skyplane-log-note textarea {
+  flex: 1;
+}
+.skyplane-ship-sheet .skyplane-log-toolbar .skyplane-button,
+.skyplane-ship-sheet .skyplane-log-note .skyplane-button {
+  flex: 0 0 auto;
+  width: auto;
+}
+.skyplane-ship-sheet .skyplane-log-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.skyplane-ship-sheet .skyplane-log-entry {
+  display: grid;
+  grid-template-columns: 130px 110px 90px 1fr;
+  gap: 6px;
+  padding: 3px 0;
+  font-size: 0.85em;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.4);
+}
+.skyplane-ship-sheet .skyplane-log-entry .time,
+.skyplane-ship-sheet .skyplane-log-entry .user {
+  color: rgba(25, 24, 19, 0.6);
+}
+.skyplane-ship-sheet .skyplane-log-entry .type {
+  font-weight: bold;
+  color: #9c5b2e;
+}
+.skyplane-ship-sheet .skyplane-log-entry.type-destroyed .type, .skyplane-ship-sheet .skyplane-log-entry.type-disabled .type, .skyplane-ship-sheet .skyplane-log-entry.type-damage .type {
+  color: #a3271c;
+}
+.skyplane-ship-sheet .skyplane-log-entry.type-repair .type, .skyplane-ship-sheet .skyplane-log-entry.type-restored .type, .skyplane-ship-sheet .skyplane-log-entry.type-heal .type {
+  color: #3c6b2f;
+}
+
+.skyplane-compartment-window .skyplane-compartment-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.skyplane-compartment-window .skyplane-effect {
+  margin: 0.5em 0;
+}
+.skyplane-compartment-window .skyplane-description {
+  font-size: 0.9em;
+  padding: 6px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  margin-bottom: 8px;
+}
+.skyplane-compartment-window .skyplane-combat {
+  margin-top: 10px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skyplane-compartment-window .skyplane-combat legend {
+  color: #6b1f1a;
+  font-weight: bold;
+}
+.skyplane-compartment-window .skyplane-gm {
+  margin-top: 10px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skyplane-compartment-window .skyplane-gm legend {
+  color: #6b1f1a;
+  font-weight: bold;
+}
+.skyplane-compartment-window .skyplane-gm label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skyplane-compartment-sheet .skyplane-item-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.skyplane-compartment-sheet .skyplane-item-header img {
+  width: 64px;
+  height: 64px;
+  border: 2px solid #b08d57;
+  cursor: pointer;
+}
+.skyplane-compartment-sheet .skyplane-item-header input {
+  font-family: "Modesto Condensed", serif;
+  font-size: 1.6em;
+  height: auto;
+  color: #6b1f1a;
+}
+.skyplane-compartment-sheet .skyplane-form-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 6px 10px;
+  align-items: center;
+}
+.skyplane-compartment-sheet .skyplane-flags {
+  margin-top: 10px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.skyplane-compartment-sheet .skyplane-flags label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.skyplane-compartment-sheet prose-mirror {
+  min-height: 160px;
+}
+
+.skyplane-battle-panel .skyplane-battle-distance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.skyplane-battle-panel .skyplane-battle-distance .skyplane-distance-chip {
+  flex: 1;
+}
+.skyplane-battle-panel .skyplane-battle-distance .skyplane-distance-chip.active {
+  background: #6b1f1a;
+  color: #f1e6cc;
+}
+.skyplane-battle-panel .skyplane-battle-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.skyplane-battle-panel .skyplane-battle-side {
+  padding: 8px;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skyplane-battle-panel .skyplane-battle-side header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.skyplane-battle-panel .skyplane-battle-side header h3 {
+  flex: 1;
+  margin: 0;
+  font-family: "Modesto Condensed", serif;
+  color: #6b1f1a;
+  border: none;
+}
+.skyplane-battle-panel .skyplane-battle-side header button {
+  flex: 0 0 32px;
+}
+.skyplane-battle-panel .skyplane-battle-side .hp {
+  font-weight: bold;
+  white-space: nowrap;
+}
+.skyplane-battle-panel .skyplane-reveal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9em;
+}
+.skyplane-battle-panel .skyplane-reveal span {
+  flex: 1;
+}
+.skyplane-battle-panel .skyplane-reveal .ok {
+  color: #3c6b2f;
+}
+.skyplane-battle-panel .skyplane-reveal button {
+  flex: 0 0 auto;
+  width: auto;
+}
+.skyplane-battle-panel .skyplane-battle-compartments {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.skyplane-battle-panel .skyplane-battle-compartments li {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 4px;
+  font-size: 0.85em;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.4);
+}
+.skyplane-battle-panel .skyplane-battle-compartments li:hover {
+  background: rgba(176, 141, 87, 0.2);
+}
+.skyplane-battle-panel .skyplane-battle-compartments li.destroyed {
+  text-decoration: line-through;
+  color: #a3271c;
+}
+
+.skyplane-battle-panel .skyplane-battle-subtitle {
+  margin: 6px 0 2px;
+  font-size: 0.9em;
+  color: #6b1f1a;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.6);
+}
+.skyplane-battle-panel .skyplane-battle-guns {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.skyplane-battle-panel .skyplane-battle-guns li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 28px;
+  grid-template-areas: "name status button" "meta status button";
+  column-gap: 6px;
+  align-items: center;
+  padding: 2px 4px;
+  font-size: 0.85em;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.4);
+}
+.skyplane-battle-panel .skyplane-battle-guns li .name {
+  grid-area: name;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skyplane-battle-panel .skyplane-battle-guns li .meta {
+  grid-area: meta;
+  color: rgba(25, 24, 19, 0.7);
+  font-size: 0.9em;
+}
+.skyplane-battle-panel .skyplane-battle-guns li .skyplane-gun-status {
+  grid-area: status;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: rgba(60, 107, 47, 0.2);
+}
+.skyplane-battle-panel .skyplane-battle-guns li button {
+  grid-area: button;
+  width: 28px;
+  height: 24px;
+  padding: 0;
+}
+.skyplane-battle-panel .skyplane-battle-guns li.gun-fired .skyplane-gun-status, .skyplane-battle-panel .skyplane-battle-guns li.gun-charging .skyplane-gun-status, .skyplane-battle-panel .skyplane-battle-guns li.gun-uncharged .skyplane-gun-status {
+  background: rgba(154, 106, 18, 0.25);
+}
+.skyplane-battle-panel .skyplane-battle-guns li.gun-destroyed {
+  color: #a3271c;
+}
+.skyplane-battle-panel .skyplane-battle-guns li.gun-destroyed .skyplane-gun-status {
+  background: rgba(163, 39, 28, 0.2);
+}
+
+.skyplane-combat-reverse .skyplane-effect-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+}
+.skyplane-combat-reverse .skyplane-effect-list li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 0.8fr) minmax(0, 1.2fr) repeat(3, auto);
+  gap: 6px;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.4);
+}
+.skyplane-combat-reverse .skyplane-effect-list li.skyplane-empty {
+  display: block;
+}
+.skyplane-combat-reverse .skyplane-effect-list li.disabled {
+  opacity: 0.55;
+}
+.skyplane-combat-reverse .skyplane-effect-list li img {
+  width: 24px;
+  height: 24px;
+  border: none;
+}
+.skyplane-combat-reverse .skyplane-effect-list li .name {
+  font-weight: bold;
+}
+.skyplane-combat-reverse .skyplane-effect-list li .summary {
+  font-size: 0.9em;
+}
+.skyplane-combat-reverse .skyplane-effect-list.compact li {
+  display: block;
+}
+.skyplane-combat-reverse .skyplane-effect-list.compact li img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+.skyplane-combat-reverse .skyplane-effect-table img {
+  width: 20px;
+  height: 20px;
+  border: none;
+  vertical-align: middle;
+}
+
+.skyplane-hit-card {
+  border: 2px solid #b08d57;
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: rgba(241, 230, 204, 0.6);
+}
+.skyplane-hit-card h4 {
+  margin: 0 0 4px;
+  color: #6b1f1a;
+  font-weight: bold;
+}
+.skyplane-hit-card p {
+  margin: 2px 0;
+}
+.skyplane-hit-card .skyplane-hit-status {
+  font-style: italic;
+}
+.skyplane-hit-card.status-pending .skyplane-hit-status {
+  color: #9a6a12;
+}
+.skyplane-hit-card.status-rejected, .skyplane-hit-card.status-undone {
+  opacity: 0.7;
+}
+.skyplane-hit-card.status-rejected h4, .skyplane-hit-card.status-undone h4 {
+  text-decoration: line-through;
+}
+.skyplane-hit-card .skyplane-hit-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.skyplane-compartment-sheet .skyplane-sync {
+  margin-top: 10px;
+}
+
+.skyplane-repair-dialog .skyplane-repair-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skyplane-repair-dialog .skyplane-repair-list .skyplane-repair-option {
+  display: grid;
+  grid-template-columns: auto 32px 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+}
+.skyplane-repair-dialog .skyplane-repair-list .skyplane-repair-option img {
+  width: 32px;
+  height: 32px;
+  border: none;
+}
+.skyplane-repair-dialog .skyplane-repair-list .skyplane-repair-option .amount {
+  font-weight: bold;
+  color: #3c6b2f;
+}
+
+.skyplane-permissions .form-footer {
+  margin-top: 10px;
+}
+
+.skyplane-stale-banner {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: #f1e6cc;
+  color: #9a6a12;
+  font-weight: bold;
+  border: 3px double #b08d57;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(43, 29, 20, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.skyplane-stale-banner button {
+  width: auto;
+  color: #191813;
+  background: linear-gradient(rgb(80.5337778836%, 71.9095022624%, 58.6034770183%), #b08d57);
+  border: 1px solid #2b1d14;
+}
+
+body.skyplane-no-animations .skyplane-combat-reverse {
+  --skyplane-transition: 0ms;
+}
+body.skyplane-no-animations .skyplane-combat-reverse * {
+  transition: none !important;
+  animation: none !important;
+}
+
+.skyplane-compartment-sheet .skyplane-combat-fields,
+.skyplane-compartment-sheet .skyplane-effects {
+  display: block;
+}
+.skyplane-compartment-sheet .skyplane-combat-fields .skyplane-form-grid,
+.skyplane-compartment-sheet .skyplane-combat-fields .skyplane-pair,
+.skyplane-compartment-sheet .skyplane-effects .skyplane-form-grid,
+.skyplane-compartment-sheet .skyplane-effects .skyplane-pair {
+  margin-top: 6px;
+}
+.skyplane-compartment-sheet .skyplane-pair select {
+  flex: 1;
+}
+.skyplane-compartment-sheet .skyplane-pair input[type=checkbox] {
+  flex: none;
+}

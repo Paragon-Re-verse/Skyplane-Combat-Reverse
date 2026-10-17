@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="267" height="800" viewBox="0 0 200 600" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a2c18"/>
+      <stop offset="1" stop-color="#140d08"/>
+    </linearGradient>
+    <pattern id="p" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M0 20 L20 20 M20 0 L20 20" stroke="#000" stroke-opacity="0.25" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="600" fill="url(#g)"/>
+  <rect width="200" height="600" fill="url(#p)"/>
+  <g transform="translate(100 300) scale(1)" opacity="0.9">
+      <g fill="#b08d57">
+        <rect x="-6" y="-38" width="12" height="16" transform="rotate(0)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(45)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(90)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(135)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(180)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(225)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(270)"/><rect x="-6" y="-38" width="12" height="16" transform="rotate(315)"/>
+      </g>
+      <circle r="26" fill="#7a4626" stroke="#b08d57" stroke-width="6"/>
+      <circle r="9" fill="#b08d57"/>
+  </g>
+</svg>

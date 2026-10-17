@@ -1,0 +1,90 @@
+{
+  "_id": "2RUlCpYy21pQpkPy",
+  "_key": "!items!2RUlCpYy21pQpkPy",
+  "name": "Наблюдательный пункт («Воронье гнездо»)",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/recon.svg",
+  "system": {
+    "catalogId": "crows_nest",
+    "systemCategory": "recon",
+    "width": 1,
+    "height": 1,
+    "hp": 6,
+    "img": "",
+    "keywords": [
+      "Разведка",
+      "Игнорирует проход"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": true,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "prc",
+    "checkDc": 10,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Игнорирует проход: выносная площадка на мачте. Разведка на корабле легче: сложность −2.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Высотная площадка с мощной подзорной трубой и прожектором.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [
+    {
+      "_id": "4tQvwhPktKl2anwC",
+      "_key": "!items.effects!2RUlCpYy21pQpkPy.4tQvwhPktKl2anwC",
+      "name": "Разведка +2",
+      "img": "icons/svg/aura.svg",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.bonuses.scout",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {},
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "dnd5e",
+        "systemVersion": "5.3.3",
+        "createdTime": 1792108800000,
+        "modifiedTime": 1792108800000
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 1400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

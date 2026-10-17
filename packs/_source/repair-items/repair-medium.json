@@ -1,0 +1,46 @@
+{
+  "_id": "tAEGMopkKXGrEqib",
+  "_key": "!items!tAEGMopkKXGrEqib",
+  "name": "Ремкомплект (+10 HP)",
+  "type": "consumable",
+  "img": "icons/svg/clockwork.svg",
+  "system": {
+    "description": {
+      "value": "<p>Заклёпки, листы обшивки и ветошь. Восстанавливает <strong>10 HP</strong> одному отсеку неболёта. Тратится по одной штуке.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 2,
+      "units": "lb"
+    },
+    "price": {
+      "value": 25,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "trinket",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "repair": {
+        "amount": 10
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "_id": "2KnWcisY7ML6MoBJ",
+  "_key": "!items!2KnWcisY7ML6MoBJ",
+  "name": "Казарма морпехов",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Жилой"
+    ],
+    "isResidential": true,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Жилой отсек на отделение: +3 к вместимости вместо +1. Морпехи готовы к абордажу за 30 секунд.",
+    "checkSkill": "",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2t_barracks",
+    "systemCategory": "equipment",
+    "width": 3,
+    "height": 1,
+    "hp": 10,
+    "description": "<p>Шкафчики, скафандры CMC-300 и запах стимуляторов.</p>"
+  },
+  "effects": [
+    {
+      "_id": "zvGcI9OEzXW9JwGa",
+      "_key": "!items.effects!2KnWcisY7ML6MoBJ.zvGcI9OEzXW9JwGa",
+      "name": "Вместимость экипажа +2",
+      "img": "icons/svg/aura.svg",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.maxCrew",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {},
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "dnd5e",
+        "systemVersion": "5.3.3",
+        "createdTime": 1792108800000,
+        "modifiedTime": 1792108800000
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 700,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

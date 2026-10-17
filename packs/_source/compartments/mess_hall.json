@@ -1,0 +1,56 @@
+{
+  "_id": "A0TCIALBdkh7jUed",
+  "_key": "!items!A0TCIALBdkh7jUed",
+  "name": "Кают-компания",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "catalogId": "mess_hall",
+    "systemCategory": "equipment",
+    "width": 2,
+    "height": 1,
+    "hp": 10,
+    "img": "",
+    "keywords": [
+      "Оборудование"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Место отдыха и трапезы экипажа. Позволяет восстановить силы и обсудить тактику.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Кают-компания со столом для совещаний, библиотекой карт и камбузом.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 900,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

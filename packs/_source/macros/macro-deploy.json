@@ -1,0 +1,22 @@
+{
+  "_id": "QIhS6HdE13BCncwY",
+  "_key": "!macros!QIhS6HdE13BCncwY",
+  "name": "Развернуть корабль",
+  "type": "script",
+  "img": "icons/svg/anchor.svg",
+  "command": "// Создаёт или перестраивает сцену выбранного корабля.\nconst api = game.modules.get(\"skyplane-combat-reverse\").api;\nconst ships = game.actors.filter((actor) => actor.type === \"skyplane-combat-reverse.ship\");\nif (!ships.length) return ui.notifications.warn(\"Нет ни одного неболёта.\");\nconst options = ships.map((ship) => `<option value=\"${ship.uuid}\">${foundry.utils.escapeHTML(ship.name)}</option>`).join(\"\");\nconst uuid = await foundry.applications.api.DialogV2.prompt({\n  window: { title: \"Развернуть корабль\" },\n  content: `<div class=\"form-group\"><label>Корабль</label><select name=\"ship\">${options}</select></div>`,\n  ok: { label: \"Развернуть\", callback: (event, button) => button.form.elements.ship.value },\n  rejectClose: false\n});\nif (uuid) (await api.deployShip(uuid))?.view();",
+  "scope": "global",
+  "folder": null,
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

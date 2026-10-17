@@ -1,0 +1,56 @@
+{
+  "_id": "LaWgxH38Ftn2YvaQ",
+  "_key": "!items!LaWgxH38Ftn2YvaQ",
+  "name": "Термоядерный реактор",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/engine.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Машинное отделение"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": 4,
+    "fuelEconomy": 2,
+    "effect": "",
+    "checkSkill": "",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2t_reactor",
+    "systemCategory": "engine",
+    "width": 3,
+    "height": 3,
+    "hp": 24,
+    "description": "<p>Гудит так, что в кантине дребезжат стаканы.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 500,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

@@ -1,0 +1,65 @@
+<div class="skyplane-battle-body">
+  {{#if noBattle}}
+  <p class="skyplane-empty">{{sky "battle.noBattle"}}</p>
+  {{else}}
+  <div class="skyplane-battle-distance">
+    <span>{{sky "params.distance"}}:</span>
+    {{#each distances}}
+    <button type="button" class="skyplane-distance-chip {{#if active}}active{{/if}}" data-action="setDistance" data-value="{{id}}">{{label}}</button>
+    {{/each}}
+  </div>
+  <p class="skyplane-hint"><i class="fa-solid fa-person-walking-arrow-right"></i> {{sky "battle.dragHint"}}</p>
+  <div class="skyplane-battle-columns">
+    {{#each sides}}
+    <section class="skyplane-battle-side side-{{side}}" data-ship-uuid="{{ship.uuid}}">
+      <header>
+        <h3>{{ship.name}}</h3>
+        <button type="button" data-action="openSheet" data-tooltip="{{sky "battle.sheet"}}"><i class="fa-solid fa-file-lines"></i></button>
+      </header>
+      <div class="skyplane-hp-input">
+        <span class="hp {{#if system.isDisabled}}skyplane-warning{{/if}}">HP {{system.currentHp}} / {{system.maxHp}}</span>
+        <input type="text" name="hpDelta" placeholder="−50 / +20 / 300">
+        <button type="button" data-action="applyHp"><i class="fa-solid fa-check"></i></button>
+      </div>
+      <div class="skyplane-phlogiston small">
+        {{#each phlogistonSlots}}
+        <button type="button" class="skyplane-slot {{#if active}}active{{/if}}" data-action="setPhlogiston" data-value="{{value}}">{{label}}</button>
+        {{/each}}
+      </div>
+      <div class="skyplane-reveal">
+        {{#if reveal.revealed}}
+        <span class="ok"><i class="fa-solid {{#if (eq reveal.source "gm")}}fa-eye{{else}}fa-satellite-dish{{/if}}"></i>
+          {{#if (eq reveal.source "gm")}}{{sky "battle.revealedByGm"}}{{else}}{{sky "battle.revealedByRecon"}}{{/if}}</span>
+        <button type="button" data-action="toggleReveal" data-side="{{side}}" data-mode="hide"><i class="fa-solid fa-eye-slash"></i> {{sky "battle.hide"}}</button>
+        {{else}}
+        <span><i class="fa-solid fa-eye-slash"></i> {{#if (eq reveal.source "gm")}}{{sky "battle.hiddenByGm"}}{{else}}{{sky "battle.notRevealed"}}{{/if}}</span>
+        <button type="button" data-action="toggleReveal" data-side="{{side}}" data-mode="reveal"><i class="fa-solid fa-eye"></i> {{sky "battle.reveal"}}</button>
+        {{/if}}
+        {{#if reveal.override}}<button type="button" data-action="toggleReveal" data-side="{{side}}" data-mode="auto" data-tooltip="{{sky "battle.autoHint"}}"><i class="fa-solid fa-satellite-dish"></i> {{sky "battle.auto"}}</button>{{/if}}
+      </div>
+      {{#if guns.length}}
+      <h4 class="skyplane-battle-subtitle">{{sky "battle.guns"}}</h4>
+      <ol class="skyplane-battle-guns">
+        {{#each guns}}
+        <li class="gun-{{status}}">
+          <a class="name" data-action="openCompartment" data-instance-id="{{instanceId}}">{{name}}</a>
+          <span class="meta">{{formula}} · {{range}}{{#if special}} · {{special}}{{/if}}</span>
+          <span class="skyplane-gun-status">{{statusLabel}}</span>
+          {{#if canAct}}<button type="button" data-action="fireGun" data-instance-id="{{instanceId}}" data-tooltip="{{actionLabel}}"><i class="fa-solid {{actionIcon}}"></i></button>{{/if}}
+        </li>
+        {{/each}}
+      </ol>
+      {{/if}}
+      <h4 class="skyplane-battle-subtitle">{{sky "battle.compartments"}}</h4>
+      <ol class="skyplane-battle-compartments">
+        {{#each compartments}}
+        <li class="{{#if destroyed}}destroyed{{/if}}" data-action="openCompartment" data-instance-id="{{instanceId}}">
+          <span>{{name}}</span><span>{{currentHp}}/{{maxHp}}</span>
+        </li>
+        {{/each}}
+      </ol>
+    </section>
+    {{/each}}
+  </div>
+  {{/if}}
+</div>

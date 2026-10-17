@@ -1,0 +1,494 @@
+{
+    "skyplane-combat-reverse": {
+        "sheet": {
+            "ship": "Skyship sheet (SkyPlane)",
+            "compartment": "Skyship compartment (SkyPlane)",
+            "namePlaceholder": "Ship name",
+            "classPlaceholder": "Class",
+            "exportJson": "Export to JSON",
+            "importJson": "Import from JSON",
+            "importHint": "The ship is replaced with the file's data: compartments, stats, crew. Scene, log and permissions stay. Rebuild the scene afterwards."
+        },
+        "tabs": {
+            "params": "Parameters",
+            "builder": "Builder",
+            "systems": "Systems",
+            "crew": "Crew",
+            "description": "Description",
+            "log": "Log"
+        },
+        "system": {
+            "equipment": "Equipment",
+            "recon": "Recon",
+            "control": "Control",
+            "engine": "Engine room",
+            "weapons": "Weapons"
+        },
+        "effectStat": {
+            "none": "— none —",
+            "maxHp": "Hull (max HP)",
+            "maxCrew": "Crew capacity",
+            "speed": "Speed",
+            "fuelEconomy": "Fuel economy"
+        },
+        "keyword": {
+            "isResidential": "Residential",
+            "isNoHp": "No hull points",
+            "ignoresPassage": "Ignores passage",
+            "isOutsideOnly": "Outside only",
+            "isStairs": "Stairs",
+            "isNarrow": "Narrow (difficult terrain)",
+            "worksWhenDestroyed": "Works when destroyed"
+        },
+        "distance": {
+            "melee": {
+                "label": "Melee",
+                "effect": "Disadvantage on hits for all guns. Turbulence"
+            },
+            "close": {
+                "label": "Close",
+                "effect": "Hit penalty for long-range guns"
+            },
+            "medium": {
+                "label": "Medium",
+                "effect": "No penalties"
+            },
+            "far": {
+                "label": "Far",
+                "effect": "Hit penalty for close-range guns. Evasive manoeuvres are more effective"
+            }
+        },
+        "params": {
+            "captain": "Captain",
+            "hp": "Hull",
+            "crew": "Crew",
+            "speed": "Speed",
+            "fuelEconomy": "Fuel economy",
+            "phlogiston": "Phlogiston",
+            "distance": "Combat distance",
+            "recalc": "Recalculate by the rules",
+            "sceneSection": "Scene",
+            "deploy": "Deploy to scene",
+            "rebuild": "Rebuild",
+            "viewScene": "View scene",
+            "startBattle": "Start battle…",
+            "battlePanel": "Battle panel",
+            "stale": "The ship layout changed — the scene is outdated, press “Rebuild”."
+        },
+        "status": {
+            "overloaded": "Overloaded",
+            "disabled": "Disabled",
+            "critical": "Critical state"
+        },
+        "builder": {
+            "size": "Map",
+            "width": "Length",
+            "height": "Height",
+            "starterKit": "Starter kit",
+            "palette": "Compartment catalog",
+            "paletteEmpty": "The catalog is empty",
+            "remove": "Remove compartment",
+            "dragHint": "Drag a compartment from the catalog, a compendium or the Items tab onto the grid; placed compartments can be moved.",
+            "valid": "The ship layout is valid."
+        },
+        "catalog": {
+            "new": "New",
+            "newHint": "Create a custom compartment in the “SkyPlane” item folder",
+            "newName": "New compartment",
+            "worldHint": "World compartment: editable and deletable",
+            "edit": "Edit",
+            "editCopy": "Edit (a world copy is created and replaces this entry in the catalog)",
+            "delete": "Delete compartment from the catalog",
+            "deleteConfirm": "Delete “{name}” from the catalog? Compartments already placed on ships stay.",
+            "copied": "“{name}” copied to the world — edit the copy.",
+            "sync": "Update on ships",
+            "syncHint": "Placed copies of this compartment get its properties. Position, passages and damage taken are kept.",
+            "syncConfirm": "Update “{name}” on ships? Placed copies: {count}.",
+            "syncDone": "Updated {compartments} compartments on {ships} ships.",
+            "syncKeptSize": "The new size did not fit, the old one was kept: {names}."
+        },
+        "systems": {
+            "name": "Name",
+            "effect": "Effect",
+            "firepower": "Firepower"
+        },
+        "crew": {
+            "total": "Berths used",
+            "capacityCost": "Berths",
+            "note": "Trait",
+            "captain": "Captain",
+            "remove": "Remove from crew",
+            "empty": "No crew yet.",
+            "dropHint": "Drop an actor here to add it to the crew.",
+            "noCaptain": "— none —",
+            "missingActor": "(actor deleted)"
+        },
+        "description": {
+            "title": "Description"
+        },
+        "log": {
+            "filterAll": "All events",
+            "clear": "Clear",
+            "notePlaceholder": "GM note…",
+            "addNote": "Add note",
+            "empty": "The log is empty.",
+            "clearTitle": "Clear log",
+            "clearConfirm": "Delete all log entries of this ship?",
+            "ship": {
+                "damage": "The ship took {amount} damage, hull {value}.",
+                "heal": "The ship recovered {amount} hull, hull {value}.",
+                "disabled": "The ship is disabled."
+            },
+            "compartment": {
+                "damage": "“{name}”: −{amount} HP ({value}/{max}).",
+                "heal": "“{name}”: +{amount} HP ({value}/{max}).",
+                "destroyed": "Compartment “{name}” is destroyed.",
+                "restored": "Compartment “{name}” is back in service.",
+                "repair": "{actor} repairs “{name}” with “{item}”: +{amount} HP."
+            },
+            "crew": {
+                "captain": "Captain: {name}.",
+                "add": "{name} joined the crew.",
+                "remove": "{name} left the crew."
+            },
+            "build": {
+                "add": "Added “{name}” at [{x}, {y}].",
+                "move": "Moved “{name}” to [{x}, {y}].",
+                "remove": "Removed “{name}”.",
+                "resize": "Ship map is now {width}×{height}.",
+                "kit": "Starter kit: {count} compartments placed.",
+                "synced": "“{name}” updated from the catalog: {count}.",
+                "undo": "Undo: {text}",
+                "removeMany": "Removed compartments: {count}.",
+                "imported": "Ship loaded from JSON “{name}”."
+            },
+            "phlogiston": "Phlogiston: {value}.",
+            "distance": "Distance: {value}.",
+            "scene": {
+                "deployed": "Ship deployed to scene “{scene}”.",
+                "rebuilt": "Scene “{scene}” rebuilt.",
+                "battle": "Battle: scene “{scene}”.",
+                "revealed": "The ship was revealed by enemy recon (“{scene}”).",
+                "revealedManual": "The GM revealed the ship to the enemy (“{scene}”)."
+            },
+            "combat": {
+                "hit": "{shooter} fires “{weapon}” at “{ship}”: hit on “{target}”, {amount} damage.",
+                "miss": "{shooter} fires “{weapon}” at “{ship}”: miss.",
+                "taken": "“{attacker}” hits “{target}” with “{weapon}”: {amount} damage.",
+                "undone": "The GM undid the hit by “{attacker}” with “{weapon}” on “{target}”.",
+                "splash": "Splash of fire: “{name}” −{amount} HP.",
+                "charged": "{shooter} charges “{weapon}”."
+            }
+        },
+        "logType": {
+            "damage": "Damage",
+            "heal": "Healing",
+            "destroyed": "Destroyed",
+            "restored": "Restored",
+            "repair": "Repair",
+            "disabled": "Disabled",
+            "phlogiston": "Phlogiston",
+            "distance": "Distance",
+            "build": "Build",
+            "crew": "Crew",
+            "scene": "Scene",
+            "note": "Note",
+            "attack": "Combat"
+        },
+        "range": {
+            "close": "Close",
+            "medium": "Medium",
+            "far": "Far"
+        },
+        "combat": {
+            "section": "Combat",
+            "range": "Range",
+            "hitCheck": "Hit check",
+            "scoutCheck": "Scouting check",
+            "dc": "DC",
+            "rangePenalty": "range penalty",
+            "disadvantage": "disadvantage: melee",
+            "fire": "Fire",
+            "scout": "Scout",
+            "alreadyFired": "This gun has already fired this round.",
+            "notWeapon": "There is no gun in this compartment.",
+            "weaponDestroyed": "The gun is destroyed and cannot fire.",
+            "noShooter": "None of your tokens is in this compartment.",
+            "notYourTurn": "You can only fire on your turn.",
+            "noBattle": "View this ship's battle scene.",
+            "pickTarget": "Pick a compartment of the enemy ship. Right click or Esc cancels.",
+            "pickEnemy": "Only a compartment of the enemy ship can be targeted.",
+            "cancelled": "Firing cancelled.",
+            "unknownCompartment": "unknown compartment",
+            "shotFlavor": "Fire: “{weapon}” → “{target}” ({ship})",
+            "damageFlavor": "Damage: “{weapon}” → “{target}”",
+            "missNotice": "Miss.",
+            "hitNotice": "Hit on “{target}”: {amount} damage.",
+            "notRecon": "This is not an intact recon compartment.",
+            "noScout": "None of your crew tokens is in this recon compartment.",
+            "scoutFlavor": "Scouting: “{name}”",
+            "scoutFailed": "Scouting failed.",
+            "scoutHiddenByGm": "Scouting succeeded, but the GM is hiding the enemy for now.",
+            "scoutSuccess": "Scouting succeeded: the enemy is revealed while the scout stays at the post.",
+            "crewOf": "Crew of “{ship}”",
+            "pendingNotice": "Hit on “{target}”: {amount} damage — waiting for the GM.",
+            "ranges": "Ranges without penalty",
+            "special": "Special gun",
+            "charge": "Charge",
+            "charging": "The gun is charging — it fires next round.",
+            "notCharged": "Charge the gun first.",
+            "alreadyCharged": "The gun is already charged.",
+            "chargedNotice": "“{weapon}” is charged — it fires from the next round.",
+            "pickVolleyTarget": "Volley, shot {index} of {count}: pick an enemy compartment. Right click or Esc ends the volley.",
+            "volleyNotice": "Volley: {hits} of {shots} hit, {amount} damage.",
+            "effectModifier": "effects {value}",
+            "volleyCount": "volley ×{count}"
+        },
+        "itemSheet": {
+            "defaultSkill": "— default: Perception —",
+            "combatHint": "A gun is a compartment with firepower (more than 0 damage dice). For recon compartments the skill and DC are the scouting check.",
+            "checkSkill": "Check skill",
+            "damageDice": "Number of dice",
+            "damageBonus": "Damage bonus",
+            "size": "Size (height × length)",
+            "hp": "Compartment HP",
+            "tileImage": "Tile image",
+            "keywordsHint": "comma separated",
+            "effectStat": "Stat modifier",
+            "flags": "Rule keywords"
+        },
+        "compartment": {
+            "title": "Compartment",
+            "missing": "This compartment is no longer on the ship.",
+            "category": "Category",
+            "size": "Size (height×length)",
+            "keywords": "Keywords",
+            "noHp": "No hull points",
+            "destroyed": "destroyed",
+            "gmSection": "GM only",
+            "hpPlaceholder": "−5, +3 or a number",
+            "apply": "Apply",
+            "passageUp": "Passage up",
+            "passageDown": "Passage down",
+            "effectActive": "Effect active"
+        },
+        "repair": {
+            "button": "Repair…",
+            "title": "Repair: {name}",
+            "hint": "Compartment HP {value}/{max}. One consumable is spent.",
+            "confirm": "Repair",
+            "none": "Your crew characters have no repair consumables.",
+            "done": "“{name}”: +{amount} HP."
+        },
+        "battle": {
+            "panelTitle": "Battle panel",
+            "noBattle": "View a battle scene to manage the ships.",
+            "startTitle": "Start battle",
+            "opponent": "Opponent ship",
+            "start": "Build the battle scene",
+            "sheet": "Sheet",
+            "revealedByRecon": "sees the enemy (recon)",
+            "notRevealed": "enemy hidden",
+            "reveal": "Reveal",
+            "hide": "Hide",
+            "revealedByGm": "sees the enemy (GM decision)",
+            "hiddenByGm": "enemy hidden by the GM",
+            "auto": "Auto",
+            "autoHint": "Clear the GM decision: reveal follows scouting again",
+            "dragHint": "To move a token to the other ship, enable Unconstrained Movement in the token tools: in v13 walls stop the GM too.",
+            "guns": "Guns",
+            "compartments": "Compartments",
+            "gun": {
+                "ready": "ready",
+                "fired": "fired",
+                "destroyed": "destroyed",
+                "charging": "charging",
+                "charged": "charged",
+                "uncharged": "not charged"
+            },
+            "fireAsCrew": "Fire for the crew: the token in the gun shoots, otherwise the captain or the ship's crew",
+            "chargeAsCrew": "Charge for the crew"
+        },
+        "rights": {
+            "params": {
+                "label": "Edit parameters",
+                "hint": "Name, class, captain, numbers on the Parameters tab, description"
+            },
+            "build": {
+                "label": "Build the ship",
+                "hint": "Builder: add, move, remove compartments, map size, starter kit"
+            },
+            "repair": {
+                "label": "Repair",
+                "hint": "The “Repair…” button in the compartment window"
+            },
+            "combat": {
+                "label": "Fight",
+                "hint": "Firing guns and scouting on your own ship in a battle scene"
+            },
+            "phlogiston": {
+                "label": "Phlogiston and distance",
+                "hint": "Clicks on the phlogiston scale and distance plates"
+            }
+        },
+        "permissions": {
+            "player": "Player (character)",
+            "noPlayers": "There are no players in this world.",
+            "gmOnlyNote": "A right applies only to ships whose crew includes the player's character. Deploying and rebuilding scenes, battles, crew, damage, passages, reveal and the log are GM only.",
+            "save": "Save"
+        },
+        "settings": {
+            "permissions": {
+                "name": "Crew permissions",
+                "label": "Open the permission matrix",
+                "hint": "Which ship actions each player may perform."
+            },
+            "rangePenalty": {
+                "name": "Gun range penalty",
+                "hint": "How much the hit DC grows when the current range is not among the gun's ranges without penalty."
+            },
+            "animations": {
+                "name": "Interface animations",
+                "hint": "Smooth transitions and highlights in module windows."
+            },
+            "gmConfirmsDamage": {
+                "name": "GM applies damage",
+                "hint": "A hit does not remove HP right away: a chat card appears and the GM applies or rejects the damage with a button. Unchecked, damage applies at once and the GM can undo it from the card."
+            }
+        },
+        "overlay": {
+            "hp": "HP {value}/{max}",
+            "firepower": "Firepower: {value}",
+            "engine": "Speed {speed}, economy {fuel}",
+            "hidden": "Hidden until scouted",
+            "sky": "Sky"
+        },
+        "region": {
+            "difficult": "Difficult terrain"
+        },
+        "scene": {
+            "battleName": "Battle: {left} — {right}"
+        },
+        "rebuild": {
+            "title": "Rebuild scene",
+            "warning": "Ship tiles, regions and walls will be recreated; manual edits to generated objects will be lost. Tokens and manually added objects stay."
+        },
+        "rules": {
+            "outOfBounds": "The compartment is outside the ship map ({width}×{height}).",
+            "overlap": "Overlaps “{name}”.",
+            "outsideOnly": "“Outside only”: “{name}” would have no free neighbouring square.",
+            "noControl": "There is no Control compartment.",
+            "noEngine": "There is no Engine room compartment.",
+            "outOfBoundsNamed": "“{name}” is outside the map.",
+            "overlapNamed": "“{name}” overlaps “{other}”.",
+            "notAdjacent": "“{name}” does not share a side with any other compartment.",
+            "disconnected": "Not connected by passages: {names}.",
+            "overloaded": "Overloaded: {used} of {max} berths used.",
+            "noSpace": "No free space for “{name}”.",
+            "resizeBlocked": "Cannot shrink the map: “{name}” would be outside."
+        },
+        "notify": {
+            "denied": "You have no right to do this on this ship.",
+            "noGm": "Only a connected GM can perform this action.",
+            "gmOnly": "Only the GM can do this.",
+            "invalidNumber": "Invalid value.",
+            "captainNotInCrew": "The captain must be a crew member.",
+            "notCompartment": "This is not a skyship compartment.",
+            "notFound": "Compartment not found.",
+            "kitMissing": "The catalog lacks stairs, a hold or a cabin.",
+            "kitSkipped": "Not enough space for: {names}.",
+            "unknownAction": "Unknown action.",
+            "noHpCompartment": "This compartment has no HP.",
+            "notRepairItem": "This is not a repair consumable.",
+            "notYourItem": "The consumable must belong to your crew character.",
+            "alreadyRepaired": "The compartment is already intact.",
+            "actionFailed": "The action failed, see the GM console.",
+            "tokensOutside": "Tokens outside compartments: {names}.",
+            "notModuleScene": "This scene was not built by the module.",
+            "shipMissing": "Ship not found.",
+            "deployWithErrors": "The ship layout has errors — the scene is built anyway.",
+            "battlePair": "Two different ships are required.",
+            "noOtherShips": "There is no other ship to fight.",
+            "nothingToUndo": "Nothing to undo.",
+            "notShipJson": "This is not a SkyPlane ship JSON.",
+            "invalidJson": "Could not read the JSON.",
+            "crewDropped": "These actors are not in this world and were removed from the crew: {count}.",
+            "imported": "Ship “{name}” loaded from JSON."
+        },
+        "setup": {
+            "exampleDescription": "A training skyship built from the compartment catalog. Deploy it, add a crew and try the builder.",
+            "done": "SkyPlane Combat Re:verse is set up: the example ship “Albatross”, its scene and macros in the “SkyPlane” folder.",
+            "helpLink": "Module help",
+            "failed": "SkyPlane first run did not finish, see the console."
+        },
+        "card": {
+            "title": "Hit: {amount} damage",
+            "body": "{shooter}: “{weapon}” → “{target}” ({ship})",
+            "status": {
+                "pending": "Waiting for the GM",
+                "applied": "Damage applied",
+                "rejected": "Rejected by the GM",
+                "undone": "Hit undone"
+            },
+            "apply": "Apply",
+            "reject": "Reject",
+            "undo": "Undo",
+            "splash": "Splash: neighbouring compartments take {amount} damage each."
+        },
+        "special": {
+            "none": "— regular —",
+            "splash": "Splash",
+            "charge": "Charge",
+            "volley": "Volley"
+        },
+        "specialHint": {
+            "splash": "Compartments sharing a side with the target take half the damage — to their own HP only, not to the ship's hull.",
+            "charge": "The first press charges the gun and uses its shot this round; it can fire from the next round.",
+            "volley": "Each damage die is a separate shot: its own target, its own hit check and one damage die."
+        },
+        "keybinding": {
+            "undo": {
+                "name": "Undo in the builder",
+                "hint": "Undoes the last placement, move or removal in the open ship builder."
+            }
+        },
+        "effects": {
+            "title": "Active effects",
+            "add": "Add",
+            "blank": "Blank effect",
+            "newName": "New effect",
+            "edit": "Edit",
+            "delete": "Delete",
+            "toggle": "Enable / disable",
+            "empty": "No effects.",
+            "hint": "A ship counts a compartment's effects while it is intact and “Effect enabled” is on. Keys and modes are in the “Active effects” help page. Placed compartments get edits via “Update on ships”.",
+            "compartment": "Compartment",
+            "changes": "Changes",
+            "state": "Active",
+            "bonuses": "Ship bonuses from effects"
+        },
+        "effectKey": {
+            "maxHp": "Hull",
+            "maxCrew": "Crew capacity",
+            "speed": "Speed",
+            "fuelEconomy": "Fuel economy",
+            "attack": "Gun accuracy",
+            "damage": "Gun damage",
+            "defense": "Defense",
+            "repair": "Consumable repair",
+            "scout": "Scouting"
+        }
+    },
+    "TYPES": {
+        "Actor": {
+            "skyplane-combat-reverse": {
+                "ship": "Skyship"
+            }
+        },
+        "Item": {
+            "skyplane-combat-reverse": {
+                "compartment": "Skyship compartment"
+            }
+        }
+    }
+}

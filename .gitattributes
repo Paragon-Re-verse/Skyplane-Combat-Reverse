@@ -1,0 +1,4 @@
+# Текст — с LF и в репозитории, и на диске; собранные компендиумы LevelDB — бинарные, исходники JSON — текст.
+* text=auto eol=lf
+packs/** binary
+packs/_source/** text eol=lf diff merge

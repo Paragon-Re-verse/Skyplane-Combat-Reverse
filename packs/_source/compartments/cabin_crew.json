@@ -1,0 +1,56 @@
+{
+  "_id": "FQG0yli77uyHw140",
+  "_key": "!items!FQG0yli77uyHw140",
+  "name": "Каюта",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "catalogId": "cabin_crew",
+    "systemCategory": "equipment",
+    "width": 2,
+    "height": 1,
+    "hp": 6,
+    "img": "",
+    "keywords": [
+      "Жилой"
+    ],
+    "isResidential": true,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Жилой отсек (+1 к вместимости экипажа). На корабле должно быть не меньше кают, чем персонажей игроков.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Каюта с двухъярусной койкой, иллюминатором и рундуком для снаряжения.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 600,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

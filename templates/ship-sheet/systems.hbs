@@ -1,0 +1,47 @@
+<section class="tab skyplane-tab-systems {{tab.cssClass}}" data-tab="systems" data-group="primary">
+  {{#each systemTables}}
+  <h3 class="skyplane-heading">{{label}}</h3>
+  <table class="skyplane-table">
+    <thead>
+      <tr>
+        <th>{{sky "systems.name"}}</th>
+        <th>{{sky "systems.effect"}}</th>
+        {{#if isWeapons}}<th>{{sky "systems.firepower"}}</th>{{/if}}
+        {{#if isEngine}}<th>{{sky "params.speed"}}</th><th>{{sky "params.fuelEconomy"}}</th>{{/if}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each rows}}
+      <tr class="{{#if destroyed}}destroyed{{/if}}" data-instance-id="{{lookup instanceIds 0}}" data-action="openCompartment">
+        <td>{{name}}{{#if (gt count 1)}} ×{{count}}{{/if}}</td>
+        <td>{{effect}}</td>
+        {{#if ../isWeapons}}<td>{{firepower}}</td>{{/if}}
+        {{#if ../isEngine}}<td>{{speed}}</td><td>{{fuelEconomy}}</td>{{/if}}
+      </tr>
+      {{else}}
+      <tr><td colspan="4" class="skyplane-empty">—</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/each}}
+
+  <h3 class="skyplane-heading">{{sky "effects.title"}}</h3>
+  {{#if bonuses}}<p><strong>{{sky "effects.bonuses"}}:</strong> {{bonuses}}</p>{{/if}}
+  <table class="skyplane-table skyplane-effect-table">
+    <thead>
+      <tr><th>{{sky "effects.compartment"}}</th><th>{{sky "systems.name"}}</th><th>{{sky "effects.changes"}}</th><th>{{sky "effects.state"}}</th></tr>
+    </thead>
+    <tbody>
+      {{#each effectRows}}
+      <tr class="{{#unless active}}destroyed{{/unless}}" data-instance-id="{{instanceId}}" data-action="openCompartment">
+        <td>{{compartment}}</td>
+        <td><img src="{{img}}" alt=""> {{name}}</td>
+        <td>{{summary}}</td>
+        <td>{{#if active}}<i class="fa-solid fa-check"></i>{{else}}<i class="fa-solid fa-xmark"></i>{{/if}}</td>
+      </tr>
+      {{else}}
+      <tr><td colspan="4" class="skyplane-empty">{{sky "effects.empty"}}</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+</section>

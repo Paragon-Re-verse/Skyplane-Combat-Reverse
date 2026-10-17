@@ -1,0 +1,57 @@
+{
+  "_id": "AB8HVqigEs4Fz3tx",
+  "_key": "!items!AB8HVqigEs4Fz3tx",
+  "name": "Сенсорная башня",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/recon.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Разведка",
+      "Только снаружи"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": true,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Обнаруживает корабли противника на любой дистанции.",
+    "checkSkill": "prc",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2t_sensor",
+    "systemCategory": "recon",
+    "width": 1,
+    "height": 2,
+    "hp": 10,
+    "description": "<p>Радар дальнего обнаружения на выносной мачте.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

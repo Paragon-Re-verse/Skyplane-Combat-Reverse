@@ -1,0 +1,72 @@
+<section class="tab skyplane-tab-builder {{tab.cssClass}}" data-tab="builder" data-group="primary">
+  <div class="skyplane-builder-toolbar">
+    <span class="skyplane-size">{{sky "builder.size"}}: {{grid.width}}×{{grid.height}}</span>
+    {{#if rights.build}}
+    <span class="skyplane-size-controls">
+      {{sky "builder.width"}}
+      <button type="button" data-action="resize" data-width="-1"><i class="fa-solid fa-minus"></i></button>
+      <button type="button" data-action="resize" data-width="1"><i class="fa-solid fa-plus"></i></button>
+      {{sky "builder.height"}}
+      <button type="button" data-action="resize" data-height="-1"><i class="fa-solid fa-minus"></i></button>
+      <button type="button" data-action="resize" data-height="1"><i class="fa-solid fa-plus"></i></button>
+    </span>
+    <button type="button" class="skyplane-button" data-action="starterKit"><i class="fa-solid fa-box-open"></i> {{sky "builder.starterKit"}}</button>
+    {{/if}}
+  </div>
+
+  <div class="skyplane-builder-body">
+    <div class="skyplane-grid-frame">
+      <div class="skyplane-grid-columns" style="--columns: {{grid.width}};">
+        {{#each grid.columns}}<span>{{this}}</span>{{/each}}
+      </div>
+      <div class="skyplane-grid-wrap">
+        <div class="skyplane-grid-rows" style="--rows: {{grid.height}};">
+          {{#each grid.rows}}<span>{{this}}</span>{{/each}}
+        </div>
+        <div class="skyplane-grid" style="--columns: {{grid.width}}; --rows: {{grid.height}};">
+          {{#each grid.cells}}<div class="skyplane-cell" style="{{style}}"></div>{{/each}}
+          {{#each grid.compartments}}
+          <div class="skyplane-compartment category-{{systemCategory}} {{#if destroyed}}destroyed{{/if}} {{#if damaged}}damaged{{/if}} {{#if @root.grid.canBuild}}draggable{{/if}}"
+               style="{{style}}" data-instance-id="{{instanceId}}" data-source-uuid="{{sourceUuid}}" data-catalog-id="{{catalogId}}" data-action="openCompartment"
+               {{#if @root.grid.canBuild}}draggable="true"{{/if}} data-tooltip="{{name}}">
+            <img src="{{image}}" alt="">
+            <span class="skyplane-compartment-name">{{name}}</span>
+            {{#unless isNoHp}}<span class="skyplane-compartment-hp">{{currentHp}}/{{maxHp}}</span>{{/unless}}
+            {{#if @root.grid.canBuild}}<a class="skyplane-remove" data-action="removeCompartment" data-tooltip="{{sky "builder.remove"}}"><i class="fa-solid fa-xmark"></i></a>{{/if}}
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{#if rights.build}}<p class="skyplane-hint">{{sky "builder.dragHint"}}</p>{{/if}}
+    </div>
+
+    {{#if rights.build}}
+    <aside class="skyplane-palette">
+      <div class="skyplane-palette-header">
+        <h3 class="skyplane-heading">{{sky "builder.palette"}}</h3>
+        {{#if isGM}}<button type="button" class="skyplane-button" data-action="newCompartment" data-tooltip="{{sky "catalog.newHint"}}"><i class="fa-solid fa-plus"></i> {{sky "catalog.new"}}</button>{{/if}}
+      </div>
+      {{#each palette}}
+      <div class="skyplane-palette-entry draggable category-{{category}}" draggable="true" data-uuid="{{uuid}}" data-catalog-id="{{catalogId}}" data-width="{{width}}" data-height="{{height}}">
+        <span class="name">{{name}}</span>
+        <span class="meta">{{categoryLabel}} · {{height}}×{{width}}{{#if world}} · <i class="fa-solid fa-globe" data-tooltip="{{sky "catalog.worldHint"}}"></i>{{/if}}</span>
+        {{#if @root.isGM}}
+        <span class="skyplane-palette-controls">
+          <a data-action="editCatalogEntry" data-tooltip="{{#if world}}{{sky "catalog.edit"}}{{else}}{{sky "catalog.editCopy"}}{{/if}}"><i class="fa-solid fa-pen"></i></a>
+          {{#if world}}<a data-action="deleteCatalogEntry" data-tooltip="{{sky "catalog.delete"}}"><i class="fa-solid fa-trash"></i></a>{{/if}}
+        </span>
+        {{/if}}
+      </div>
+      {{else}}
+      <p class="skyplane-hint">{{sky "builder.paletteEmpty"}}</p>
+      {{/each}}
+    </aside>
+    {{/if}}
+  </div>
+
+  <div class="skyplane-validation">
+    {{#each errors}}<p class="skyplane-error"><i class="fa-solid fa-circle-exclamation"></i> {{this}}</p>{{/each}}
+    {{#each warnings}}<p class="skyplane-warning"><i class="fa-solid fa-triangle-exclamation"></i> {{this}}</p>{{/each}}
+    {{#unless errors.length}}{{#unless warnings.length}}<p class="skyplane-ok"><i class="fa-solid fa-check"></i> {{sky "builder.valid"}}</p>{{/unless}}{{/unless}}
+  </div>
+</section>

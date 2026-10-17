@@ -1,0 +1,57 @@
+{
+  "_id": "9SgHTciOlG1mVyuB",
+  "_key": "!items!9SgHTciOlG1mVyuB",
+  "name": "Паровой двигатель «Вихрь-1»",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/engine.svg",
+  "system": {
+    "catalogId": "engine_steam_compact",
+    "systemCategory": "engine",
+    "width": 2,
+    "height": 2,
+    "hp": 15,
+    "img": "",
+    "keywords": [
+      "Машинное отделение",
+      "Компактный"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": 2,
+    "fuelEconomy": 1,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Надежный и неприхотливый в ремонте двигатель.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Компактная паровая установка для легких скаутских неболётов.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 500,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

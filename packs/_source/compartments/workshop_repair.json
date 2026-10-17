@@ -1,0 +1,89 @@
+{
+  "_id": "Ow1ypkcR4wjxr0HA",
+  "_key": "!items!Ow1ypkcR4wjxr0HA",
+  "name": "Ремонтная мастерская",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "catalogId": "workshop_repair",
+    "systemCategory": "equipment",
+    "width": 2,
+    "height": 1,
+    "hp": 12,
+    "img": "",
+    "keywords": [
+      "Оборудование"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Позволяет стармеху устранять повреждения отсеков прямо во время полета. Ремонт расходниками на корабле +2 HP, пока мастерская цела.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Верстаки с тисками, сварочные горелки и запас листового металла.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": ""
+  },
+  "effects": [
+    {
+      "_id": "zWaJSYIBivqeqxp8",
+      "_key": "!items.effects!Ow1ypkcR4wjxr0HA.zWaJSYIBivqeqxp8",
+      "name": "Ремонт +2",
+      "img": "icons/svg/aura.svg",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.bonuses.repair",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {},
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "dnd5e",
+        "systemVersion": "5.3.3",
+        "createdTime": 1792108800000,
+        "modifiedTime": 1792108800000
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 1200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

@@ -1,0 +1,25 @@
+<section class="tab skyplane-tab-crew {{tab.cssClass}}" data-tab="crew" data-group="primary">
+  <div class="skyplane-crew">
+    <p class="skyplane-crew-total {{#if system.isOverloaded}}skyplane-warning{{/if}}">
+      {{sky "crew.total"}}: {{system.crewUsed}} / {{system.maxCrew}}
+      {{#if system.isOverloaded}} — {{sky "status.overloaded"}}{{/if}}
+    </p>
+    <ol class="skyplane-crew-list">
+      {{#each crew}}
+      <li class="skyplane-crew-member">
+        <img src="{{img}}" alt="" data-action="openActor" data-uuid="{{actorUuid}}">
+        <a class="name" data-action="openActor" data-uuid="{{actorUuid}}">{{name}}</a>
+        <span class="skyplane-captain" {{#if isCaptain}}data-tooltip="{{sky "crew.captain"}}"{{/if}}>{{#if isCaptain}}<i class="fa-solid fa-anchor"></i>{{/if}}</span>
+        <label>{{sky "crew.capacityCost"}}
+          <input type="number" min="0" value="{{capacityCost}}" data-crew-uuid="{{actorUuid}}" data-crew-field="capacityCost" {{#unless @root.isGM}}disabled{{/unless}}>
+        </label>
+        <input type="text" class="note" value="{{note}}" placeholder="{{sky "crew.note"}}" data-crew-uuid="{{actorUuid}}" data-crew-field="note" {{#unless @root.isGM}}disabled{{/unless}}>
+        {{#if @root.isGM}}<a data-action="removeCrew" data-uuid="{{actorUuid}}" data-tooltip="{{sky "crew.remove"}}"><i class="fa-solid fa-trash"></i></a>{{/if}}
+      </li>
+      {{else}}
+      <li class="skyplane-empty">{{sky "crew.empty"}}</li>
+      {{/each}}
+    </ol>
+    {{#if isGM}}<p class="skyplane-hint skyplane-drop-zone"><i class="fa-solid fa-hand-pointer"></i> {{sky "crew.dropHint"}}</p>{{/if}}
+  </div>
+</section>

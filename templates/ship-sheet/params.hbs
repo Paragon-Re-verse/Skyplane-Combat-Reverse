@@ -1,0 +1,63 @@
+<section class="tab skyplane-tab-params {{tab.cssClass}}" data-tab="params" data-group="primary">
+  <div class="skyplane-panel skyplane-params-grid">
+    <label>{{sky "params.captain"}}</label>
+    <select name="system.captainUuid" {{#unless rights.params}}disabled{{/unless}}>
+      {{selectOptions captainOptions selected=system.captainUuid valueAttr="value" labelAttr="label"}}
+    </select>
+
+    <label>{{sky "params.hp"}}</label>
+    <div class="skyplane-pair">
+      <input type="number" min="0" name="system.currentHp" value="{{system.currentHp}}" {{#unless rights.params}}disabled{{/unless}}>
+      <span>/</span>
+      <input type="number" min="0" name="system.maxHp" value="{{system.maxHp}}" {{#unless rights.params}}disabled{{/unless}}>
+    </div>
+
+    <label>{{sky "params.crew"}}</label>
+    <div class="skyplane-pair">
+      <span class="skyplane-value {{#if system.isOverloaded}}skyplane-warning{{/if}}">{{system.crewUsed}}</span>
+      <span>/</span>
+      <input type="number" min="0" name="system.maxCrew" value="{{system.maxCrew}}" {{#unless rights.params}}disabled{{/unless}}>
+    </div>
+
+    <label>{{sky "params.speed"}}</label>
+    <input type="number" min="0" name="system.speed" value="{{system.speed}}" {{#unless rights.params}}disabled{{/unless}}>
+
+    <label>{{sky "params.fuelEconomy"}}</label>
+    <input type="number" min="0" name="system.fuelEconomy" value="{{system.fuelEconomy}}" {{#unless rights.params}}disabled{{/unless}}>
+  </div>
+  {{#if rights.params}}
+  <button type="button" class="skyplane-button" data-action="recalc"><i class="fa-solid fa-calculator"></i> {{sky "params.recalc"}}</button>
+  {{/if}}
+
+  <h3 class="skyplane-heading">{{sky "params.phlogiston"}}</h3>
+  <div class="skyplane-phlogiston">
+    {{#each phlogistonSlots}}
+    <button type="button" class="skyplane-slot {{#if active}}active{{/if}} {{#if critical}}critical{{/if}}" data-action="setPhlogiston" data-value="{{value}}" {{#unless @root.rights.phlogiston}}disabled{{/unless}}>{{label}}</button>
+    {{/each}}
+  </div>
+
+  <h3 class="skyplane-heading">{{sky "params.distance"}}</h3>
+  <div class="skyplane-distances">
+    {{#each distances}}
+    <button type="button" class="skyplane-distance {{#if active}}active{{/if}}" data-action="setDistance" data-value="{{id}}" {{#unless @root.rights.phlogiston}}disabled{{/unless}}>
+      <strong>{{label}}</strong>
+      <span>{{effect}}</span>
+    </button>
+    {{/each}}
+  </div>
+
+  {{#if isGM}}
+  <h3 class="skyplane-heading">{{sky "params.sceneSection"}}</h3>
+  {{#if sceneStale}}<p class="skyplane-stale"><i class="fa-solid fa-triangle-exclamation"></i> {{sky "params.stale"}}</p>{{/if}}
+  <div class="skyplane-buttons">
+    {{#if scene}}
+    <button type="button" class="skyplane-button" data-action="rebuild"><i class="fa-solid fa-rotate"></i> {{sky "params.rebuild"}}</button>
+    <button type="button" class="skyplane-button" data-action="viewScene"><i class="fa-solid fa-map"></i> {{sky "params.viewScene"}}</button>
+    {{else}}
+    <button type="button" class="skyplane-button" data-action="deploy"><i class="fa-solid fa-ship"></i> {{sky "params.deploy"}}</button>
+    {{/if}}
+    <button type="button" class="skyplane-button" data-action="startBattle"><i class="fa-solid fa-crosshairs"></i> {{sky "params.startBattle"}}</button>
+    <button type="button" class="skyplane-button" data-action="battlePanel"><i class="fa-solid fa-table-columns"></i> {{sky "params.battlePanel"}}</button>
+  </div>
+  {{/if}}
+</section>

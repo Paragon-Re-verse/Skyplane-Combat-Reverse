@@ -1,0 +1,11 @@
+<header class="skyplane-sheet-header">
+  <div class="skyplane-title-row">
+    <input class="skyplane-ship-name" type="text" name="name" value="{{ship.name}}" placeholder="{{sky "sheet.namePlaceholder"}}" {{#unless rights.params}}disabled{{/unless}}>
+    <input class="skyplane-ship-class" type="text" name="system.shipClass" value="{{system.shipClass}}" placeholder="{{sky "sheet.classPlaceholder"}}" {{#unless rights.params}}disabled{{/unless}}>
+  </div>
+  {{#if statuses.length}}
+  <div class="skyplane-statuses">
+    {{#each statuses}}<span class="skyplane-status">{{this}}</span>{{/each}}
+  </div>
+  {{/if}}
+</header>

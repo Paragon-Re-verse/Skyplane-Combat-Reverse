@@ -1,0 +1,1173 @@
+// SkyPlane Combat Re:verse — стимпанк по мотивам листа из книги, без внешних ассетов.
+// CSS собирается из этого файла: npx sass styles/skyplane-combat-reverse.scss styles/skyplane-combat-reverse.css --no-source-map
+
+$parchment: #f1e6cc;
+$wood: #2b1d14;
+$brass: #b08d57;
+$copper: #9c5b2e;
+$burgundy: #6b1f1a;
+$ink: #191813;
+$danger: #a3271c;
+$warning: #9a6a12;
+$ok: #3c6b2f;
+
+$categories: (
+  equipment: $brass,
+  recon: #4f8a8b,
+  control: #3a6ea5,
+  engine: $copper,
+  weapons: $burgundy
+);
+
+@mixin rivets {
+  background-image:
+    radial-gradient(circle at 10px 10px, lighten($copper, 25%) 0 2px, $copper 3px 5px, transparent 6px),
+    radial-gradient(circle at calc(100% - 10px) 10px, lighten($copper, 25%) 0 2px, $copper 3px 5px, transparent 6px),
+    radial-gradient(circle at 10px calc(100% - 10px), lighten($copper, 25%) 0 2px, $copper 3px 5px, transparent 6px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px), lighten($copper, 25%) 0 2px, $copper 3px 5px, transparent 6px);
+}
+
+@mixin brass-frame {
+  border: 3px double $brass;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba($wood, 0.4);
+}
+
+.skyplane-combat-reverse {
+  --skyplane-transition: 150ms ease;
+  color: $ink;
+
+  .window-content {
+    background: $parchment;
+    color: $ink;
+    font-family: "Signika", sans-serif;
+    @include rivets;
+  }
+
+  .window-header {
+    background: $wood;
+    color: $parchment;
+    border-bottom: 2px solid $brass;
+  }
+
+  input,
+  select,
+  textarea {
+    color: $ink;
+    background: rgba(#fff, 0.55);
+    border: 1px solid rgba($wood, 0.45);
+    min-width: 0;
+  }
+
+  label {
+    color: $ink;
+  }
+
+  .skyplane-heading {
+    font-family: "Modesto Condensed", serif;
+    color: $burgundy;
+    font-size: 1.4em;
+    border-bottom: 1px solid $brass;
+    margin: 0.8em 0 0.4em;
+  }
+
+  .skyplane-button,
+  .window-content button {
+    color: $ink;
+    background: linear-gradient(lighten($brass, 18%), $brass);
+    border: 1px solid $wood;
+    transition: filter var(--skyplane-transition);
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.1);
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  .skyplane-hint {
+    font-size: 0.85em;
+    color: rgba($ink, 0.7);
+    font-style: italic;
+  }
+
+  .skyplane-empty {
+    color: rgba($ink, 0.6);
+    font-style: italic;
+  }
+
+  .skyplane-error {
+    color: $danger;
+    margin: 0.2em 0;
+  }
+
+  .skyplane-warning {
+    color: $warning;
+    margin: 0.2em 0;
+  }
+
+  .skyplane-ok {
+    color: $ok;
+  }
+
+  .skyplane-pair {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    input {
+      flex: 1;
+    }
+  }
+
+  .skyplane-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      background: $wood;
+      color: $parchment;
+      text-align: left;
+      padding: 4px 6px;
+    }
+
+    td {
+      padding: 4px 6px;
+      border-bottom: 1px solid rgba($brass, 0.5);
+    }
+
+    td.center {
+      text-align: center;
+    }
+
+    tr[data-action] {
+      cursor: pointer;
+
+      &:hover {
+        background: rgba($brass, 0.2);
+      }
+    }
+
+    tr.destroyed td {
+      text-decoration: line-through;
+      color: rgba($ink, 0.55);
+    }
+  }
+
+  .skyplane-phlogiston {
+    display: flex;
+    gap: 6px;
+
+    .skyplane-slot {
+      flex: 1;
+      font-size: 1.4em;
+      font-weight: bold;
+      background: lighten($parchment, 3%);
+
+      &.active {
+        background: $copper;
+        color: $parchment;
+      }
+
+      &.critical {
+        color: $danger;
+      }
+
+      &.critical.active {
+        background: $danger;
+        color: $parchment;
+      }
+    }
+
+    &.small .skyplane-slot {
+      font-size: 1em;
+      padding: 0;
+    }
+  }
+
+  .skyplane-hp-bar {
+    position: relative;
+    height: 26px;
+    @include brass-frame;
+    background: darken($parchment, 8%);
+    margin: 0.5em 0;
+
+    .fill {
+      height: 100%;
+      background: $burgundy;
+      transition: width var(--skyplane-transition);
+    }
+
+    span {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $parchment;
+      font-weight: bold;
+      text-shadow: 0 0 3px $wood;
+    }
+
+    &.destroyed .fill {
+      background: $wood;
+    }
+  }
+
+  .skyplane-hp-input {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    input {
+      flex: 1;
+    }
+
+    button {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+// ---------------- Лист корабля ----------------
+
+.skyplane-ship-sheet {
+  .window-content {
+    padding: 0 12px 12px;
+  }
+
+  .skyplane-sheet-header {
+    padding: 10px 0 6px;
+
+    .skyplane-title-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 8px;
+    }
+
+    .skyplane-ship-name {
+      font-family: "Modesto Condensed", serif;
+      font-size: 2em;
+      height: auto;
+      color: $burgundy;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid $brass;
+    }
+
+    .skyplane-ship-class {
+      align-self: end;
+      font-style: italic;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid $brass;
+    }
+  }
+
+  .skyplane-statuses {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+
+    .skyplane-status {
+      background: $burgundy;
+      color: $parchment;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+  }
+
+  .sheet-tabs {
+    border-top: 1px solid $brass;
+    border-bottom: 1px solid $brass;
+    margin-bottom: 8px;
+
+    a {
+      color: $wood;
+
+      &.active {
+        color: $burgundy;
+        text-shadow: none;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .skyplane-params-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 6px 12px;
+    align-items: center;
+    padding: 10px;
+    @include brass-frame;
+    margin-bottom: 8px;
+  }
+
+  .skyplane-distances {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+
+    .skyplane-distance {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      height: auto;
+      padding: 6px;
+      line-height: 1.2;
+      background: lighten($parchment, 3%);
+
+      span {
+        font-size: 0.8em;
+      }
+
+      &.active {
+        background: $burgundy;
+        color: $parchment;
+      }
+    }
+  }
+
+  .skyplane-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .skyplane-button {
+      flex: 1 1 30%;
+    }
+  }
+
+  .skyplane-stale {
+    color: $warning;
+    font-weight: bold;
+  }
+
+  // Конструктор
+  .skyplane-builder-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+
+    .skyplane-size {
+      font-weight: bold;
+    }
+
+    .skyplane-size-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+
+      button {
+        flex: 0 0 26px;
+        width: 26px;
+        height: 26px;
+        line-height: 1;
+        padding: 0;
+      }
+    }
+
+    .skyplane-button {
+      margin-left: auto;
+      width: auto;
+    }
+  }
+
+  .skyplane-builder-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 12px;
+    align-items: start;
+  }
+
+  // Сетка тянется на всю ширину, клетки квадратные: размер задаёт ширина окна.
+  .skyplane-grid-frame {
+    min-width: 0;
+  }
+
+  .skyplane-grid-columns {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    margin-left: 26px;
+    font-size: 0.85em;
+    text-align: center;
+    color: $copper;
+  }
+
+  .skyplane-grid-wrap {
+    display: flex;
+  }
+
+  .skyplane-grid-rows {
+    display: grid;
+    grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+    flex: 0 0 26px;
+    font-size: 0.85em;
+    align-items: center;
+    color: $copper;
+  }
+
+  .skyplane-grid {
+    position: relative;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+    aspect-ratio: var(--columns) / var(--rows);
+    border: 3px solid $brass;
+    background: $wood;
+  }
+
+  .skyplane-cell {
+    border: 1px dashed rgba($brass, 0.35);
+  }
+
+  .skyplane-compartment {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid $brass;
+    background: $wood;
+    cursor: pointer;
+    transition: box-shadow var(--skyplane-transition), opacity var(--skyplane-transition);
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .skyplane-compartment-name,
+    .skyplane-compartment-hp {
+      position: relative;
+      display: block;
+      padding: 2px 4px;
+      font-size: 0.78em;
+      line-height: 1.15;
+      color: $parchment;
+      text-shadow: 0 0 2px #000, 0 0 2px #000;
+      pointer-events: none;
+    }
+
+    .skyplane-compartment-name {
+      font-weight: bold;
+    }
+
+    .skyplane-remove {
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      color: $parchment;
+      display: none;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0 2px $parchment inset;
+
+      .skyplane-remove {
+        display: block;
+      }
+    }
+
+    &.damaged {
+      border-color: $warning;
+    }
+
+    &.destroyed {
+      border-color: $danger;
+
+      img {
+        filter: grayscale(1) brightness(0.35);
+      }
+    }
+
+    @each $category, $color in $categories {
+      &.category-#{$category} {
+        background: darken($color, 25%);
+      }
+    }
+  }
+
+  // Наведение на отсек каталога: такие же отсеки на сетке светятся, остальные притухают.
+  .skyplane-grid.has-highlight .skyplane-compartment:not(.skyplane-highlight) {
+    opacity: 0.35;
+  }
+
+  .skyplane-compartment.skyplane-highlight {
+    z-index: 1;
+    border-color: #ffd36b;
+    box-shadow: 0 0 0 3px #ffd36b, 0 0 14px 4px rgba(#ffd36b, 0.75);
+  }
+
+  .skyplane-palette {
+    max-height: 560px;
+    overflow-y: auto;
+
+    .skyplane-palette-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+
+      .skyplane-heading {
+        flex: 1;
+        margin: 0;
+      }
+
+      .skyplane-button {
+        flex: 0 0 auto;
+        width: auto;
+        padding: 0 8px;
+        white-space: nowrap;
+      }
+    }
+
+    .skyplane-palette-entry {
+      position: relative;
+      padding: 4px 6px;
+      margin-bottom: 4px;
+      @include brass-frame;
+      background: lighten($parchment, 4%);
+      cursor: grab;
+      border-left-width: 6px;
+      transition: background var(--skyplane-transition);
+
+      &:hover {
+        background: lighten(#ffd36b, 18%);
+      }
+
+      .name {
+        display: block;
+        font-size: 0.85em;
+        font-weight: bold;
+        padding-right: 40px;
+      }
+
+      .meta {
+        font-size: 0.75em;
+        color: rgba($ink, 0.7);
+      }
+
+      .skyplane-palette-controls {
+        position: absolute;
+        top: 4px;
+        right: 6px;
+        display: flex;
+        gap: 6px;
+
+        a {
+          color: $wood;
+        }
+      }
+
+      @each $category, $color in $categories {
+        &.category-#{$category} {
+          border-left-color: $color;
+        }
+      }
+    }
+  }
+
+  .skyplane-validation {
+    margin-top: 10px;
+    padding: 6px 10px;
+    @include brass-frame;
+  }
+
+  // Экипаж
+  .skyplane-crew {
+    min-height: 200px;
+  }
+
+  .skyplane-crew-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .skyplane-crew-member {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) 20px auto minmax(0, 1.2fr) 20px;
+    gap: 8px;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba($brass, 0.5);
+
+    img {
+      width: 36px;
+      height: 36px;
+      border: 1px solid $brass;
+      cursor: pointer;
+      object-fit: cover;
+    }
+
+    .name {
+      font-weight: bold;
+    }
+
+    label {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      font-size: 0.85em;
+
+      input {
+        width: 48px;
+      }
+    }
+
+    .skyplane-captain {
+      color: $burgundy;
+    }
+  }
+
+  .skyplane-drop-zone {
+    border: 2px dashed $brass;
+    padding: 10px;
+    text-align: center;
+  }
+
+  // Описание
+  .skyplane-tab-description.active {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+
+    prose-mirror {
+      flex: 1;
+      min-height: 380px;
+    }
+  }
+
+  // Журнал
+  .skyplane-log-toolbar,
+  .skyplane-log-note {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+
+    select,
+    textarea {
+      flex: 1;
+    }
+
+    .skyplane-button {
+      flex: 0 0 auto;
+      width: auto;
+    }
+  }
+
+  .skyplane-log-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .skyplane-log-entry {
+    display: grid;
+    grid-template-columns: 130px 110px 90px 1fr;
+    gap: 6px;
+    padding: 3px 0;
+    font-size: 0.85em;
+    border-bottom: 1px solid rgba($brass, 0.4);
+
+    .time,
+    .user {
+      color: rgba($ink, 0.6);
+    }
+
+    .type {
+      font-weight: bold;
+      color: $copper;
+    }
+
+    &.type-destroyed .type,
+    &.type-disabled .type,
+    &.type-damage .type {
+      color: $danger;
+    }
+
+    &.type-repair .type,
+    &.type-restored .type,
+    &.type-heal .type {
+      color: $ok;
+    }
+  }
+}
+
+// ---------------- Окно отсека ----------------
+
+.skyplane-compartment-window {
+  .skyplane-compartment-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .skyplane-effect {
+    margin: 0.5em 0;
+  }
+
+  .skyplane-description {
+    font-size: 0.9em;
+    padding: 6px;
+    @include brass-frame;
+    margin-bottom: 8px;
+  }
+
+  .skyplane-combat {
+    margin-top: 10px;
+    @include brass-frame;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    legend {
+      color: $burgundy;
+      font-weight: bold;
+    }
+  }
+
+  .skyplane-gm {
+    margin-top: 10px;
+    @include brass-frame;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    legend {
+      color: $burgundy;
+      font-weight: bold;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+}
+
+// ---------------- Лист предмета «Отсек» ----------------
+
+.skyplane-compartment-sheet {
+  .skyplane-item-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+
+    img {
+      width: 64px;
+      height: 64px;
+      border: 2px solid $brass;
+      cursor: pointer;
+    }
+
+    input {
+      font-family: "Modesto Condensed", serif;
+      font-size: 1.6em;
+      height: auto;
+      color: $burgundy;
+    }
+  }
+
+  .skyplane-form-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 6px 10px;
+    align-items: center;
+  }
+
+  .skyplane-flags {
+    margin-top: 10px;
+    @include brass-frame;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  prose-mirror {
+    min-height: 160px;
+  }
+}
+
+// ---------------- Панель боя ----------------
+
+.skyplane-battle-panel {
+  .skyplane-battle-distance {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    .skyplane-distance-chip {
+      flex: 1;
+
+      &.active {
+        background: $burgundy;
+        color: $parchment;
+      }
+    }
+  }
+
+  .skyplane-battle-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .skyplane-battle-side {
+    padding: 8px;
+    @include brass-frame;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      h3 {
+        flex: 1;
+        margin: 0;
+        font-family: "Modesto Condensed", serif;
+        color: $burgundy;
+        border: none;
+      }
+
+      button {
+        flex: 0 0 32px;
+      }
+    }
+
+    .hp {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+  }
+
+  .skyplane-reveal {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9em;
+
+    span {
+      flex: 1;
+    }
+
+    .ok {
+      color: $ok;
+    }
+
+    button {
+      flex: 0 0 auto;
+      width: auto;
+    }
+  }
+
+  .skyplane-battle-compartments {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 260px;
+    overflow-y: auto;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 4px;
+      font-size: 0.85em;
+      cursor: pointer;
+      border-bottom: 1px solid rgba($brass, 0.4);
+
+      &:hover {
+        background: rgba($brass, 0.2);
+      }
+
+      &.destroyed {
+        text-decoration: line-through;
+        color: $danger;
+      }
+    }
+  }
+}
+
+// Пушки на панели боя.
+.skyplane-battle-panel {
+  .skyplane-battle-subtitle {
+    margin: 6px 0 2px;
+    font-size: 0.9em;
+    color: $burgundy;
+    border-bottom: 1px solid rgba($brass, 0.6);
+  }
+
+  .skyplane-battle-guns {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    // Название и формула — в две строки, чтобы длинная формула («6d10 · Средняя, Дальняя · Зарядка») не съедала название.
+    li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto 28px;
+      grid-template-areas: "name status button" "meta status button";
+      column-gap: 6px;
+      align-items: center;
+      padding: 2px 4px;
+      font-size: 0.85em;
+      border-bottom: 1px solid rgba($brass, 0.4);
+
+      .name {
+        grid-area: name;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .meta {
+        grid-area: meta;
+        color: rgba($ink, 0.7);
+        font-size: 0.9em;
+      }
+
+      .skyplane-gun-status {
+        grid-area: status;
+        padding: 0 6px;
+        border-radius: 3px;
+        background: rgba($ok, 0.2);
+      }
+
+      button {
+        grid-area: button;
+        width: 28px;
+        height: 24px;
+        padding: 0;
+      }
+
+      &.gun-fired .skyplane-gun-status,
+      &.gun-charging .skyplane-gun-status,
+      &.gun-uncharged .skyplane-gun-status {
+        background: rgba($warning, 0.25);
+      }
+
+      &.gun-destroyed {
+        color: $danger;
+
+        .skyplane-gun-status {
+          background: rgba($danger, 0.2);
+        }
+      }
+    }
+  }
+}
+
+// Активные эффекты: список в листе и окне отсека, таблица в листе корабля.
+.skyplane-combat-reverse {
+  .skyplane-effect-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 6px;
+
+    li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 0.8fr) minmax(0, 1.2fr) repeat(3, auto);
+      gap: 6px;
+      align-items: center;
+      padding: 3px 0;
+      border-bottom: 1px solid rgba($brass, 0.4);
+
+      &.skyplane-empty {
+        display: block;
+      }
+
+      &.disabled {
+        opacity: 0.55;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+        border: none;
+      }
+
+      .name {
+        font-weight: bold;
+      }
+
+      .summary {
+        font-size: 0.9em;
+      }
+    }
+
+    &.compact li {
+      display: block;
+
+      img {
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .skyplane-effect-table img {
+    width: 20px;
+    height: 20px;
+    border: none;
+    vertical-align: middle;
+  }
+}
+
+// Карточка попадания в чате.
+.skyplane-hit-card {
+  border: 2px solid $brass;
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: rgba($parchment, 0.6);
+
+  h4 {
+    margin: 0 0 4px;
+    color: $burgundy;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 2px 0;
+  }
+
+  .skyplane-hit-status {
+    font-style: italic;
+  }
+
+  &.status-pending .skyplane-hit-status {
+    color: $warning;
+  }
+
+  &.status-rejected,
+  &.status-undone {
+    opacity: 0.7;
+
+    h4 {
+      text-decoration: line-through;
+    }
+  }
+
+  .skyplane-hit-buttons {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
+}
+
+.skyplane-compartment-sheet .skyplane-sync {
+  margin-top: 10px;
+}
+
+// ---------------- Ремонт и права ----------------
+
+.skyplane-repair-dialog .skyplane-repair-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .skyplane-repair-option {
+    display: grid;
+    grid-template-columns: auto 32px 1fr auto auto;
+    gap: 8px;
+    align-items: center;
+
+    img {
+      width: 32px;
+      height: 32px;
+      border: none;
+    }
+
+    .amount {
+      font-weight: bold;
+      color: $ok;
+    }
+  }
+}
+
+.skyplane-permissions .form-footer {
+  margin-top: 10px;
+}
+
+// Плашка ГМа «сцена устарела» над канвой.
+.skyplane-stale-banner {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: $parchment;
+  color: $warning;
+  font-weight: bold;
+  @include brass-frame;
+  box-shadow: 0 2px 8px rgba(#000, 0.6);
+
+  button {
+    width: auto;
+    color: $ink;
+    background: linear-gradient(lighten($brass, 18%), $brass);
+    border: 1px solid $wood;
+  }
+}
+
+// Клиентская настройка «Анимации интерфейса» выключает переходы.
+body.skyplane-no-animations .skyplane-combat-reverse {
+  --skyplane-transition: 0ms;
+
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+// Блоки «Бой» и «Активные эффекты» листа отсека — не сетка галочек: подсказки на всю ширину.
+.skyplane-compartment-sheet {
+  .skyplane-combat-fields,
+  .skyplane-effects {
+    display: block;
+
+    .skyplane-form-grid,
+    .skyplane-pair {
+      margin-top: 6px;
+    }
+  }
+
+  .skyplane-pair {
+    select {
+      flex: 1;
+    }
+
+    input[type="checkbox"] {
+      flex: none;
+    }
+  }
+}
