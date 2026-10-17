@@ -14,7 +14,7 @@ export class PermissionsConfig extends HandlebarsApplicationMixin(ApplicationV2)
   };
 
   static PARTS = {
-    body: { template: `${TEMPLATE_PATH}/permissions-config.hbs` }
+    body: { template: `${TEMPLATE_PATH}/permissions-config.hbs`, scrollable: [""] }
   };
 
   async _prepareContext() {

@@ -1171,3 +1171,22 @@ body.skyplane-no-animations .skyplane-combat-reverse {
     }
   }
 }
+
+// ApplicationV2 в Foundry v13: .window-content обрезает содержимое (overflow: hidden),
+// поэтому прокручивается сама часть окна. Шапка и вкладки листа корабля не сжимаются.
+.skyplane-combat-reverse .window-content {
+  > .skyplane-compartment-sheet-body,
+  > .skyplane-compartment-body,
+  > .skyplane-battle-body,
+  > .skyplane-permissions-body,
+  > section.tab {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  > .skyplane-sheet-header,
+  > nav.tabs {
+    flex-shrink: 0;
+  }
+}

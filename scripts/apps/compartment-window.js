@@ -47,7 +47,7 @@ export class CompartmentWindow extends HandlebarsApplicationMixin(ApplicationV2)
   };
 
   static PARTS = {
-    body: { template: `${TEMPLATE_PATH}/compartment-window.hbs` }
+    body: { template: `${TEMPLATE_PATH}/compartment-window.hbs`, scrollable: [""] }
   };
 
   get title() {

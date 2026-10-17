@@ -43,7 +43,7 @@ export class BattlePanel extends HandlebarsApplicationMixin(ApplicationV2) {
   };
 
   static PARTS = {
-    body: { template: `${TEMPLATE_PATH}/battle-panel.hbs` }
+    body: { template: `${TEMPLATE_PATH}/battle-panel.hbs`, scrollable: [""] }
   };
 
   async _prepareContext() {

@@ -966,3 +966,17 @@ body.skyplane-no-animations .skyplane-combat-reverse * {
 .skyplane-compartment-sheet .skyplane-pair input[type=checkbox] {
   flex: none;
 }
+
+.skyplane-combat-reverse .window-content > .skyplane-compartment-sheet-body,
+.skyplane-combat-reverse .window-content > .skyplane-compartment-body,
+.skyplane-combat-reverse .window-content > .skyplane-battle-body,
+.skyplane-combat-reverse .window-content > .skyplane-permissions-body,
+.skyplane-combat-reverse .window-content > section.tab {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.skyplane-combat-reverse .window-content > .skyplane-sheet-header,
+.skyplane-combat-reverse .window-content > nav.tabs {
+  flex-shrink: 0;
+}

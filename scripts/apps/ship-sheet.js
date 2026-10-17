@@ -84,11 +84,11 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     header: { template: `${TEMPLATE_PATH}/ship-sheet/header.hbs` },
     tabs: { template: "templates/generic/tab-navigation.hbs" },
     params: { template: `${TEMPLATE_PATH}/ship-sheet/params.hbs`, scrollable: [""] },
-    builder: { template: `${TEMPLATE_PATH}/ship-sheet/builder.hbs`, scrollable: [".skyplane-palette", ".skyplane-validation"] },
+    builder: { template: `${TEMPLATE_PATH}/ship-sheet/builder.hbs`, scrollable: ["", ".skyplane-palette", ".skyplane-validation"] },
     systems: { template: `${TEMPLATE_PATH}/ship-sheet/systems.hbs`, scrollable: [""] },
     crew: { template: `${TEMPLATE_PATH}/ship-sheet/crew.hbs`, scrollable: [""] },
     description: { template: `${TEMPLATE_PATH}/ship-sheet/description.hbs` },
-    log: { template: `${TEMPLATE_PATH}/ship-sheet/log.hbs`, scrollable: [".skyplane-log-list"] }
+    log: { template: `${TEMPLATE_PATH}/ship-sheet/log.hbs`, scrollable: [""] }
   };
 
   static TABS = {
