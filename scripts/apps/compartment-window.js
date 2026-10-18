@@ -1,11 +1,13 @@
-import { MODULE_ID, TEMPLATE_PATH, localize, format, describeChanges } from "../constants.js";
-import { isDestroyed, isDamaged, parseHpInput, isWeapon, isFunctioning, weaponRanges, shotCount } from "../rules/ship-rules.js";
-import { getShip, getCompartment, canUser, setCompartmentHp, setCompartmentFlags } from "../documents/ship-actions.js";
+import { MODULE_ID, TEMPLATE_PATH, CONDITIONS, localize, format, describeChanges } from "../constants.js";
+import { isDestroyed, isDamaged, parseHpInput, isWeapon, isFunctioning, weaponRanges, shotCount, ammoLeft, hasCondition } from "../rules/ship-rules.js";
+import {
+  getShip, getCompartment, canUser, setCompartmentHp, setCompartmentFlags, setCompartmentConditions, setCompartmentAmmo
+} from "../documents/ship-actions.js";
 import { getLayout, sceneSides } from "../scene/scene-builder.js";
 import { isSideRevealed } from "../scene/reveal.js";
 import { openRepairDialog } from "./repair-dialog.js";
 import {
-  startShot, startScouting, currentBattle, currentDifficulty, checkSkillLabel, hasFiredThisRound, chargeState, shipWeaponFormula, scoutDifficulty
+  startShot, startScouting, startExtinguish, currentBattle, currentDifficulty, checkSkillLabel, hasFiredThisRound, chargeState, shipWeaponFormula, scoutDifficulty
 } from "../combat/ship-combat.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -42,7 +44,9 @@ export class CompartmentWindow extends HandlebarsApplicationMixin(ApplicationV2)
       repair: CompartmentWindow.#onRepair,
       applyHp: CompartmentWindow.#onApplyHp,
       fire: CompartmentWindow.#onFire,
-      scout: CompartmentWindow.#onScout
+      scout: CompartmentWindow.#onScout,
+      extinguish: CompartmentWindow.#onExtinguish,
+      reloadAmmo: CompartmentWindow.#onReloadAmmo
     }
   };
 
@@ -70,6 +74,11 @@ export class CompartmentWindow extends HandlebarsApplicationMixin(ApplicationV2)
       canRepair: !compartment.isNoHp && canUser(game.user, this.ship, "repair"),
       effects: compartment.effects.map((effect) => ({ ...effect, summary: describeChanges(effect.changes) })),
       hasEffects: !!compartment.effectStat || compartment.effects.length > 0,
+      conditions: CONDITIONS.map((id) => ({
+        id, label: localize(`condition.${id}.label`), hint: localize(`condition.${id}.hint`), active: hasCondition(compartment, id)
+      })),
+      canExtinguish: hasCondition(compartment, "burning") && canUser(game.user, this.ship, "repair"),
+      ammo: compartment.ammo ? { left: ammoLeft(compartment), max: compartment.ammo } : null,
       isGM: game.user.isGM,
       combat: this.#combatContext(compartment)
     };
@@ -96,7 +105,9 @@ export class CompartmentWindow extends HandlebarsApplicationMixin(ApplicationV2)
       dc: difficulty.dc,
       modifier: difficulty.modifier ? format("combat.effectModifier", { value: difficulty.modifier > 0 ? `+${difficulty.modifier}` : difficulty.modifier }) : "",
       penalized: !!difficulty.penalized,
-      disadvantage: !!difficulty.disadvantage,
+      disadvantage: !!difficulty.disadvantage && !difficulty.smoky,
+      smoky: !!difficulty.smoky,
+      noAmmo: weapon && ammoLeft(compartment) <= 0,
       canFire: weapon && allowed,
       fired: weapon && !!battle && hasFiredThisRound(this.ship, compartment.instanceId, battle.scene),
       needsCharge: compartment.special === "charge" && !charge,
@@ -112,6 +123,14 @@ export class CompartmentWindow extends HandlebarsApplicationMixin(ApplicationV2)
         setCompartmentFlags(this.ship, this.instanceId, { [event.currentTarget.dataset.flag]: event.currentTarget.checked });
       });
     }
+    for (const checkbox of this.element.querySelectorAll("input[data-condition]")) {
+      checkbox.addEventListener("change", (event) => {
+        setCompartmentConditions(this.ship, this.instanceId, { [event.currentTarget.dataset.condition]: event.currentTarget.checked });
+      });
+    }
+    this.element.querySelector("input[name=ammo]")?.addEventListener("change", (event) => {
+      setCompartmentAmmo(this.ship, this.instanceId, event.currentTarget.value);
+    });
     this.element.querySelector("input[name=hpDelta]")?.addEventListener("keydown", (event) => {
       if (event.key !== "Enter") return;
       event.preventDefault();
@@ -125,6 +144,14 @@ export class CompartmentWindow extends HandlebarsApplicationMixin(ApplicationV2)
 
   static #onScout() {
     startScouting(this.ship, this.instanceId);
+  }
+
+  static #onExtinguish() {
+    startExtinguish(this.ship, this.instanceId);
+  }
+
+  static #onReloadAmmo() {
+    setCompartmentAmmo(this.ship, this.instanceId);
   }
 
   static #onRepair() {

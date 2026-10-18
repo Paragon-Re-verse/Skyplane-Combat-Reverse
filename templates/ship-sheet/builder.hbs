@@ -44,7 +44,11 @@
     <aside class="skyplane-palette">
       <div class="skyplane-palette-header">
         <h3 class="skyplane-heading">{{sky "builder.palette"}}</h3>
-        {{#if isGM}}<button type="button" class="skyplane-button" data-action="newCompartment" data-tooltip="{{sky "catalog.newHint"}}"><i class="fa-solid fa-plus"></i> {{sky "catalog.new"}}</button>{{/if}}
+        {{#if isGM}}<button type="button" class="skyplane-button" data-action="newCompartment" data-tooltip="{{#if customCatalog}}{{sky "catalog.newInCatalogHint"}}{{else}}{{sky "catalog.newHint"}}{{/if}}"><i class="fa-solid fa-plus"></i> {{sky "catalog.new"}}</button>{{/if}}
+      </div>
+      <div class="skyplane-catalog-picker">
+        <select name="activeCatalog" data-tooltip="{{sky "catalog.pickHint"}}">{{selectOptions catalogs selected=activeCatalog valueAttr="value" labelAttr="label"}}</select>
+        {{#if isGM}}<button type="button" class="skyplane-button" data-action="createCatalog" data-tooltip="{{sky "catalog.createHint"}}"><i class="fa-solid fa-folder-plus"></i></button>{{/if}}
       </div>
       {{#each palette}}
       <div class="skyplane-palette-entry draggable category-{{category}}" draggable="true" data-uuid="{{uuid}}" data-catalog-id="{{catalogId}}" data-width="{{width}}" data-height="{{height}}">
@@ -52,8 +56,8 @@
         <span class="meta">{{categoryLabel}} · {{height}}×{{width}}{{#if world}} · <i class="fa-solid fa-globe" data-tooltip="{{sky "catalog.worldHint"}}"></i>{{/if}}</span>
         {{#if @root.isGM}}
         <span class="skyplane-palette-controls">
-          <a data-action="editCatalogEntry" data-tooltip="{{#if world}}{{sky "catalog.edit"}}{{else}}{{sky "catalog.editCopy"}}{{/if}}"><i class="fa-solid fa-pen"></i></a>
-          {{#if world}}<a data-action="deleteCatalogEntry" data-tooltip="{{sky "catalog.delete"}}"><i class="fa-solid fa-trash"></i></a>{{/if}}
+          <a data-action="editCatalogEntry" data-tooltip="{{#if editable}}{{sky "catalog.edit"}}{{else}}{{sky "catalog.editCopy"}}{{/if}}"><i class="fa-solid fa-pen"></i></a>
+          {{#if editable}}<a data-action="deleteCatalogEntry" data-tooltip="{{sky "catalog.delete"}}"><i class="fa-solid fa-trash"></i></a>{{/if}}
         </span>
         {{/if}}
       </div>

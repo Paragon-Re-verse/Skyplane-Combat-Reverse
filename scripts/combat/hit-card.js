@@ -5,7 +5,7 @@
  * Отмена возвращает ровно то, что попадание сняло с прочности и с отсека.
  */
 import { MODULE_ID, localize, format } from "../constants.js";
-import { getShip, getCompartment, applyHit, undoHit } from "../documents/ship-actions.js";
+import { getShip, getCompartment, applyHit, undoHit, serialized } from "../documents/ship-actions.js";
 
 const FLAG = "hit";
 const BUTTONS = {
@@ -22,6 +22,7 @@ function cardContent(data) {
     <h4><i class="fa-solid fa-burst"></i> ${escape(format("card.title", { amount: data.amount }))}</h4>
     <p>${escape(format("card.body", { shooter: data.shooter, weapon: data.weapon, target: data.targetName, ship: targetShip }))}</p>
     ${data.splash ? `<p class="skyplane-hint">${escape(format("card.splash", { amount: Math.floor(data.amount / 2) }))}</p>` : ""}
+    ${data.conditions?.length ? `<p class="skyplane-hint">${escape(format("card.conditions", { list: data.conditions.map((condition) => localize(`condition.${condition}.label`)).join(", ") }))}</p>` : ""}
     <p class="skyplane-hit-status">${escape(localize(`card.status.${data.status}`))}</p>
     ${buttons ? `<div class="skyplane-hit-buttons">${buttons}</div>` : ""}
   </div>`;
@@ -35,7 +36,12 @@ export async function createHitCard(data) {
   });
 }
 
-async function onCardButton(message, action) {
+/** Кнопки карточки — в общей очереди изменений: двойной клик не применит попадание дважды. */
+function onCardButton(message, action) {
+  return serialized(() => cardButton(message, action));
+}
+
+async function cardButton(message, action) {
   const data = foundry.utils.deepClone(message.getFlag(MODULE_ID, FLAG));
   const target = getShip(data.targetUuid);
   if (!target) return ui.notifications.warn(localize("notify.shipMissing"));
@@ -46,7 +52,7 @@ async function onCardButton(message, action) {
     amount: data.amount
   };
   if (action === "apply" && data.status === "pending") {
-    data.lost = await applyHit(target, data.instanceId, data.amount, game.user, format("log.combat.taken", names), { splash: !!data.splash });
+    data.lost = await applyHit(target, data.instanceId, data.amount, game.user, format("log.combat.taken", names), { splash: !!data.splash, conditions: data.conditions ?? [] });
     data.status = "applied";
   } else if (action === "reject" && data.status === "pending") {
     data.status = "rejected";

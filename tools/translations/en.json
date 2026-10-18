@@ -1,0 +1,350 @@
+{
+  "packs": {
+    "compartments": "SkyPlane: compartments",
+    "starcraft-compartments": "SkyPlane: StarCraft II compartments",
+    "ship-templates": "SkyPlane: ship templates",
+    "repair-items": "SkyPlane: repair consumables",
+    "macros": "SkyPlane: macros",
+    "help": "SkyPlane: help"
+  },
+  "keywords": {
+    "Без прочности": "No hull points",
+    "Вооружение": "Weapons",
+    "Дополнительный отсек: 2": "Extra compartment: 2",
+    "Дополнительный отсек: 4": "Extra compartment: 4",
+    "Жилой": "Residential",
+    "Игнорирует проход": "Ignores passage",
+    "Компактный": "Compact",
+    "Лестница": "Stairs",
+    "Машинное отделение": "Engine room",
+    "Оборудование": "Equipment",
+    "Особый": "Special",
+    "Паровой/Электрический": "Steam/Electric",
+    "При проектировании": "At design time",
+    "Разведка": "Recon",
+    "Только снаружи": "Outside only",
+    "Тяжелый": "Heavy",
+    "Узкий": "Narrow",
+    "Управление": "Control"
+  },
+  "effects": {
+    "Разведка +2": "Scouting +2",
+    "Ремонт +2": "Repair +2",
+    "Щиты: прочность +200": "Shields: hull +200",
+    "Вместимость экипажа +2": "Crew capacity +2",
+    "Прочность +100": "Hull +100"
+  },
+  "compartments": {
+    "bridge_compact": {
+      "name": "Watch Cabin",
+      "effect": "A compact command post with a periscope and speaking tubes.",
+      "description": "<p>A small superstructure for light skyships and scout launches.</p>"
+    },
+    "bridge_leather": {
+      "name": "Wheelhouse with a Leather-Bound Helm",
+      "effect": "+2 to manoeuvring and course checks. When damaged, −2 to all helm rolls.",
+      "description": "<p>A panoramic bridge with brass instruments and a helm wrapped in oxhide. A mandatory module.</p>"
+    },
+    "cabin_captain": {
+      "name": "Captain's Cabin",
+      "effect": "Residential (+1 crew). Gives +1 morale when planning operations.",
+      "description": "<p>A roomy cabin with a mahogany desk, navigation charts and a sextant.</p>"
+    },
+    "cabin_crew": {
+      "name": "Cabin",
+      "effect": "Residential (+1 crew capacity). A ship needs at least as many cabins as player characters.",
+      "description": "<p>A cabin with a bunk bed, a porthole and a sea chest for gear.</p>"
+    },
+    "cargo_hold": {
+      "name": "Cargo Hold",
+      "effect": "Permanent: carries any cargo without affecting stats. Not counted for hull or crew.",
+      "description": "<p>Carries goods for the client — and the odd stowaway.</p>"
+    },
+    "crows_nest": {
+      "name": "Lookout Post (“Crow's Nest”)",
+      "effect": "Ignores passage: a platform out on the mast. Scouting on the ship is easier: DC −2.",
+      "description": "<p>A high platform with a powerful spyglass and a searchlight.</p>"
+    },
+    "engine_hobgoblin": {
+      "name": "Rails Company “Hobgoblin”",
+      "effect": "Keeps steady thrust at every altitude.",
+      "description": "<p>A multi-cylinder phlogiston engine with a cast-iron block and copper steam lines.</p>"
+    },
+    "engine_steam_compact": {
+      "name": "“Whirlwind-1” Steam Engine",
+      "effect": "A reliable engine that is easy to repair.",
+      "description": "<p>A compact steam plant for light scout skyships.</p>"
+    },
+    "engine_titan": {
+      "name": "“Pacific Titan V-12” Engine",
+      "effect": "Extra thrust for massive cruisers.",
+      "description": "<p>A colossal turbine with liquid phlogiston injectors.</p>"
+    },
+    "medbay_auto": {
+      "name": "Medbay",
+      "effect": "First aid for wounded sailors and officers during battle.",
+      "description": "<p>A sterile block with an operating table and a stock of medicine.</p>"
+    },
+    "mess_hall": {
+      "name": "Wardroom",
+      "effect": "Where the crew rests and eats. Lets them recover and discuss tactics.",
+      "description": "<p>A wardroom with a briefing table, a chart library and a galley.</p>"
+    },
+    "radar_station": {
+      "name": "Radar",
+      "effect": "Detects enemy ships at long range, revealing hidden manoeuvres.",
+      "description": "<p>A radio antenna with a circular detection screen.</p>"
+    },
+    "stairs_vert": {
+      "name": "Ladder",
+      "effect": "Vertical passage between decks. Connected to the ladder directly above or below.",
+      "description": "<p>A metal ladder between decks for quick movement.</p>"
+    },
+    "weapon_carbolin": {
+      "name": "“Carbolin” Cannon",
+      "effect": "Armour-piercing shells.",
+      "description": "<p>A long-range 120 mm rifled gun on a turntable carriage.</p>"
+    },
+    "weapon_falconet": {
+      "name": "“Falconet” Cannon",
+      "effect": "A rapid-fire small-calibre gun against boarders and launches.",
+      "description": "<p>A light swivel gun for precise fire.</p>"
+    },
+    "weapon_flamethrower": {
+      "name": "Flamethrower",
+      "effect": "Sets the target and adjacent enemy compartments on fire.",
+      "description": "<p>A nozzle flamethrower with a tank of incendiary mix for close combat.</p>"
+    },
+    "weapon_torpedo": {
+      "name": "“Bumblebee” Torpedo Tube",
+      "effect": "High chance of a critical hit on the keel.",
+      "description": "<p>A twin launch tube for guided winged aerial torpedoes.</p>"
+    },
+    "workshop_repair": {
+      "name": "Repair Workshop",
+      "effect": "Lets the chief engineer fix compartment damage in flight. Repairs with consumables on this ship restore +2 HP while the workshop is intact.",
+      "description": "<p>Workbenches with vices, welding torches and a supply of sheet metal.</p>"
+    },
+    "sc2p_bridge": {
+      "name": "Khala Matrix Bridge",
+      "effect": "Psionic link: the crew always knows where its members are.",
+      "description": "<p>A crystal throne from which the executor hears the ship as a living being.</p>"
+    },
+    "sc2p_catapult": {
+      "name": "Gravitic Catapult",
+      "effect": "Interceptors launch in the very first round of battle.",
+      "description": "<p>An upgrade the air fleet thanks the Council for in its prayers.</p>"
+    },
+    "sc2p_cells": {
+      "name": "Meditation Hall",
+      "effect": "Residential for the crew's templars.",
+      "description": "<p>Quiet cells where the Khala can be heard.</p>"
+    },
+    "sc2p_engine": {
+      "name": "Khaydarin Warp Drive",
+      "effect": "",
+      "description": "<p>The khaydarin crystals sing as the ship speeds up.</p>"
+    },
+    "sc2p_factory": {
+      "name": "Interceptor Factory",
+      "effect": "Every round restores 1 interceptor in a damaged hangar.",
+      "description": "<p>Automated forges assemble interceptors out of light and metal.</p>"
+    },
+    "sc2p_hangar": {
+      "name": "Interceptor Hangar",
+      "effect": "Four interceptors: each die is a separate attack. Without a factory the interceptors are not restored.",
+      "description": "<p>Launch bays along the golden hull.</p>"
+    },
+    "sc2p_lift": {
+      "name": "Gravity Lift",
+      "effect": "Vertical passage: connected to the lift above and below.",
+      "description": "<p>A column of soft light between decks.</p>"
+    },
+    "sc2p_oracle": {
+      "name": "Oracle Sensor",
+      "effect": "Prophetic sight: reveals the enemy ship.",
+      "description": "<p>A crystal that sees a few moments ahead.</p>"
+    },
+    "sc2p_shields": {
+      "name": "Shield Generator",
+      "effect": "Shields: +200 to the ship's hull while the generator is intact.",
+      "description": "<p>A blue shimmer around the hull — the first thing enemies see.</p>"
+    },
+    "sc2p_vault": {
+      "name": "Crystal Vault",
+      "effect": "Cargo and spare crystals. Not counted for hull.",
+      "description": "<p>Rows of khaydarin crystals in stasis.</p>"
+    },
+    "sc2t_armory": {
+      "name": "Swann's Armory",
+      "effect": "Repair consumables used in this compartment restore 2 more HP (at the GM's discretion).",
+      "description": "<p>“Don't touch anything that sparks” — a sign on the door.</p>"
+    },
+    "sc2t_ata": {
+      "name": "ATA Laser Battery",
+      "effect": "Against fighters and interceptors: each die is a separate target.",
+      "description": "<p>Rapid-fire air-to-air lasers.</p>"
+    },
+    "sc2t_ats": {
+      "name": "ATS Laser Battery",
+      "effect": "Against ships.",
+      "description": "<p>Air-to-surface lasers: they hit the hull and the superstructure.</p>"
+    },
+    "sc2t_barracks": {
+      "name": "Marine Barracks",
+      "effect": "Residential for a squad: +3 capacity instead of +1. The marines are ready to board in 30 seconds.",
+      "description": "<p>Lockers, CMC-300 suits and the smell of stimpacks.</p>"
+    },
+    "sc2t_bridge": {
+      "name": "Battlecruiser Bridge",
+      "effect": "Command: once per round the captain gives +1 to one crew check.",
+      "description": "<p>A holographic table, the captain's chair and an ever-grumbling adjutant.</p>"
+    },
+    "sc2t_cantina": {
+      "name": "Cantina",
+      "effect": "Jukebox and bartender: +1 crew morale after a rest.",
+      "description": "<p>It always smells of whisky and somebody's conspiracies here.</p>"
+    },
+    "sc2t_crawl": {
+      "name": "Maintenance Crawlway",
+      "effect": "Narrow: movement costs double.",
+      "description": "<p>Cables, pipes and the SCV that lives here.</p>"
+    },
+    "sc2t_lift": {
+      "name": "Turbolift",
+      "effect": "Vertical passage: connected to the turbolift above and below.",
+      "description": "<p>The elevator music has not changed since the Guild Wars.</p>"
+    },
+    "sc2t_matrix": {
+      "name": "Defensive Matrix",
+      "effect": "+100 to the ship's hull while the compartment is intact.",
+      "description": "<p>A field generator that soaks up hits.</p>"
+    },
+    "sc2t_reactor": {
+      "name": "Fusion Reactor",
+      "effect": "",
+      "description": "<p>It hums so hard the glasses rattle in the cantina.</p>"
+    },
+    "sc2t_sensor": {
+      "name": "Sensor Tower",
+      "effect": "Detects enemy ships at any range.",
+      "description": "<p>A long-range radar on an outrigger mast.</p>"
+    },
+    "sc2t_vikings": {
+      "name": "“Viking” Hangar",
+      "effect": "A fighter flight: attacks the ship or intercepts enemy fighters.",
+      "description": "<p>Transforming fighters on magnetic clamps.</p>"
+    },
+    "sc2t_warp": {
+      "name": "Tactical Jump Core",
+      "effect": "Once per battle: the ship leaves the battle or changes the distance to any.",
+      "description": "<p>A tactical warp jump. The countdown runs in the bridge's dead silence.</p>"
+    },
+    "sc2t_yamato": {
+      "name": "Yamato Cannon",
+      "effect": "One round to charge, then one shot at the target compartment.",
+      "description": "<p>A main-calibre plasma gun. The crew calls it “the last argument”.</p>"
+    }
+  },
+  "templates": {
+    "swift": {
+      "name": "Swift",
+      "shipClass": "Courier",
+      "description": "<p>A light courier: mail, diplomats and everything that had to arrive yesterday. One deck, two cabins, a gun at the stern.</p>"
+    },
+    "grumbler": {
+      "name": "Grumbler",
+      "shipClass": "Cargo barque",
+      "description": "<p>A pot-bellied trader with three holds. Slow, but it makes it to port — a “Hobgoblin” at the stern, a pair of guns at the bow against pirates.</p>"
+    },
+    "harpy": {
+      "name": "Harpy",
+      "shipClass": "Gunboat",
+      "description": "<p>A raider for short, nasty skirmishes: a flamethrower at the bow, torpedoes at the stern and guns on every deck.</p>"
+    },
+    "leviathan": {
+      "name": "Leviathan",
+      "shipClass": "Heavy cruiser",
+      "description": "<p>The squadron flagship: a “Pacific Titan” at the stern, a medbay and a workshop on the lower deck, torpedoes and guns all along the side.</p>"
+    },
+    "hyperion": {
+      "name": "Hyperion",
+      "shipClass": "Behemoth-class battlecruiser",
+      "description": "<p>Flagship of Raynor's Raiders, a skyship on paper. A Yamato cannon at the bow, a cantina with a jukebox, Swann's armory and a tactical jump in case everything goes according to plan. The ATS batteries on the upper deck connect to the compartments below through hatches — those are the “Passage down” checkboxes.</p>"
+    },
+    "carrier": {
+      "name": "Wrath of Aiur",
+      "shipClass": "Protoss carrier",
+      "description": "<p>En Taro Adun! A long golden hull, four interceptor hangars on the port side and a shield generator worth a whole ship on its own. While the shields hold, the hull is 200 higher — break the generator and the carrier gets noticeably softer.</p>"
+    }
+  },
+  "repair": {
+    "b3ZMku4lF2HGdKip": {
+      "name": "Large repair kit (+20 HP)",
+      "description": "<p>Rivets, hull plates and rags. Restores <strong>20 HP</strong> to one skyship compartment. Used up one at a time.</p>"
+    },
+    "tAEGMopkKXGrEqib": {
+      "name": "Repair kit (+10 HP)",
+      "description": "<p>Rivets, hull plates and rags. Restores <strong>10 HP</strong> to one skyship compartment. Used up one at a time.</p>"
+    },
+    "sSSG3VbYJb0oKOcp": {
+      "name": "Small repair kit (+5 HP)",
+      "description": "<p>Rivets, hull plates and rags. Restores <strong>5 HP</strong> to one skyship compartment. Used up one at a time.</p>"
+    }
+  },
+  "macros": {
+    "goRPL7kt2RFYdxc0": {
+      "name": "Start battle",
+      "command": "// Builds a battle scene for two ships: the first one goes on the left.\nconst api = game.modules.get(\"skyplane-combat-reverse\").api;\nconst ships = game.actors.filter((actor) => actor.type === \"skyplane-combat-reverse.ship\");\nif (!ships.length) return ui.notifications.warn(\"There are no skyships.\");\nconst options = ships.map((ship) => `<option value=\"${ship.uuid}\">${foundry.utils.escapeHTML(ship.name)}</option>`).join(\"\");\nif (ships.length < 2) return ui.notifications.warn(\"A battle needs two ships.\");\nconst pair = await foundry.applications.api.DialogV2.prompt({\n  window: { title: \"Start battle\" },\n  content: `<div class=\"form-group\"><label>Left</label><select name=\"left\">${options}</select></div>\n    <div class=\"form-group\"><label>Right</label><select name=\"right\">${options}</select></div>`,\n  ok: { label: \"Build the battle scene\", callback: (event, button) => [button.form.elements.left.value, button.form.elements.right.value] },\n  rejectClose: false\n});\nif (!pair) return;\nif (pair[0] === pair[1]) return ui.notifications.warn(\"Pick two different ships.\");\n(await api.startBattle(pair[0], pair[1]))?.view();"
+    },
+    "QIhS6HdE13BCncwY": {
+      "name": "Deploy ship",
+      "command": "// Creates or rebuilds the scene of the chosen ship.\nconst api = game.modules.get(\"skyplane-combat-reverse\").api;\nconst ships = game.actors.filter((actor) => actor.type === \"skyplane-combat-reverse.ship\");\nif (!ships.length) return ui.notifications.warn(\"There are no skyships.\");\nconst options = ships.map((ship) => `<option value=\"${ship.uuid}\">${foundry.utils.escapeHTML(ship.name)}</option>`).join(\"\");\nconst uuid = await foundry.applications.api.DialogV2.prompt({\n  window: { title: \"Deploy ship\" },\n  content: `<div class=\"form-group\"><label>Ship</label><select name=\"ship\">${options}</select></div>`,\n  ok: { label: \"Deploy\", callback: (event, button) => button.form.elements.ship.value },\n  rejectClose: false\n});\nif (uuid) (await api.deployShip(uuid))?.view();"
+    },
+    "nqjxwNNgJCK8d1tQ": {
+      "name": "Battle panel",
+      "command": "// Opens the GM battle panel for the current battle scene.\ngame.modules.get(\"skyplane-combat-reverse\").api.openBattlePanel();"
+    }
+  },
+  "help": {
+    "name": "SkyPlane Combat Re:verse — help",
+    "pages": {
+      "AQ5NpMY7p8AViNlD": {
+        "name": "Quick start",
+        "content": "<p>The module adds a <strong>skyship sheet</strong> with a builder, turns a ship into a real Foundry scene made of tiles, regions and walls, and builds a <strong>battle scene</strong> for two ships.</p>\n<ol>\n<li>Create an actor of type “Skyship” (or open the example ship in the “SkyPlane” folder).</li>\n<li>On the Builder tab drag compartments from the catalog, the “SkyPlane: compartments” compendium or the Items tab onto the grid.</li>\n<li>On the Crew tab drag character actors into the list. Assign characters to players (User Configuration): the module uses them to tell which side a player is on.</li>\n<li>On the Parameters tab press “Deploy to scene”. Place tokens on the scene the usual way.</li>\n<li>In the module settings open “Crew permissions” and give players their checkboxes.</li>\n</ol>\n<p>Set the ship image on the Parameters tab — it shows in the actor list, on the token and on the scene's parameter plate. A battle of two ships starts with “Start battle…” on the ship sheet; see “Combat and scouting”. Your own compartment catalogs are described in “Builder and passage rules”.</p>"
+      },
+      "iGFudfA5eZkb0Vxb": {
+        "name": "Builder and passage rules",
+        "content": "<p>The ship grid is up to 14×8 squares, 11×6 by default. Compartment sizes in the book are written as “height×length”; compartments do not rotate.</p>\n<ul>\n<li>A ship needs at least one “Control” and one “Engine room” compartment — otherwise it is an error. Errors do not block deployment.</li>\n<li>A compartment cannot be placed outside the map, on top of another one, or so that an “Outside only” compartment ends up enclosed on all sides.</li>\n<li>Warnings: a compartment does not touch others; compartments are not connected by passages; the crew does not fit.</li>\n</ul>\n<h3>Passages</h3>\n<ul>\n<li><strong>Horizontal</strong> — between side neighbours whose bottom rows are level. The opening is only as high as the bottom square.</li>\n<li><strong>Vertical</strong> — a ladder above or below a ladder, the opening along the shared border.</li>\n<li><strong>From the GM</strong> — the “Passage up” / “Passage down” checkboxes in the compartment window open a passage along the whole shared border; one checkbox on either side is enough.</li>\n</ul>\n<p>“Ignores passage” compartments are left out of the connectivity check.</p>\n<h3>Compartment catalog</h3>\n<p>Hover a catalog compartment in the builder: matching compartments on the grid light up, the rest dim.</p>\n<p>The GM creates custom compartments with “New” — they appear in the “SkyPlane” item folder. The pencil on a world compartment opens its sheet; the pencil on a compendium compartment creates a copy in the world with the same identifier, and the copy replaces the original in the catalog. The bin removes a world compartment from the catalog. Compartments already placed on ships are independent copies: to carry a catalog edit over to them, the GM presses “Update on ships” on the compartment sheet. Position, passages and damage taken are kept; if the new size does not fit, the old one stays.</p>\n<h3>Compartment catalogs</h3>\n<p>The list above the builder palette picks the catalog: “SkyPlane: compartments”, “SkyPlane: StarCraft II compartments” or your own. Each client remembers its choice.</p>\n<p><strong>Your own catalog</strong> is an Item compendium in the “SkyPlane Combat Re:verse” folder. The GM creates one with the folder button next to the list: gives it a name and, if wanted, copies the compartments of the current catalog (the copies get new identifiers and are not linked to the originals). An Item compendium created by hand on the Compendiums tab and moved into this folder becomes a catalog too.</p>\n<p>Your own catalog is not locked: “New” creates a compartment right in it, the pencil opens the compartment sheet with all fields, active effects and combat properties, the bin deletes the compartment from the catalog. Compartments already placed stay on the ships; “Update on ships” carries an edit over. Players with the “Build the ship” permission see the catalog if they can access the compendium (observer by default). A catalog is deleted like any compendium: right-click it on the Compendiums tab.</p>\n<p><strong>Undo.</strong> Ctrl+Z in an open builder undoes the last placement, move or removal of a compartment, a map resize or the starter kit — up to 50 steps per ship. Damage and repairs made between the steps are not rolled back. The key can be changed in Foundry's controls settings.</p>\n<p><strong>Export and import.</strong> In the ship sheet header menu (GM): “Export to JSON” saves the ship to a file, “Import from JSON” replaces this ship with it — compartments, stats, crew. Scene, log and permissions stay; crew actors missing from the world are dropped. Rebuild the scene after an import.</p>\n<h3>Stats</h3>\n<p>Hull = ⌈compartments without “No hull points” ÷ 3⌉ × 100; crew capacity = intact “Residential” compartments; speed is the maximum and fuel economy the minimum among intact engine rooms. Active effects of compartments change these values while the compartment is intact, and every breach costs 1 speed. A manual edit on the sheet holds until the next change of the layout or the “Recalculate by the rules” button.</p>"
+      },
+      "dwSfW3vqoEolP8cv": {
+        "name": "Ship scene",
+        "content": "<p>“Deploy to scene” creates an ordinary scene in side view: the parameter area on the left, the ship map on the right, the description and system tables below.</p>\n<ul>\n<li>The Foundry grid is 100 px, 5 ft; one ship square is 2×2 cells, 200 px, 10 ft, and holds 4 medium tokens.</li>\n<li>Every compartment gets a locked tile and a region. Walls block movement only; openings follow the passage rules.</li>\n<li>Narrow, damaged and breached compartments are difficult terrain (the “Modify Movement Cost” region behaviour).</li>\n<li>The compartment plate shows HP, conditions (“Burning”, “Breach”, “Smoke”) and the gun's ammo; the parameter plate shows the ship image (hidden for an unrevealed enemy).</li>\n<li>Labels, frames and areas are drawn on each client and are not stored as documents. Clicking the ship name opens the sheet, clicking a compartment plate opens the compartment window.</li>\n</ul>\n<p>HP changes update the scene by themselves. When a compartment is added, moved or removed, the sheet shows a “scene is out of date” mark — press “Rebuild”. A rebuild replaces only the generated objects; tokens and the GM's own objects stay.</p>"
+      },
+      "z1u5QC2mdNSBFeWi": {
+        "name": "Combat and scouting",
+        "content": "<p>On the ship sheet the GM presses “Start battle…” and picks the enemy: the ship the button was pressed on goes on the left. Tokens from the ship scenes are copied to the same places on the map. The GM activates the battle scene for the players.</p>\n<p>The distance is shared by the pair: a change in battle is written to both sheets. Each ship has its own phlogiston.</p>\n<p><strong>Moving a token to the other ship.</strong> In Foundry v13 walls stop dragging even for the GM. Turn on the “Unconstrained Movement” tool in the token controls, move the token and turn the tool off.</p>\n<h3>Round and distance</h3>\n<p>A round is an ordinary dnd5e combat: the combat tracker, initiative, turns. The battle phase starts at medium distance; after that the GM changes it by hand to fit the story.</p>\n<table><thead><tr><th>Distance</th><th>Effect</th></tr></thead><tbody>\n<tr><td>Medium</td><td>No penalties</td></tr>\n<tr><td>Close</td><td>Penalty for guns without “Close” checked (long-range guns)</td></tr>\n<tr><td>Far</td><td>Penalty for guns without “Far” checked (close-range guns); evasive manoeuvres are more effective</td></tr>\n<tr><td>Melee</td><td>Disadvantage on hits for all guns; turbulence</td></tr>\n</tbody></table>\n<p>The penalty is added to the hit DC; its size is set in the module settings (“Gun range penalty”, 5 by default). Each gun has checkboxes for the distances without a penalty — for example “Medium and Far” for the “Carbolin”. Active effects of the ships change the DC too: the shooter's accuracy lowers it, the target's defense raises it (see “Active effects”).</p>\n<h3>Firing</h3>\n<ol>\n<li>A character stands in an intact compartment with firepower on their own ship: they came there on their turn or stood there at the start of it.</li>\n<li>They open the compartment window (click the plate), press “Fire” and pick a compartment of the enemy ship on the canvas. Right click or Esc cancels.</li>\n<li>A check of the gun's skill is rolled against its DC for the current distance.</li>\n<li>On a success the dnd5e damage window opens: normal or critical damage and a situational bonus.</li>\n<li>The damage goes both to the ship's hull and to the HP of the chosen compartment.</li>\n</ol>\n<p>After a hit a card appears in the chat. By default the damage applies at once, and the GM's card has an “Undo” button — it restores exactly what the hit took from the hull and the compartment. If the “GM applies damage” checkbox is on in the module settings, the damage waits for “Apply” or “Reject”. A damage number floats above the compartment, and a tracer flies from the gun to the target: an orange flash for a hit, a grey puff beside the target for a miss. Animations are turned off in the client settings (“Interface animations”).</p>\n<p>The GM battle panel lists each ship's guns: “ready”, “fired”, “destroyed”, “empty”, and for charging guns “not charged”, “charging” and “charged”. The fire button next to a ready gun fires for the crew: the token in the gun shoots if there is one, otherwise the captain or the first crew member; with no crew it is a plain d20 against the gun's DC.</p>\n<p>Each gun fires once per round (if the tracker combat has started). You can fire at an unrevealed ship — blindly. The “Fight” checkbox in the permission matrix is required.</p>\n<p>A gun is set up on the compartment sheet: hit skill and DC, distances without a penalty (“Close”, “Medium”, “Far” checkboxes), ammo, special property and damage (number of dice, d4–d20 die, bonus).</p>\n<h3>Special guns</h3>\n<ul>\n<li><strong>Splash</strong> (flamethrower). Compartments sharing a side with the target take half the damage (rounded down) — only to their own HP, the ship's hull is untouched. The hit also sets the target on fire. “Undo” on the card restores the splash too.</li>\n<li><strong>Charge</strong> (Yamato cannon). The first press of “Charge” uses the gun's shot this round; it can fire from the next round. Firing removes the charge. Without a started tracker combat the shot is available right after charging.</li>\n<li><strong>Volley</strong> (ATA lasers, interceptors). Each damage die is a separate shot: its own target, its own hit check and one damage die (plus the bonus). Right click or Esc while picking a target ends the volley early — the shots already made count.</li>\n</ul>\n<h3>Ammo</h3>\n<p>The compartment sheet of a gun has an “Ammo (shots)” field: 0 means unlimited. Each shot (and a whole volley) uses one charge; an empty gun does not fire and shows “empty” on the battle panel. The GM reloads in the compartment window: a number of charges or the “Reload” button. In the compendiums the “Bumblebee” torpedoes (4) and the Yamato cannon (3) are limited.</p>\n<h3>Compartment conditions</h3>\n<table><thead><tr><th>Condition</th><th>Source</th><th>Effect</th><th>Removed by</th></tr></thead><tbody>\n<tr><td>Burning</td><td>A flamethrower hit</td><td>At the start of every combat round the compartment takes 1d6 damage to its own HP; checks in it have disadvantage</td><td>“Extinguish” in the compartment window: a crew member in the compartment, Athletics, DC 12, with disadvantage; a destroyed compartment goes out by itself</td></tr>\n<tr><td>Breach</td><td>A critical hit</td><td>Difficult terrain, −1 to the ship's speed</td><td>Repairing the compartment with a consumable</td></tr>\n<tr><td>Smoke</td><td>The GM</td><td>Checks in the compartment (firing, scouting, extinguishing) have disadvantage</td><td>Clears at the start of the next round</td></tr>\n</tbody></table>\n<p>The GM sets and removes any condition with the checkboxes in the compartment window. “Undo” on a hit card also removes the conditions that hit applied. Rounds are counted by the combat tracker on the battle scene; stepping a round back does not burn again.</p>\n<h3>End of battle</h3>\n<p>The GM battle panel has an “End battle” button: pick the players' ship (the module guesses it from the crew) and the outcome — victory or defeat. The tracker combat on this scene is deleted, the fired and charged marks are cleared, and the result goes to the chat and to the logs of both ships. The players' ship scene is activated — everyone moves to it, and “Victory” or “Defeat” floats above it. The battle scene stays: the next battle of the same pair is rebuilt on it.</p>\n<h3>Scouting</h3>\n<p>A crew member in an intact “Recon” compartment of their own ship opens the compartment window and presses “Scout”: a check of the radar's skill is rolled. On a success their side sees the whole enemy ship while the scout stays at the post.</p>\n<p>The GM decides over the scouting on the battle panel: “Reveal” shows the enemy, “Hide” hides it even after a successful scouting, “Auto” clears the GM decision and reveal follows scouting again. Until then the enemy is a silhouette: dark rectangles, only the name and class; tokens on it are hidden, except tokens of your own side.</p>\n<p>A player's side is the ship whose crew includes one of their actors (the same rule as for matrix permissions). If their actors are on both ships, the assigned character decides. The GM sees everything.</p>"
+      },
+      "xJ5rO2RiCoGoFvGR": {
+        "name": "Active effects",
+        "content": "<p>A catalog compartment can carry Foundry active effects (ActiveEffect). A ship counts the effects of a compartment while it is intact (or works when destroyed), the GM's “Effect active” checkbox in the compartment window is on and the effect itself is not disabled.</p>\n<h3>Where to set them up</h3>\n<p>Catalog compartment sheet → “Active effects” block. Pick a preset (one change of +1, +100 for hull) or “Blank effect” and press “Add” — Foundry's standard effect window opens: name, icon, the “Changes” tab. The toggle enables and disables an effect, the bin deletes it.</p>\n<p>When placed on a ship, the effects are copied into the compartment. “Update on ships” carries edits of catalog effects over to placed copies. All effects of a ship and the resulting bonuses are shown on the Systems tab of the ship sheet.</p>\n<h3>Keys</h3>\n<table><thead><tr><th>Key</th><th>What it changes</th></tr></thead><tbody>\n<tr><td><code>system.maxHp</code></td><td>Ship hull</td></tr>\n<tr><td><code>system.maxCrew</code></td><td>Crew capacity</td></tr>\n<tr><td><code>system.speed</code></td><td>Speed</td></tr>\n<tr><td><code>system.fuelEconomy</code></td><td>Fuel economy</td></tr>\n<tr><td><code>system.bonuses.attack</code></td><td>Gun accuracy: the hit DC of this ship's guns is lower by the value</td></tr>\n<tr><td><code>system.bonuses.damage</code></td><td>Gun damage: added to the damage formula (for a volley — to each shot)</td></tr>\n<tr><td><code>system.bonuses.defense</code></td><td>Defense: the DC to hit this ship is higher by the value</td></tr>\n<tr><td><code>system.bonuses.repair</code></td><td>Consumable repair: each consumable restores more HP</td></tr>\n<tr><td><code>system.bonuses.scout</code></td><td>Scouting: the scouting check DC is lower by the value</td></tr>\n</tbody></table>\n<h3>Modes</h3>\n<p>“Add” (a negative value subtracts), “Multiply”, “Upgrade”, “Downgrade”, “Override” — in priority order, as in Foundry. The “Custom” mode and other keys are ignored by the module.</p>\n<p>Hull, crew capacity, speed and fuel economy are recalculated when the layout changes, a compartment is destroyed or repaired, and “Effect active” is toggled. When a compartment that adds hull is destroyed, the maximum drops and the current hull does not exceed the new maximum; after a repair the maximum comes back, the current hull does not.</p>\n<h3>Examples in the compendiums</h3>\n<ul>\n<li>“Shield Generator” (protoss): hull +200.</li>\n<li>“Defensive Matrix” (terran): hull +100.</li>\n<li>“Marine Barracks”: crew capacity +2.</li>\n<li>“Repair Workshop”: consumable repair +2.</li>\n<li>“Lookout Post (“Crow's Nest”)”: scouting +2.</li>\n</ul>\n<p>The old “Stat modifier” of compartments turns into the same kind of active effect when the world is updated.</p>"
+      },
+      "JUj5XmqpDrmBh8BU": {
+        "name": "Repair",
+        "content": "<p>A player with the “Repair” permission presses “Repair…” in the compartment window and picks a consumable of their character in the crew. One piece is used up, the compartment's HP grows by the consumable's amount (not above the maximum). A destroyed compartment that gets HP back works again, and a breach in the compartment is closed.</p>\n<p>A repair consumable is an ordinary dnd5e item with the <code>flags.skyplane-combat-reverse.repair.amount</code> flag. Presets are in the “SkyPlane: repair consumables” compendium. Any item can be marked with a macro:</p>\n<pre><code>game.modules.get(\"skyplane-combat-reverse\").api.markRepairItem(item, 10);</code></pre>"
+      },
+      "hT0DDT8Yv2BaZv6I": {
+        "name": "Permissions",
+        "content": "<p>Players are observers of the ship; every change goes to the GM's client through socketlib, and the GM checks the permission before writing. If no GM is online — a notification, nothing changes.</p>\n<table><thead><tr><th>Permission</th><th>What it opens</th></tr></thead><tbody>\n<tr><td>Edit parameters</td><td>Name, class, image, captain, numbers on the Parameters tab, description</td></tr>\n<tr><td>Build the ship</td><td>The builder</td></tr>\n<tr><td>Repair</td><td>The “Repair…” and “Extinguish” buttons</td></tr>\n<tr><td>Phlogiston and distance</td><td>The phlogiston scale and the distance plates</td></tr>\n<tr><td>Fight</td><td>Firing and scouting</td></tr>\n</tbody></table>\n<p>A permission works only on ships whose crew includes one of the player's actors — the same rule decides the player's side in battle. GM only: scenes, starting a battle, crew, damage, passages, conditions, ammo, reveal, log, permission matrix.</p>"
+      },
+      "nEl2gcvB9bDvYDOk": {
+        "name": "Ship templates",
+        "content": "<p>The “SkyPlane: ship templates” compendium holds ready-made skyships. Drag a template into the actor folder, deploy it to a scene and edit it in the builder: the copy is independent of the template.</p>\n<table><thead><tr><th>Ship</th><th>Class</th><th>Map</th><th>Why it is interesting</th></tr></thead><tbody>\n<tr><td>Swift</td><td>Courier</td><td>9×3</td><td>The smallest ship: one deck, two cabins</td></tr>\n<tr><td>Grumbler</td><td>Cargo barque</td><td>12×5</td><td>Three holds, a captain's cabin, slow and tough</td></tr>\n<tr><td>Harpy</td><td>Gunboat</td><td>10×4</td><td>Six guns on three decks, a flamethrower and torpedoes</td></tr>\n<tr><td>Leviathan</td><td>Heavy cruiser</td><td>14×7</td><td>The largest size, a “Pacific Titan”, 800 HP</td></tr>\n<tr><td>Hyperion</td><td>Battlecruiser (StarCraft II)</td><td>14×5</td><td>Yamato cannon, defensive matrix (+100 HP), GM “Passage down” hatches</td></tr>\n<tr><td>Wrath of Aiur</td><td>Protoss carrier (StarCraft II)</td><td>14×4</td><td>Four “Outside only” hangars, a shield generator (+200 HP)</td></tr>\n</tbody></table>\n<p>The compartments of the last two are in the “SkyPlane: StarCraft II compartments” compendium. It is a joke, not official content: the rules are the same as for the other compartments.</p>"
+      },
+      "MWhqgeTAvCgTngL6": {
+        "name": "Macros and API",
+        "content": "<p>API: <code>game.modules.get(\"skyplane-combat-reverse\").api</code>. Methods take an actor or a UUID.</p>\n<ul>\n<li><code>deployShip(ship)</code>, <code>rebuildScene(scene)</code>, <code>startBattle(left, right)</code></li>\n<li><code>damageShip(ship, n)</code>, <code>healShip(ship, n)</code>, <code>damageCompartment(ship, instanceId, n)</code></li>\n<li><code>repairCompartment(ship, instanceId, {amount | itemUuid})</code></li>\n<li><code>setPhlogiston(ship, 0–5)</code>, <code>setDistance(ship, \"melee\"|\"close\"|\"medium\"|\"far\")</code></li>\n<li><code>setReveal(scene, \"left\"|\"right\", true|false)</code>, <code>validateShip(ship)</code>, <code>markRepairItem(item, n)</code>, <code>openBattlePanel()</code></li>\n<li><code>fireWeapon(ship, instanceId)</code> — fire as your own token in the gun, <code>scout(ship, instanceId)</code> — scouting check</li>\n</ul>\n<p>Hooks (called on every client): <code>skyplaneCombatReverse.compartmentDestroyed</code>, <code>.compartmentRestored</code>, <code>.compartmentRepaired</code>, <code>.shipDisabled</code>, <code>.revealChanged</code>, <code>.sceneBuilt</code>, <code>.compartmentHit</code> (ship, compartment, damage; negative when undone), <code>.shipFired</code> (ship, gun, target ship, target compartment, damage; for a volley — once per shot).</p>\n<p>The “Deploy ship”, “Start battle” and “Battle panel” macros are in the “SkyPlane: macros” compendium.</p>"
+      }
+    }
+  }
+}

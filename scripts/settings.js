@@ -28,6 +28,14 @@ export function registerSettings() {
     onChange: applyAnimationSetting
   });
 
+  // Каталог отсеков, открытый в конструкторе: у каждого клиента свой.
+  game.settings.register(MODULE_ID, "activeCatalog", {
+    scope: "client",
+    config: false,
+    type: String,
+    default: `${MODULE_ID}.compartments`
+  });
+
   game.settings.register(MODULE_ID, "rangePenalty", {
     name: `${MODULE_ID}.settings.rangePenalty.name`,
     hint: `${MODULE_ID}.settings.rangePenalty.hint`,

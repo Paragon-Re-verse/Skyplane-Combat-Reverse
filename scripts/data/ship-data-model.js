@@ -1,4 +1,4 @@
-import { MODULE_ID, DISTANCES, SYSTEM_CATEGORIES } from "../constants.js";
+import { MODULE_ID, DISTANCES, SYSTEM_CATEGORIES, CONDITIONS } from "../constants.js";
 import { GRID_LIMITS, validateShip, crewUsed, groupSystems, shipBonuses } from "../rules/ship-rules.js";
 import { compartmentFields, migrateCompartmentSource } from "./compartment-data-model.js";
 
@@ -18,6 +18,11 @@ function placedCompartmentSchema() {
     passageUp: new fields.BooleanField({ initial: false }),
     passageDown: new fields.BooleanField({ initial: false }),
     effectActive: new fields.BooleanField({ initial: true }),
+    // Осталось выстрелов; null — полный боезапас.
+    currentAmmo: new fields.NumberField({ required: false, integer: true, min: 0, nullable: true, initial: null }),
+    conditions: new fields.ArrayField(new fields.StringField({
+      choices: Object.fromEntries(CONDITIONS.map((condition) => [condition, `${MODULE_ID}.condition.${condition}.label`]))
+    })),
     // Копии активных эффектов предмета каталога: корабль учитывает их, пока отсек работает.
     effects: new fields.ArrayField(new fields.SchemaField({
       name: new fields.StringField({ required: true, blank: true }),

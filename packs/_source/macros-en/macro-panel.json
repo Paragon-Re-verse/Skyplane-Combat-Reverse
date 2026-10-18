@@ -1,0 +1,22 @@
+{
+  "_id": "nqjxwNNgJCK8d1tQ",
+  "_key": "!macros!nqjxwNNgJCK8d1tQ",
+  "name": "Battle panel",
+  "type": "script",
+  "img": "icons/svg/target.svg",
+  "command": "// Opens the GM battle panel for the current battle scene.\ngame.modules.get(\"skyplane-combat-reverse\").api.openBattlePanel();",
+  "scope": "global",
+  "folder": null,
+  "sort": 300,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

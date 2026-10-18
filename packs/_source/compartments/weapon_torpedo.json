@@ -36,7 +36,8 @@
       "medium",
       "far"
     ],
-    "special": ""
+    "special": "",
+    "ammo": 4
   },
   "effects": [],
   "folder": null,

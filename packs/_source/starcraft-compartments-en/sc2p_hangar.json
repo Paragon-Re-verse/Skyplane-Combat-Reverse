@@ -1,0 +1,58 @@
+{
+  "_id": "ghQBUOBNqZqBh5tD",
+  "_key": "!items!ghQBUOBNqZqBh5tD",
+  "name": "Interceptor Hangar",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/weapons.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Weapons",
+      "Outside only"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": true,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Four interceptors: each die is a separate attack. Without a factory the interceptors are not restored.",
+    "checkSkill": "prc",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "volley",
+    "damageDice": 4,
+    "damageDie": 4,
+    "damageBonus": 0,
+    "ammo": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2p_hangar",
+    "systemCategory": "weapons",
+    "width": 2,
+    "height": 1,
+    "hp": 10,
+    "description": "<p>Launch bays along the golden hull.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1700,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

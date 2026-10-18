@@ -6,7 +6,7 @@
  * после зарядки, «Залп» (перехватчики, ATA) — каждая кость отдельный выстрел со своей целью.
  */
 import { MODULE_ID, CELL_SIZE, localize, format } from "../constants.js";
-import { isWeapon, isFunctioning, weaponFormula, attackDifficulty, shotCount } from "../rules/ship-rules.js";
+import { isWeapon, isFunctioning, weaponFormula, attackDifficulty, shotCount, ammoLeft, isSmoky, hasCondition } from "../rules/ship-rules.js";
 import { getShip, getCompartment, canUser, registerPlayerAction, applyHit, appendLog, logEntry, battleOpponents } from "../documents/ship-actions.js";
 import { getLayout, sceneSides, compartmentAtPoint, tokenCenter } from "../scene/scene-builder.js";
 import { isSideRevealed, isTokenOnRecon, markScouted, revealState } from "../scene/reveal.js";
@@ -14,6 +14,8 @@ import { requestAction, emitHook } from "../socket.js";
 import { createHitCard } from "./hit-card.js";
 
 const DEFAULT_SKILL = "prc";
+/** Тушение пожара: проверка Атлетики, сложность 12. */
+const EXTINGUISH = { skill: "ath", dc: 12 };
 
 function refusal(key) {
   return { ok: false, reason: { key, data: {} } };
@@ -62,7 +64,10 @@ export function checkSkillLabel(compartment) {
 export function currentDifficulty(ship, compartment) {
   const defense = battleOpponents(ship)[0]?.system.bonuses?.defense ?? 0;
   const modifier = defense - (ship.system.bonuses?.attack ?? 0);
-  return attackDifficulty(compartment, ship.system.combatDistance, game.settings.get(MODULE_ID, "rangePenalty"), modifier);
+  const difficulty = attackDifficulty(compartment, ship.system.combatDistance, game.settings.get(MODULE_ID, "rangePenalty"), modifier);
+  // Огонь и дым в отсеке пушки — помеха на попадание.
+  const smoky = isSmoky(compartment);
+  return { ...difficulty, smoky, disadvantage: difficulty.disadvantage || smoky };
 }
 
 /** Огневая мощь с бонусом урона от эффектов корабля; у залпа — формула одного выстрела. */
@@ -91,6 +96,7 @@ function shotBlocker(scene, ship, weapon, token, user, action = "fire") {
   const combat = sceneCombat(scene);
   if (combat && !user.isGM && combat.combatant?.tokenId !== token.id) return "combat.notYourTurn";
   if (hasFiredThisRound(ship, weapon.instanceId, scene)) return "combat.alreadyFired";
+  if (ammoLeft(weapon) <= 0) return "combat.noAmmo";
   if (weapon.special === "charge") {
     const state = chargeState(ship, weapon.instanceId, scene);
     if (action === "charge" && state) return "combat.alreadyCharged";
@@ -256,7 +262,7 @@ async function rollShot({ scene, enemy }, ship, weapon, shooter, target) {
     }
   );
   if (!damage?.length) return null;
-  return { ...shot, hit: true, amount: damage.reduce((sum, roll) => sum + roll.total, 0) };
+  return { ...shot, hit: true, critical: !!check.isCritical, amount: damage.reduce((sum, roll) => sum + roll.total, 0) };
 }
 
 /** Выстрел или залп: цели и броски на клиенте стрелка, затем один запрос ГМу со всеми выстрелами. */
@@ -279,7 +285,7 @@ async function fire(battle, ship, weapon, shooter) {
     tokenId: shooter.token?.id ?? null,
     shooterName: shooter.name,
     weaponId: weapon.instanceId,
-    shots: shots.map(({ targetInstanceId, hit, amount }) => ({ targetInstanceId, hit, amount }))
+    shots: shots.map(({ targetInstanceId, hit, amount, critical }) => ({ targetInstanceId, hit, amount, critical: !!critical }))
   });
   if (!result?.ok) return;
   const hits = shots.filter((shot) => shot.hit);
@@ -308,10 +314,18 @@ async function fireWeapon(ship, { sceneId, tokenId, shooterName, weaponId, shots
   const results = shots.map((shot, index) => ({
     target: targets[index],
     damage: shot.hit ? Math.max(0, Math.round(Number(shot.amount) || 0)) : 0,
-    hit: !!shot.hit
+    hit: !!shot.hit,
+    critical: !!shot.hit && !!shot.critical
   }));
   const update = key ? { [`flags.${MODULE_ID}.fired.${weaponId}`]: key } : {};
   if (weapon.special === "charge") update[`flags.${MODULE_ID}.charged.-=${weaponId}`] = null;
+  // Выстрел (и весь залп) тратит один заряд.
+  if (weapon.ammo) {
+    const compartments = ship.system.toObject().compartments;
+    const own = compartments.find((entry) => entry.instanceId === weaponId);
+    own.currentAmmo = ammoLeft(weapon) - 1;
+    update["system.compartments"] = compartments;
+  }
   const entries = results.map(({ target, damage, hit }) => logEntry("attack", format(hit ? "log.combat.hit" : "log.combat.miss", {
     weapon: weapon.name, shooter, target: target.name, ship: enemyShip.name, amount: damage
   }), user));
@@ -320,9 +334,11 @@ async function fireWeapon(ship, { sceneId, tokenId, shooterName, weaponId, shots
   // Урон применяется сразу или ждёт кнопки ГМа в карточке — галочка в настройках модуля.
   const pending = game.settings.get(MODULE_ID, "gmConfirmsDamage");
   const revealed = revealState(getLayout(scene), battle.side).revealed;
-  for (const { target, damage } of results) {
+  for (const { target, damage, critical } of results) {
     emitHook("shipFired", ship, weapon, enemyShip, target, damage);
     if (damage <= 0) continue;
+    // Огнемёт поджигает отсек цели, критическое попадание пробивает его.
+    const conditions = [...(weapon.special === "splash" ? ["burning"] : []), ...(critical ? ["breach"] : [])];
     const hitData = {
       attackerUuid: ship.uuid,
       targetUuid: enemyShip.uuid,
@@ -332,12 +348,13 @@ async function fireWeapon(ship, { sceneId, tokenId, shooterName, weaponId, shots
       weapon: weapon.name,
       targetName: revealed ? target.name : localize("combat.unknownCompartment"),
       splash: weapon.special === "splash",
+      conditions,
       status: pending ? "pending" : "applied",
       lost: null
     };
     if (!pending) {
       const names = { weapon: weapon.name, shooter, target: target.name, ship: enemyShip.name, amount: damage, attacker: ship.name };
-      hitData.lost = await applyHit(enemyShip, target.instanceId, damage, user, format("log.combat.taken", names), { splash: hitData.splash });
+      hitData.lost = await applyHit(enemyShip, target.instanceId, damage, user, format("log.combat.taken", names), { splash: hitData.splash, conditions });
     }
     await createHitCard(hitData);
   }
@@ -382,7 +399,9 @@ export async function startScouting(shipOrUuid, instanceId) {
   if (!token || !isTokenOnRecon(battle.scene, token, battle.side)) return ui.notifications.warn(localize("combat.noScout"));
 
   const flavor = format("combat.scoutFlavor", { name: compartment.name });
-  const checks = await token.actor.rollSkill({ skill: compartment.checkSkill || DEFAULT_SKILL, target: scoutDifficulty(ship, compartment) }, {}, { data: { flavor } });
+  const config = { skill: compartment.checkSkill || DEFAULT_SKILL, target: scoutDifficulty(ship, compartment) };
+  if (isSmoky(compartment)) config.disadvantage = true;
+  const checks = await token.actor.rollSkill(config, {}, { data: { flavor } });
   const check = checks?.[0];
   if (!check) return;
   if (!check.isSuccess) return ui.notifications.info(localize("combat.scoutFailed"));
@@ -398,6 +417,27 @@ async function scout(ship, { sceneId, tokenId }, user) {
   if (!token?.testUserPermission(user, "OWNER") || !isTokenOnRecon(scene, token, battle.side)) return refusal("combat.noScout");
   const revealed = await markScouted(scene, battle.side, token.id);
   return { ok: true, revealed };
+}
+
+/* ---------------- Тушение ---------------- */
+
+/** «Потушить»: член экипажа в горящем отсеке проходит проверку Атлетики (с помехой — дым); успех снимает пожар. */
+export async function startExtinguish(shipOrUuid, instanceId) {
+  const ship = getShip(shipOrUuid);
+  const compartment = ship && getCompartment(ship, instanceId);
+  if (!compartment || !hasCondition(compartment, "burning")) return ui.notifications.warn(localize("notify.notBurning"));
+  if (!canUser(game.user, ship, "repair")) return ui.notifications.warn(localize("notify.denied"));
+  if (!game.users.activeGM) return ui.notifications.warn(localize("notify.noGm"));
+  const scene = canvas.ready ? canvas.scene : null;
+  const token = scene ? tokenInCompartment(scene, ship, instanceId) : null;
+  if (!token) return ui.notifications.warn(localize("condition.burning.noCrew"));
+  const flavor = format("condition.burning.extinguishFlavor", { name: compartment.name });
+  const checks = await token.actor.rollSkill({ skill: EXTINGUISH.skill, target: EXTINGUISH.dc, disadvantage: true }, {}, { data: { flavor } });
+  const check = checks?.[0];
+  if (!check) return;
+  if (!check.isSuccess) return ui.notifications.info(localize("condition.burning.failed"));
+  const result = await requestAction("extinguish", ship, { instanceId, tokenId: token.id, sceneId: scene.id });
+  if (result?.ok) ui.notifications.info(format("condition.burning.extinguished", { name: compartment.name }));
 }
 
 registerPlayerAction("fireWeapon", { right: "combat", run: fireWeapon });

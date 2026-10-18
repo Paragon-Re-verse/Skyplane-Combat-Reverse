@@ -4,7 +4,8 @@ import { registerSocket } from "./socket.js";
 import { api } from "./api.js";
 import { ShipData } from "./data/ship-data-model.js";
 import { CompartmentData } from "./data/compartment-data-model.js";
-import { runPlayerAction, getShip, canUser } from "./documents/ship-actions.js";
+import { runPlayerAction, getShip, canUser, processRoundConditions } from "./documents/ship-actions.js";
+import { getLayout, sceneSides } from "./scene/scene-builder.js";
 import { requestAction } from "./socket.js";
 import { registerSceneSync } from "./scene/scene-builder.js";
 import { registerOverlay } from "./scene/scene-overlay.js";
@@ -64,6 +65,15 @@ Hooks.once("ready", async () => {
   firstRun();
 });
 
+// Компендиумы модуля есть на русском и английском: в боковой панели — только язык клиента.
+Hooks.on("renderCompendiumDirectory", (application, html) => {
+  const english = game.i18n.lang !== "ru";
+  for (const pack of game.packs.filter((entry) => entry.metadata.packageName === MODULE_ID)) {
+    if (pack.metadata.name.endsWith("-en") === english) continue;
+    html.querySelector(`[data-pack="${pack.collection}"]`)?.remove();
+  }
+});
+
 // Новый корабль виден всем: право наблюдателя по умолчанию, изменения — через ГМа.
 Hooks.on("preCreateActor", (actor, data) => {
   const { OBSERVER } = CONST.DOCUMENT_OWNERSHIP_LEVELS;
@@ -82,6 +92,14 @@ for (const hook of ["createItem", "updateItem", "deleteItem"]) {
 }
 
 // Новый раунд боя снимает отметку «уже стреляла» в окнах отсеков и на панели боя.
+// Новый раунд на сцене боя: горящие отсеки получают урон, дым рассеивается (только активный ГМ, только вперёд).
+Hooks.on("updateCombat", (combat, changed, options) => {
+  if (!("round" in changed) || options.direction === -1 || game.users.activeGM !== game.user) return;
+  const scene = combat.scene;
+  if (getLayout(scene)?.mode !== "battle") return;
+  for (const { ship } of sceneSides(scene)) processRoundConditions(ship);
+});
+
 Hooks.on("updateCombat", (combat, changed) => {
   if (!("round" in changed || "turn" in changed)) return;
   for (const application of foundry.applications.instances.values()) {

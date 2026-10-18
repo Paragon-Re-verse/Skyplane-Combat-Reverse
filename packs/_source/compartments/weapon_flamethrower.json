@@ -27,7 +27,7 @@
     "damageDice": 3,
     "damageDie": 6,
     "damageBonus": 0,
-    "effect": "Поджигает смежные отсеки врага.",
+    "effect": "Поджигает цель и задевает соседние отсеки врага.",
     "effectStat": "",
     "effectValue": 0,
     "worksWhenDestroyed": false,
@@ -35,7 +35,8 @@
     "ranges": [
       "close"
     ],
-    "special": "splash"
+    "special": "splash",
+    "ammo": 0
   },
   "effects": [],
   "folder": null,

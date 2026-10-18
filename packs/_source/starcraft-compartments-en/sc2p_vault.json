@@ -1,0 +1,57 @@
+{
+  "_id": "oAQYgd206emZyn8g",
+  "_key": "!items!oAQYgd206emZyn8g",
+  "name": "Crystal Vault",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "No hull points"
+    ],
+    "isResidential": false,
+    "isNoHp": true,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "Cargo and spare crystals. Not counted for hull.",
+    "checkSkill": "",
+    "checkDc": 12,
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "ammo": 0,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2p_vault",
+    "systemCategory": "equipment",
+    "width": 3,
+    "height": 1,
+    "hp": 0,
+    "description": "<p>Rows of khaydarin crystals in stasis.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 2400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

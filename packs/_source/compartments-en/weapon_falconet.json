@@ -1,0 +1,58 @@
+{
+  "_id": "sCfrHgG7KNNLXGSJ",
+  "_key": "!items!sCfrHgG7KNNLXGSJ",
+  "name": "“Falconet” Cannon",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/weapons.svg",
+  "system": {
+    "catalogId": "weapon_falconet",
+    "systemCategory": "weapons",
+    "width": 1,
+    "height": 1,
+    "hp": 8,
+    "img": "",
+    "keywords": [
+      "Weapons",
+      "Extra compartment: 2"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "prc",
+    "checkDc": 12,
+    "damageDice": 1,
+    "damageDie": 8,
+    "damageBonus": 0,
+    "effect": "A rapid-fire small-calibre gun against boarders and launches.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>A light swivel gun for precise fire.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "ammo": 0
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1700,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

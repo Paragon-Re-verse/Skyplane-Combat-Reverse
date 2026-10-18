@@ -1,4 +1,4 @@
-import { MODULE_ID, SHIP_TYPE, COMPARTMENT_TYPE, localize, effectKeyLabel } from "../constants.js";
+import { MODULE_ID, SHIP_TYPE, COMPARTMENT_TYPE, localize, effectKeyLabel, localPack } from "../constants.js";
 import { computeStats } from "../rules/ship-rules.js";
 import { buildPlacedCompartment } from "../documents/ship-actions.js";
 import { deployShip } from "../scene/scene-builder.js";
@@ -21,7 +21,7 @@ async function folderFor(type) {
 }
 
 async function createExampleShip() {
-  const pack = game.packs.get(`${MODULE_ID}.compartments`);
+  const pack = game.packs.get(localPack("compartments"));
   const catalog = new Map((await pack.getDocuments()).map((item) => [item.system.catalogId, item]));
   const compartments = ALBATROSS
     .filter(([catalogId]) => catalog.has(catalogId))
@@ -29,12 +29,12 @@ async function createExampleShip() {
   const stats = computeStats(compartments);
   const folder = await folderFor("Actor");
   return Actor.create({
-    name: "Альбатрос",
+    name: localize("setup.exampleName"),
     type: SHIP_TYPE,
     folder: folder.id,
     ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER },
     system: {
-      shipClass: "Альбатрос",
+      shipClass: localize("setup.exampleClass"),
       gridWidth: 11,
       gridHeight: 6,
       compartments,
@@ -48,7 +48,7 @@ async function createExampleShip() {
 }
 
 async function importMacros() {
-  const pack = game.packs.get(`${MODULE_ID}.macros`);
+  const pack = game.packs.get(localPack("macros"));
   if (!pack) return;
   const folder = await folderFor("Macro");
   const existing = new Set(game.macros.filter((macro) => macro.folder === folder).map((macro) => macro.name));
@@ -59,7 +59,7 @@ async function importMacros() {
 }
 
 async function announce() {
-  const pack = game.packs.get(`${MODULE_ID}.help`);
+  const pack = game.packs.get(localPack("help"));
   const entry = (await pack?.getIndex())?.contents[0];
   const link = entry ? `<p>@UUID[${entry.uuid}]{${localize("setup.helpLink")}}</p>` : "";
   await ChatMessage.create({

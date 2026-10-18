@@ -193,6 +193,23 @@
   border: none;
   border-bottom: 1px solid #b08d57;
 }
+.skyplane-ship-sheet .skyplane-image-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.skyplane-ship-sheet .skyplane-image-row img {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 2px solid #b08d57;
+  background: #2b1d14;
+}
+.skyplane-ship-sheet .skyplane-image-row file-picker {
+  flex: 1;
+  min-width: 0;
+}
 .skyplane-ship-sheet .skyplane-statuses {
   display: flex;
   gap: 6px;
@@ -426,6 +443,18 @@
   width: auto;
   padding: 0 8px;
   white-space: nowrap;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-catalog-picker {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-catalog-picker select {
+  flex: 1;
+  min-width: 0;
+}
+.skyplane-ship-sheet .skyplane-palette .skyplane-catalog-picker button {
+  flex: none;
 }
 .skyplane-ship-sheet .skyplane-palette .skyplane-palette-entry {
   position: relative;
@@ -811,6 +840,22 @@
   background: rgba(163, 39, 28, 0.2);
 }
 
+.skyplane-combat-reverse .skyplane-condition {
+  display: inline-block;
+  margin: 0 4px 4px 0;
+  padding: 1px 8px;
+  border-radius: 3px;
+  color: #f1e6cc;
+  background: #6b1f1a;
+  font-weight: bold;
+}
+.skyplane-combat-reverse .skyplane-condition.condition-breach {
+  background: #2b1d14;
+}
+.skyplane-combat-reverse .skyplane-condition.condition-smoke {
+  background: #5b5550;
+}
+
 .skyplane-combat-reverse .skyplane-effect-list {
   list-style: none;
   padding: 0;
@@ -854,6 +899,25 @@
   height: 20px;
   border: none;
   vertical-align: middle;
+}
+
+.skyplane-battle-panel .skyplane-battle-end {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.skyplane-battle-result {
+  border: 2px solid #b08d57;
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: rgba(176, 141, 87, 0.15);
+}
+.skyplane-battle-result.victory h3 {
+  color: #3c6b2f;
+}
+.skyplane-battle-result.defeat h3 {
+  color: #a3271c;
 }
 
 .skyplane-hit-card {

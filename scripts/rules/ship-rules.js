@@ -36,9 +36,26 @@ export function isFunctioning(compartment) {
   return !isDestroyed(compartment) || !!compartment.worksWhenDestroyed;
 }
 
-/** Труднопроходимая местность: «Узкий» или повреждённый отсек. */
+/** Труднопроходимая местность: «Узкий», повреждённый отсек или пробоина. */
 export function isDifficultTerrain(compartment) {
-  return !!compartment.isNarrow || isDamaged(compartment);
+  return !!compartment.isNarrow || isDamaged(compartment) || hasCondition(compartment, "breach");
+}
+
+/* ---------------- Состояния и боезапас ---------------- */
+
+export function hasCondition(compartment, condition) {
+  return (compartment.conditions ?? []).includes(condition);
+}
+
+/** Огонь и дым: проверки в отсеке (обстрел, разведка, тушение) — с помехой. */
+export function isSmoky(compartment) {
+  return hasCondition(compartment, "burning") || hasCondition(compartment, "smoke");
+}
+
+/** Осталось выстрелов; Infinity — боезапас не ограничен. */
+export function ammoLeft(compartment) {
+  if (!compartment.ammo) return Infinity;
+  return Math.min(compartment.ammo, compartment.currentAmmo ?? compartment.ammo);
 }
 
 /* ---------------- Геометрия ---------------- */
@@ -235,6 +252,8 @@ export function computeStats(compartments) {
     speed = Math.max(...engines.map((engine) => engine.speed ?? 0));
     fuelEconomy = Math.min(...engines.map((engine) => engine.fuelEconomy ?? 0));
   }
+  // Каждая пробоина в целом отсеке — −1 к скорости корабля.
+  speed -= compartments.filter((compartment) => hasCondition(compartment, "breach")).length;
   const changes = effectChanges(compartments);
   const stat = (key, value) => Math.max(0, Math.round(applyChanges(value + bonuses[key], changes, `system.${key}`)));
   return {
@@ -492,4 +511,75 @@ export function structureSignature(system) {
     !!compartment.passageUp, !!compartment.passageDown, !!compartment.isStairs, compartment.img ?? ""
   ].join(":"));
   return `${system.gridWidth}x${system.gridHeight};${parts.sort().join(";")}`;
+}
+
+/* ---------------- Попадание и его отмена ---------------- */
+
+/** Меняет HP отсека в пределах [0, максимум]; возвращает фактическое изменение. */
+function changeHp(compartment, delta) {
+  const before = compartment.currentHp;
+  compartment.currentHp = Math.max(0, Math.min(compartment.maxHp, Math.round(before + delta)));
+  return compartment.currentHp - before;
+}
+
+function cloneCompartments(compartments) {
+  return compartments.map((compartment) => ({ ...compartment, conditions: [...(compartment.conditions ?? [])] }));
+}
+
+/**
+ * Нужен ли пересчёт характеристик: отсек перестал или снова начал работать либо сменились его состояния
+ * (пробоина отнимает скорость). Ручные правки параметров без этого не затираются.
+ */
+export function needsRecalc(before, after) {
+  return after.some((compartment) => {
+    const old = before.find((entry) => entry.instanceId === compartment.instanceId);
+    return !old || isFunctioning(old) !== isFunctioning(compartment) || String(old.conditions ?? []) !== String(compartment.conditions ?? []);
+  });
+}
+
+/**
+ * Попадание без записи: урон уходит в прочность и в HP отсека («Без прочности» — только в прочность);
+ * splash — соседям по стороне половина урона, только в их HP. Состояния ложатся на неразрушенный отсек с HP.
+ * Если отсек давал прочность (щиты), новый потолок ложится на уже сниженную прочность.
+ * Возвращает новые отсеки и прочность, а в lost — что снято (для отмены).
+ */
+export function resolveHit({ compartments, hull }, instanceId, amount, { splash = false, conditions = [] } = {}) {
+  const next = cloneCompartments(compartments);
+  const target = next.find((compartment) => compartment.instanceId === instanceId);
+  const lost = { hull: 0, compartment: 0, splash: [], conditions: [] };
+  if (target && !target.isNoHp) {
+    lost.compartment = -changeHp(target, -amount);
+    if (!isDestroyed(target)) {
+      lost.conditions = [...new Set(conditions)].filter((condition) => !target.conditions.includes(condition));
+      target.conditions.push(...lost.conditions);
+    }
+  }
+  const half = Math.floor(amount / 2);
+  if (splash && target && half > 0) {
+    for (const neighbour of adjacentCompartments(next, target)) {
+      if (neighbour.isNoHp || neighbour.currentHp <= 0) continue;
+      lost.splash.push({ instanceId: neighbour.instanceId, amount: -changeHp(neighbour, -half) });
+    }
+  }
+  let newHull = Math.max(0, Math.round(hull - amount));
+  const stats = needsRecalc(compartments, next) ? computeStats(next) : null;
+  if (stats) newHull = Math.min(newHull, stats.maxHp);
+  lost.hull = hull - newHull;
+  return { compartments: next, hull: newHull, stats, lost };
+}
+
+/** Отмена попадания: возвращает ровно то, что сняло resolveHit; прочность — не выше максимума после пересчёта. */
+export function resolveUndoHit({ compartments, hull, maxHull }, instanceId, lost) {
+  const next = cloneCompartments(compartments);
+  const restore = (id, amount) => {
+    const compartment = next.find((entry) => entry.instanceId === id);
+    if (compartment && amount > 0) changeHp(compartment, amount);
+  };
+  restore(instanceId, lost.compartment);
+  const target = next.find((compartment) => compartment.instanceId === instanceId);
+  if (target) target.conditions = target.conditions.filter((condition) => !(lost.conditions ?? []).includes(condition));
+  for (const { instanceId: neighbourId, amount } of lost.splash ?? []) restore(neighbourId, amount);
+  const stats = needsRecalc(compartments, next) ? computeStats(next) : null;
+  const newHull = Math.min(stats?.maxHp ?? maxHull, hull + Math.max(0, lost.hull ?? 0));
+  return { compartments: next, hull: newHull, stats };
 }

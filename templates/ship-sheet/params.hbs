@@ -1,5 +1,11 @@
 <section class="tab skyplane-tab-params {{tab.cssClass}}" data-tab="params" data-group="primary">
   <div class="skyplane-panel skyplane-params-grid">
+    <label>{{sky "params.image"}}</label>
+    <div class="skyplane-image-row">
+      <img src="{{ship.img}}" alt="" data-tooltip="{{ship.name}}">
+      {{#if rights.params}}<file-picker name="img" type="image" value="{{ship.img}}"></file-picker>{{/if}}
+    </div>
+
     <label>{{sky "params.captain"}}</label>
     <select name="system.captainUuid" {{#unless rights.params}}disabled{{/unless}}>
       {{selectOptions captainOptions selected=system.captainUuid valueAttr="value" labelAttr="label"}}

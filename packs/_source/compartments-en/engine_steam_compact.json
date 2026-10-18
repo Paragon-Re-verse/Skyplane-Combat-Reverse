@@ -1,0 +1,58 @@
+{
+  "_id": "9SgHTciOlG1mVyuB",
+  "_key": "!items!9SgHTciOlG1mVyuB",
+  "name": "“Whirlwind-1” Steam Engine",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/engine.svg",
+  "system": {
+    "catalogId": "engine_steam_compact",
+    "systemCategory": "engine",
+    "width": 2,
+    "height": 2,
+    "hp": 15,
+    "img": "",
+    "keywords": [
+      "Engine room",
+      "Compact"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": 2,
+    "fuelEconomy": 1,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "A reliable engine that is easy to repair.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>A compact steam plant for light scout skyships.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "ammo": 0
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 500,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

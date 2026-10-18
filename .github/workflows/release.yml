@@ -14,6 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Те же проверки, что и локально (правила неболёта, ключи перевода): сломанная сборка не уходит в релиз.
+      - name: Checks
+        run: npm run check
+
       # Версия и ссылки берутся из тега: module.json релиза указывает на свой архив,
       # а manifest — на последний релиз (по нему Foundry проверяет обновления).
       - name: Set version and links in module.json
@@ -38,6 +42,8 @@ jobs:
             /^## / { inside = index($0, "## " version) == 1; next }
             inside { print }
           ' CHANGELOG.md > release-notes.md
+          # Без раздела этой версии в CHANGELOG релиз вышел бы без заметок.
+          if [ ! -s release-notes.md ]; then echo "::error::В CHANGELOG.md нет раздела «## $VERSION»"; exit 1; fi
 
       # Релиз с тем же тегом может уже быть (перевыпуск версии): заменяем его целиком.
       - name: Remove previous release with this tag

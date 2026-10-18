@@ -8,6 +8,9 @@
     <button type="button" class="skyplane-distance-chip {{#if active}}active{{/if}}" data-action="setDistance" data-value="{{id}}">{{label}}</button>
     {{/each}}
   </div>
+  <div class="skyplane-battle-end">
+    <button type="button" class="skyplane-button" data-action="endBattle" data-tooltip="{{sky "battle.endHint"}}"><i class="fa-solid fa-flag-checkered"></i> {{sky "battle.end"}}</button>
+  </div>
   <p class="skyplane-hint"><i class="fa-solid fa-person-walking-arrow-right"></i> {{sky "battle.dragHint"}}</p>
   <div class="skyplane-battle-columns">
     {{#each sides}}
@@ -43,7 +46,7 @@
         {{#each guns}}
         <li class="gun-{{status}}">
           <a class="name" data-action="openCompartment" data-instance-id="{{instanceId}}">{{name}}</a>
-          <span class="meta">{{formula}} · {{range}}{{#if special}} · {{special}}{{/if}}</span>
+          <span class="meta">{{formula}} · {{range}}{{#if special}} · {{special}}{{/if}}{{#if ammo}} · <i class="fa-solid fa-box"></i> {{ammo}}{{/if}}</span>
           <span class="skyplane-gun-status">{{statusLabel}}</span>
           {{#if canAct}}<button type="button" data-action="fireGun" data-instance-id="{{instanceId}}" data-tooltip="{{actionLabel}}"><i class="fa-solid {{actionIcon}}"></i></button>{{/if}}
         </li>
@@ -54,7 +57,7 @@
       <ol class="skyplane-battle-compartments">
         {{#each compartments}}
         <li class="{{#if destroyed}}destroyed{{/if}}" data-action="openCompartment" data-instance-id="{{instanceId}}">
-          <span>{{name}}</span><span>{{currentHp}}/{{maxHp}}</span>
+          <span>{{name}}{{#if conditionLabels}} <em class="skyplane-warning">({{conditionLabels}})</em>{{/if}}</span><span>{{currentHp}}/{{maxHp}}</span>
         </li>
         {{/each}}
       </ol>

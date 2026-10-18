@@ -3,9 +3,10 @@
  * игрок попадает сюда через socket.js → runPlayerAction с проверкой прав и членства в экипаже.
  * Запись в журнал идёт в том же обновлении актора, что и само изменение.
  */
-import { MODULE_ID, SHIP_TYPE, COMPARTMENT_TYPE, LOG_LIMIT, DISTANCES, localize, format } from "../constants.js";
+import { MODULE_ID, SHIP_TYPE, COMPARTMENT_TYPE, LOG_LIMIT, DISTANCES, CONDITIONS, localize, format, localPack } from "../constants.js";
 import {
-  checkPlacement, findFreePosition, computeStats, clampGridSize, isFunctioning, isDestroyed, planStarterKit, adjacentCompartments
+  checkPlacement, findFreePosition, computeStats, clampGridSize, isDestroyed, planStarterKit, hasCondition,
+  needsRecalc, resolveHit, resolveUndoHit
 } from "../rules/ship-rules.js";
 import { userHasRight } from "../settings.js";
 import { emitHook } from "../socket.js";
@@ -116,37 +117,58 @@ export function buildPlacedCompartment(item, x, y) {
   };
 }
 
-/** Записывает HP корабля и всё, что из этого следует (журнал, «Выведен из строя»). */
-async function writeShipHp(ship, value, user, extraUpdate = {}, extraEntries = []) {
-  const oldValue = ship.system.currentHp;
-  const newValue = Math.max(0, Math.round(value));
-  const update = { ...extraUpdate, "system.currentHp": newValue };
-  const entries = [...extraEntries];
-  if (newValue !== oldValue) {
-    const type = newValue < oldValue ? "damage" : "heal";
-    entries.push(logEntry(type, format(`log.ship.${type}`, { amount: Math.abs(newValue - oldValue), value: newValue }), user));
+/**
+ * Одна запись корабля: новые отсеки и/или прочность вместе с журналом. Строки об уроне и лечении прочности,
+ * «Выведен из строя», разрушении и восстановлении отсеков добавляются сами; характеристики пересчитываются,
+ * если отсек перестал или снова начал работать либо сменились состояния. Хуки — после записи.
+ */
+async function writeShip(ship, { compartments = null, hull = null, update = {}, entries = [] }, user) {
+  const result = { ...update };
+  const logEntries = [...entries];
+  const oldHull = ship.system.currentHp;
+  let newHull = hull == null ? null : Math.max(0, Math.round(hull));
+  const destroyed = [];
+  const restored = [];
+  if (compartments) {
+    const before = ship.system.compartments;
+    result["system.compartments"] = compartments;
+    if (needsRecalc(before, compartments)) {
+      Object.assign(result, statsUpdate(ship, compartments));
+      newHull = Math.min(newHull ?? oldHull, result["system.maxHp"]);
+    }
+    for (const compartment of compartments) {
+      const old = before.find((entry) => entry.instanceId === compartment.instanceId);
+      if (!old || isDestroyed(old) === isDestroyed(compartment)) continue;
+      const key = isDestroyed(compartment) ? "destroyed" : "restored";
+      (key === "destroyed" ? destroyed : restored).push(compartment);
+      logEntries.push(logEntry(key, format(`log.compartment.${key}`, { name: compartment.name }), user));
+    }
   }
-  const becameDisabled = oldValue > 0 && newValue <= 0;
-  if (becameDisabled) entries.push(logEntry("disabled", localize("log.ship.disabled"), user));
-  await ship.update(appendLog(ship, update, entries));
+  if (newHull != null) {
+    result["system.currentHp"] = newHull;
+    if (newHull !== oldHull) {
+      const type = newHull < oldHull ? "damage" : "heal";
+      logEntries.push(logEntry(type, format(`log.ship.${type}`, { amount: Math.abs(newHull - oldHull), value: newHull }), user));
+    }
+  }
+  const becameDisabled = newHull != null && oldHull > 0 && newHull <= 0;
+  if (becameDisabled) logEntries.push(logEntry("disabled", localize("log.ship.disabled"), user));
+  await ship.update(appendLog(ship, result, logEntries));
   if (becameDisabled) emitHook("shipDisabled", ship);
+  for (const compartment of destroyed) emitHook("compartmentDestroyed", ship, compartment);
+  for (const compartment of restored) emitHook("compartmentRestored", ship, compartment);
 }
 
 /**
- * Новое HP отсека: журнал, пересчёт характеристик при смене «работает / не работает», хуки.
+ * Новое HP отсека (и, если нужно, его состояния) одной записью. Без своих строк журнала пишет урон или лечение.
  * Возвращает обновлённый отсек или null.
  */
-async function writeCompartmentHp(ship, instanceId, value, user, { entries = [], afterWrite } = {}) {
-  const compartments = foundry.utils.deepClone(ship.system.compartments);
+async function writeCompartmentHp(ship, instanceId, value, user, { entries = [], conditions = {} } = {}) {
+  const compartments = ship.system.toObject().compartments;
   const compartment = compartments.find((entry) => entry.instanceId === instanceId);
   if (!compartment) return null;
-  const wasDestroyed = isDestroyed(compartment);
-  const wasFunctioning = isFunctioning(compartment);
   const oldValue = compartment.currentHp;
   compartment.currentHp = Math.max(0, Math.min(compartment.maxHp, Math.round(value)));
-  if (compartment.currentHp === oldValue && !entries.length) return compartment;
-
-  const nowDestroyed = isDestroyed(compartment);
   const logEntries = [...entries];
   if (compartment.currentHp !== oldValue && !entries.length) {
     const type = compartment.currentHp < oldValue ? "damage" : "heal";
@@ -154,16 +176,9 @@ async function writeCompartmentHp(ship, instanceId, value, user, { entries = [],
       name: compartment.name, amount: Math.abs(compartment.currentHp - oldValue), value: compartment.currentHp, max: compartment.maxHp
     }), user));
   }
-  if (!wasDestroyed && nowDestroyed) logEntries.push(logEntry("destroyed", format("log.compartment.destroyed", { name: compartment.name }), user));
-  if (wasDestroyed && !nowDestroyed) logEntries.push(logEntry("restored", format("log.compartment.restored", { name: compartment.name }), user));
-
-  let update = { "system.compartments": compartments };
-  if (wasFunctioning !== isFunctioning(compartment)) update = { ...update, ...statsUpdate(ship, compartments) };
-  await ship.update(appendLog(ship, update, logEntries));
-
-  afterWrite?.(compartment);
-  if (!wasDestroyed && nowDestroyed) emitHook("compartmentDestroyed", ship, compartment);
-  if (wasDestroyed && !nowDestroyed) emitHook("compartmentRestored", ship, compartment);
+  logEntries.push(...toggleConditions(compartment, conditions, user));
+  if (compartment.currentHp === oldValue && !logEntries.length) return compartment;
+  await writeShip(ship, { compartments, entries: logEntries }, user);
   return compartment;
 }
 
@@ -171,6 +186,7 @@ async function writeCompartmentHp(ship, instanceId, value, user, { entries = [],
 
 const PARAM_FIELDS = {
   name: "name",
+  img: "img",
   shipClass: "system.shipClass",
   captainUuid: "system.captainUuid",
   currentHp: "system.currentHp",
@@ -203,6 +219,8 @@ async function updateParams(ship, { changes = {}, recalc = false }, user) {
     }
   }
   if ("name" in update && !update.name.trim()) delete update.name;
+  if ("img" in update && !update.img.trim()) delete update.img;
+  if ("img" in update) update["prototypeToken.texture.src"] = update.img;
   if ("system.captainUuid" in update) {
     const captainUuid = update["system.captainUuid"];
     if (captainUuid && !ship.system.crew.some((member) => member.actorUuid === captainUuid)) return denied("notify.captainNotInCrew");
@@ -213,7 +231,7 @@ async function updateParams(ship, { changes = {}, recalc = false }, user) {
   const currentHp = Math.min(update["system.currentHp"] ?? ship.system.currentHp, maxHp);
   delete update["system.currentHp"];
   if (currentHp !== ship.system.currentHp) {
-    await writeShipHp(ship, currentHp, user, update, entries);
+    await writeShip(ship, { hull: currentHp, update, entries }, user);
     return { ok: true };
   }
   await ship.update(appendLog(ship, update, entries));
@@ -226,7 +244,7 @@ async function findCatalogItem(sourceUuid) {
 }
 
 async function findCatalogItemById(catalogId) {
-  const pack = game.packs.get(`${MODULE_ID}.compartments`);
+  const pack = game.packs.get(localPack("compartments"));
   const worldItem = game.items.find((item) => item.type === COMPARTMENT_TYPE && item.system.catalogId === catalogId);
   if (worldItem) return worldItem;
   const index = await pack?.getIndex({ fields: ["system.catalogId"] });
@@ -390,7 +408,8 @@ async function repairCompartment(ship, { instanceId, itemUuid, amount }, user) {
     name: compartment.name, actor: owner.name, item: item.name, amount: restored
   }), user);
   const itemData = item.toObject();
-  const updated = await writeCompartmentHp(ship, instanceId, newHp, user, { entries: [entry] });
+  // Удачный ремонт расходником заодно заделывает пробоину.
+  const updated = await writeCompartmentHp(ship, instanceId, newHp, user, { entries: [entry], conditions: { breach: false } });
   if (quantity <= 1) await item.delete();
   else await item.update({ "system.quantity": quantity - 1 });
   emitHook("compartmentRepaired", ship, updated, restored, itemData);
@@ -439,54 +458,36 @@ async function setDistance(ship, { value }, user) {
  * («Без прочности» — только в прочность). Запись в журнал цели идёт вместе с изменением отсека.
  * splash (огнемёт): соседние по стороне отсеки получают половину урона — только в свои HP, не в прочность.
  */
-export async function applyHit(ship, instanceId, amount, user, logText, { splash = false } = {}) {
-  const compartment = getCompartment(ship, instanceId);
-  const hullBefore = ship.system.currentHp;
-  const compartmentBefore = compartment?.currentHp ?? 0;
-  const entries = [logEntry("attack", logText, user)];
-  if (compartment && !compartment.isNoHp) {
-    // Сначала прочность, потом отсек: если отсек давал прочность (щиты), новый потолок ложится на уже сниженное значение.
-    await writeShipHp(ship, ship.system.currentHp - amount, user);
-    await writeCompartmentHp(ship, instanceId, compartment.currentHp - amount, user, { entries });
-  } else {
-    await writeShipHp(ship, ship.system.currentHp - amount, user, {}, entries);
-  }
-  const lost = {
-    hull: hullBefore - ship.system.currentHp,
-    compartment: compartmentBefore - (getCompartment(ship, instanceId)?.currentHp ?? 0),
-    splash: []
-  };
-  emitHook("compartmentHit", ship, getCompartment(ship, instanceId), amount);
-  const half = Math.floor(amount / 2);
-  if (splash && compartment && half > 0) {
-    for (const neighbour of adjacentCompartments(ship.system.compartments, compartment)) {
-      if (neighbour.isNoHp || neighbour.currentHp <= 0) continue;
-      const before = neighbour.currentHp;
-      const entries = [logEntry("attack", format("log.combat.splash", { name: neighbour.name, amount: Math.min(half, before) }), user)];
-      const updated = await writeCompartmentHp(ship, neighbour.instanceId, before - half, user, { entries });
-      lost.splash.push({ instanceId: neighbour.instanceId, amount: before - updated.currentHp });
-      emitHook("compartmentHit", ship, updated, before - updated.currentHp);
-    }
-  }
-  return lost;
+export async function applyHit(ship, instanceId, amount, user, logText, { splash = false, conditions = [] } = {}) {
+  // Огнемёт поджигает цель, критическое попадание пробивает её; расчёт — в правилах, здесь одна запись и хуки.
+  const hit = resolveHit({ compartments: ship.system.toObject().compartments, hull: ship.system.currentHp }, instanceId, amount, {
+    splash, conditions: conditions.filter((condition) => CONDITIONS.includes(condition))
+  });
+  const find = (id) => hit.compartments.find((compartment) => compartment.instanceId === id);
+  const target = find(instanceId);
+  const entries = [
+    logEntry("attack", logText, user),
+    ...hit.lost.conditions.map((condition) => conditionEntry(target, condition, true, user)),
+    ...hit.lost.splash.map(({ instanceId: id, amount: taken }) => logEntry("attack", format("log.combat.splash", { name: find(id).name, amount: taken }), user))
+  ];
+  await writeShip(ship, { compartments: hit.compartments, hull: hit.hull, entries }, user);
+  emitHook("compartmentHit", ship, target ?? null, amount);
+  for (const { instanceId: id, amount: taken } of hit.lost.splash) emitHook("compartmentHit", ship, find(id), taken);
+  return hit.lost;
 }
 
-/** Отмена попадания: возвращает ровно то, что попадание сняло с прочности и с отсека. */
+/** Отмена попадания: возвращает то, что попадание сняло с прочности, отсека и соседей, и снимает его состояния. */
 export async function undoHit(ship, instanceId, lost, logText) {
   if (!requireGM()) return;
-  const compartment = getCompartment(ship, instanceId);
-  if (compartment && lost.compartment > 0) {
-    await writeCompartmentHp(ship, instanceId, compartment.currentHp + lost.compartment, game.user, {
-      entries: [logEntry("attack", logText)]
-    });
-  }
-  if (lost.hull > 0) await writeShipHp(ship, Math.min(ship.system.maxHp, ship.system.currentHp + lost.hull), game.user);
-  emitHook("compartmentHit", ship, getCompartment(ship, instanceId), -(lost.hull || lost.compartment));
-  for (const { instanceId: neighbourId, amount } of lost.splash ?? []) {
-    const neighbour = getCompartment(ship, neighbourId);
-    if (!neighbour || amount <= 0) continue;
-    const updated = await writeCompartmentHp(ship, neighbourId, neighbour.currentHp + amount, game.user, { entries: [logEntry("attack", logText)] });
-    emitHook("compartmentHit", ship, updated, -amount);
+  const removed = (lost.conditions ?? []).filter((condition) => hasCondition(getCompartment(ship, instanceId) ?? {}, condition));
+  const undo = resolveUndoHit({ compartments: ship.system.toObject().compartments, hull: ship.system.currentHp, maxHull: ship.system.maxHp }, instanceId, lost);
+  const find = (id) => undo.compartments.find((compartment) => compartment.instanceId === id);
+  const target = find(instanceId);
+  const entries = [logEntry("attack", logText), ...removed.map((condition) => conditionEntry(target, condition, false, game.user))];
+  await writeShip(ship, { compartments: undo.compartments, hull: undo.hull, entries }, game.user);
+  emitHook("compartmentHit", ship, target ?? null, -(lost.hull || lost.compartment));
+  for (const { instanceId: id, amount } of lost.splash ?? []) {
+    if (find(id) && amount > 0) emitHook("compartmentHit", ship, find(id), -amount);
   }
 }
 
@@ -495,7 +496,8 @@ const PLAYER_ACTIONS = {
   buildAction: { right: "build", run: buildAction },
   repairCompartment: { right: "repair", run: repairCompartment },
   setPhlogiston: { right: "phlogiston", run: setPhlogiston },
-  setDistance: { right: "phlogiston", run: setDistance }
+  setDistance: { right: "phlogiston", run: setDistance },
+  extinguish: { right: "repair", run: extinguish }
 };
 
 /** Модуль боя добавляет свои действия игроков (обстрел, разведка) с теми же проверками прав. */
@@ -503,8 +505,26 @@ export function registerPlayerAction(name, definition) {
   PLAYER_ACTIONS[name] = definition;
 }
 
-/** Выполняется на клиенте ГМа: проверка права и членства в экипаже, затем действие. */
-export async function runPlayerAction(name, shipUuid, payload, user) {
+/**
+ * Изменения кораблей на клиенте ГМа идут по одному: каждое читает корабль, дожидается своей записи
+ * и только потом пускает следующее — два одновременных выстрела по одной цели не затирают друг друга.
+ * ponytail: одна очередь на все корабли — действия короткие; очередь по кораблю, если станет узким местом.
+ * Внутри задачи очереди serialized не вызывать: задача ждала бы саму себя.
+ */
+let actionQueue = Promise.resolve();
+
+export function serialized(task) {
+  const run = actionQueue.then(task);
+  actionQueue = run.catch(() => {});
+  return run;
+}
+
+/** Выполняется на клиенте ГМа: проверка права и членства в экипаже, затем действие — в общей очереди. */
+export function runPlayerAction(name, shipUuid, payload, user) {
+  return serialized(() => executePlayerAction(name, shipUuid, payload, user));
+}
+
+async function executePlayerAction(name, shipUuid, payload, user) {
   const definition = PLAYER_ACTIONS[name];
   const ship = getShip(await fromUuid(shipUuid));
   if (!definition || !ship) return denied("notify.unknownAction");
@@ -524,17 +544,17 @@ export async function runPlayerAction(name, shipUuid, payload, user) {
 
 export async function damageShip(ship, amount) {
   if (!requireGM()) return;
-  await writeShipHp(ship, ship.system.currentHp - Math.abs(Number(amount) || 0), game.user);
+  await writeShip(ship, { hull: ship.system.currentHp - Math.abs(Number(amount) || 0) }, game.user);
 }
 
 export async function healShip(ship, amount) {
   if (!requireGM()) return;
-  await writeShipHp(ship, Math.min(ship.system.maxHp, ship.system.currentHp + Math.abs(Number(amount) || 0)), game.user);
+  await writeShip(ship, { hull: Math.min(ship.system.maxHp, ship.system.currentHp + Math.abs(Number(amount) || 0)) }, game.user);
 }
 
 export async function setShipHp(ship, value) {
   if (!requireGM()) return;
-  await writeShipHp(ship, Math.min(ship.system.maxHp, value), game.user);
+  await writeShip(ship, { hull: Math.min(ship.system.maxHp, value) }, game.user);
 }
 
 export async function damageCompartment(ship, instanceId, amount) {
@@ -561,6 +581,91 @@ export async function setCompartmentFlags(ship, instanceId, flags) {
   let update = { "system.compartments": compartments };
   if ("effectActive" in flags) update = { ...update, ...statsUpdate(ship, compartments) };
   await ship.update(update);
+}
+
+/* ---------------- Состояния отсеков и боезапас ---------------- */
+
+function conditionEntry(compartment, condition, active, user = game.user) {
+  return logEntry("damage", format(active ? "log.condition.on" : "log.condition.off", {
+    name: compartment.name, condition: localize(`condition.${condition}.label`)
+  }), user);
+}
+
+/** Включает и выключает состояния отсека ({burning: true, smoke: false}) прямо в объекте; возвращает строки журнала. */
+function toggleConditions(compartment, changes, user = game.user) {
+  const entries = [];
+  for (const [condition, active] of Object.entries(changes)) {
+    if (!CONDITIONS.includes(condition) || active === compartment.conditions.includes(condition)) continue;
+    compartment.conditions = active ? [...compartment.conditions, condition] : compartment.conditions.filter((entry) => entry !== condition);
+    entries.push(conditionEntry(compartment, condition, active, user));
+  }
+  return entries;
+}
+
+/** Состояния одного отсека одной записью; пробоина меняет скорость — writeShip пересчитает характеристики. */
+async function writeConditions(ship, instanceId, changes, user = game.user) {
+  const compartments = ship.system.toObject().compartments;
+  const compartment = compartments.find((entry) => entry.instanceId === instanceId);
+  if (!compartment) return;
+  const entries = toggleConditions(compartment, changes, user);
+  if (entries.length) await writeShip(ship, { compartments, entries }, user);
+}
+
+export async function setCompartmentConditions(ship, instanceId, changes) {
+  if (!requireGM()) return;
+  await writeConditions(ship, instanceId, changes);
+}
+
+/** ГМ ставит число зарядов пушки; без аргумента — пополняет до максимума. */
+export async function setCompartmentAmmo(ship, instanceId, value = null) {
+  if (!requireGM()) return;
+  const compartments = ship.system.toObject().compartments;
+  const compartment = compartments.find((entry) => entry.instanceId === instanceId);
+  if (!compartment?.ammo) return;
+  compartment.currentAmmo = value == null ? null : Math.max(0, Math.min(compartment.ammo, Math.round(Number(value) || 0)));
+  await ship.update(appendLog(ship, { "system.compartments": compartments }, [
+    logEntry("build", format("log.ammo.set", { name: compartment.name, value: compartment.currentAmmo ?? compartment.ammo, max: compartment.ammo }))
+  ]));
+}
+
+/** Игрок потушил пожар (проверка уже прошла на его клиенте): ГМ проверяет, что его токен стоит в этом отсеке. */
+async function extinguish(ship, { instanceId, tokenId, sceneId }, user) {
+  const compartment = getCompartment(ship, instanceId);
+  if (!hasCondition(compartment ?? {}, "burning")) return denied("notify.notBurning");
+  if (!user.isGM) {
+    const token = game.scenes.get(sceneId)?.tokens.get(tokenId);
+    if (!token?.testUserPermission(user, "OWNER")) return denied("combat.noShooter");
+  }
+  await writeConditions(ship, instanceId, { burning: false }, user);
+  return { ok: true };
+}
+
+/**
+ * Начало раунда боя (клиент ГМа): горящие отсеки получают 1d6 урона в свои HP, дым рассеивается.
+ * Разрушенный отсек перестаёт гореть.
+ */
+export function processRoundConditions(ship) {
+  if (!game.user.isGM) return;
+  return serialized(async () => {
+    const compartments = ship.system.toObject().compartments;
+    const entries = [];
+    const burned = [];
+    for (const compartment of compartments) {
+      entries.push(...toggleConditions(compartment, { smoke: false }));
+      if (!hasCondition(compartment, "burning")) continue;
+      const roll = await new Roll("1d6").evaluate();
+      await roll.toMessage({ flavor: format("condition.burning.damageFlavor", { name: compartment.name, ship: ship.name }), speaker: { alias: ship.name } });
+      const before = compartment.currentHp;
+      compartment.currentHp = Math.max(0, before - roll.total);
+      entries.push(logEntry("damage", format("log.condition.fire", { name: compartment.name, amount: before - compartment.currentHp })));
+      burned.push([compartment, before - compartment.currentHp]);
+      if (isDestroyed(compartment)) entries.push(...toggleConditions(compartment, { burning: false }));
+    }
+    if (!entries.length) return;
+    // Все пожары и рассеявшийся дым раунда — одной записью корабля.
+    await writeShip(ship, { compartments, entries }, game.user);
+    for (const [compartment, amount] of burned) emitHook("compartmentHit", ship, compartment, amount);
+  });
 }
 
 export async function addCrewMember(ship, actorUuid) {
@@ -595,10 +700,10 @@ export async function addLogNote(ship, text) {
   await ship.update(appendLog(ship, {}, [logEntry("note", text.trim())]));
 }
 
-/** Запись о событии сцены (развёрнута, перестроена, бой, раскрытие). */
-export async function logSceneEvent(ship, text) {
+/** Запись о событии сцены (развёрнута, перестроена, бой, раскрытие) — вместе с сопутствующими изменениями корабля. */
+export async function logSceneEvent(ship, text, update = {}) {
   if (!game.user.isGM) return;
-  await ship.update(appendLog(ship, {}, [logEntry("scene", text)]));
+  await ship.update(appendLog(ship, update, [logEntry("scene", text)]));
 }
 
 export async function clearLog(ship) {
@@ -637,6 +742,8 @@ export async function syncCatalogItem(item) {
         passageUp: compartment.passageUp,
         passageDown: compartment.passageDown,
         effectActive: compartment.effectActive,
+        conditions: compartment.conditions ?? [],
+        currentAmmo: compartment.currentAmmo == null || !definition.ammo ? null : Math.min(compartment.currentAmmo, definition.ammo),
         currentHp: Math.max(0, definition.maxHp - damage)
       };
       const others = compartments.filter((other) => other.instanceId !== compartment.instanceId);

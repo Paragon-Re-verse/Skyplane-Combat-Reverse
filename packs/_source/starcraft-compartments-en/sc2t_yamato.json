@@ -1,0 +1,57 @@
+{
+  "_id": "26UrOtHbZwdEVmuX",
+  "_key": "!items!26UrOtHbZwdEVmuX",
+  "name": "Yamato Cannon",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/weapons.svg",
+  "system": {
+    "img": "",
+    "keywords": [
+      "Weapons",
+      "Outside only"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": true,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "effect": "One round to charge, then one shot at the target compartment.",
+    "checkSkill": "prc",
+    "checkDc": 15,
+    "ranges": [
+      "medium",
+      "far"
+    ],
+    "special": "charge",
+    "damageDice": 6,
+    "damageDie": 10,
+    "damageBonus": 0,
+    "ammo": 3,
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "catalogId": "sc2t_yamato",
+    "systemCategory": "weapons",
+    "width": 3,
+    "height": 2,
+    "hp": 25,
+    "description": "<p>A main-calibre plasma gun. The crew calls it “the last argument”.</p>"
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

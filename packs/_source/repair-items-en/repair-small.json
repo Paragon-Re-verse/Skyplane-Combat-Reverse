@@ -1,0 +1,46 @@
+{
+  "_id": "sSSG3VbYJb0oKOcp",
+  "_key": "!items!sSSG3VbYJb0oKOcp",
+  "name": "Small repair kit (+5 HP)",
+  "type": "consumable",
+  "img": "icons/svg/clockwork.svg",
+  "system": {
+    "description": {
+      "value": "<p>Rivets, hull plates and rags. Restores <strong>5 HP</strong> to one skyship compartment. Used up one at a time.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 2,
+      "units": "lb"
+    },
+    "price": {
+      "value": 10,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "trinket",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "repair": {
+        "amount": 5
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

@@ -1,7 +1,7 @@
-import { MODULE_ID, TEMPLATE_PATH, DISTANCES, SIDES, localize, format } from "../constants.js";
-import { isDestroyed, parseHpInput, isWeapon, isFunctioning, weaponRanges, shotCount } from "../rules/ship-rules.js";
+import { MODULE_ID, TEMPLATE_PATH, DISTANCES, SIDES, CONDITIONS, localize, format } from "../constants.js";
+import { isDestroyed, parseHpInput, isWeapon, isFunctioning, weaponRanges, shotCount, ammoLeft } from "../rules/ship-rules.js";
 import { getShip, setShipHp } from "../documents/ship-actions.js";
-import { getLayout, sceneSides } from "../scene/scene-builder.js";
+import { getLayout, sceneSides, endBattle, playersShipOf } from "../scene/scene-builder.js";
 import { setReveal, revealState } from "../scene/reveal.js";
 import { requestAction } from "../socket.js";
 import { openCompartmentWindow } from "./compartment-window.js";
@@ -20,6 +20,7 @@ function gunStatus(ship, compartment, scene) {
   const charge = compartment.special === "charge" ? chargeState(ship, compartment.instanceId, scene) : null;
   if (charge === "charging") return "charging";
   if (hasFiredThisRound(ship, compartment.instanceId, scene)) return "fired";
+  if (ammoLeft(compartment) <= 0) return "empty";
   if (compartment.special === "charge") return charge ? "charged" : "uncharged";
   return "ready";
 }
@@ -38,7 +39,8 @@ export class BattlePanel extends HandlebarsApplicationMixin(ApplicationV2) {
       toggleReveal: BattlePanel.#onToggleReveal,
       openSheet: BattlePanel.#onOpenSheet,
       openCompartment: BattlePanel.#onOpenCompartment,
-      fireGun: BattlePanel.#onFireGun
+      fireGun: BattlePanel.#onFireGun,
+      endBattle: BattlePanel.#onEndBattle
     }
   };
 
@@ -64,6 +66,7 @@ export class BattlePanel extends HandlebarsApplicationMixin(ApplicationV2) {
           formula: shipWeaponFormula(ship, compartment) + (count > 1 ? ` (${format("combat.volleyCount", { count })})` : ""),
           range: weaponRanges(compartment).map((range) => localize(`range.${range}`)).join(", "),
           special: compartment.special ? localize(`special.${compartment.special}`) : "",
+          ammo: compartment.ammo ? `${ammoLeft(compartment)}/${compartment.ammo}` : "",
           status,
           statusLabel: localize(`battle.gun.${status}`),
           canAct: status === "ready" || status === "charged" || status === "uncharged",
@@ -74,7 +77,11 @@ export class BattlePanel extends HandlebarsApplicationMixin(ApplicationV2) {
       phlogistonSlots: [5, 4, 3, 2, 1, 0].map((value) => ({ value, label: value === 0 ? "!" : value, active: value === ship.system.phlogiston })),
       compartments: ship.system.compartments
         .filter((compartment) => !compartment.isNoHp)
-        .map((compartment) => ({ ...compartment, destroyed: isDestroyed(compartment) }))
+        .map((compartment) => ({
+          ...compartment,
+          destroyed: isDestroyed(compartment),
+          conditionLabels: CONDITIONS.filter((condition) => compartment.conditions.includes(condition)).map((condition) => localize(`condition.${condition}.label`)).join(", ")
+        }))
     }));
     const distance = sides[0]?.system.combatDistance;
     return {
@@ -131,6 +138,31 @@ export class BattlePanel extends HandlebarsApplicationMixin(ApplicationV2) {
   /** Выстрел за экипаж: стреляет токен в пушке, если он есть, иначе капитан или экипаж корабля. */
   static #onFireGun(event, target) {
     startShot(this.#ship(target), target.dataset.instanceId);
+  }
+
+  /** «Завершить бой»: чей корабль у игроков и чем кончилось — затем возврат на сцену их корабля. */
+  static async #onEndBattle() {
+    const scene = battleScene();
+    if (!scene) return;
+    const players = playersShipOf(scene);
+    const escape = foundry.utils.escapeHTML;
+    const options = sceneSides(scene).map(({ ship }) =>
+      `<option value="${ship.uuid}" ${ship === players ? "selected" : ""}>${escape(ship.name)}</option>`).join("");
+    const result = await foundry.applications.api.DialogV2.prompt({
+      window: { title: localize("battle.endTitle"), icon: "fa-solid fa-flag-checkered" },
+      content: `<div class="form-group"><label>${localize("battle.playersShip")}</label><select name="ship">${options}</select></div>
+        <div class="form-group"><label>${localize("battle.outcome")}</label>
+          <label class="checkbox"><input type="radio" name="outcome" value="victory" checked> ${localize("battle.victory")}</label>
+          <label class="checkbox"><input type="radio" name="outcome" value="defeat"> ${localize("battle.defeat")}</label></div>
+        <p class="hint">${localize("battle.endHint")}</p>`,
+      ok: {
+        label: localize("battle.end"),
+        callback: (event, button) => ({ ship: button.form.elements.ship.value, victory: button.form.elements.outcome.value === "victory" })
+      },
+      rejectClose: false
+    });
+    if (!result) return;
+    await endBattle(scene, getShip(result.ship), result.victory);
   }
 
   static #onOpenCompartment(event, target) {

@@ -1,0 +1,46 @@
+{
+  "_id": "b3ZMku4lF2HGdKip",
+  "_key": "!items!b3ZMku4lF2HGdKip",
+  "name": "Large repair kit (+20 HP)",
+  "type": "consumable",
+  "img": "icons/svg/clockwork.svg",
+  "system": {
+    "description": {
+      "value": "<p>Rivets, hull plates and rags. Restores <strong>20 HP</strong> to one skyship compartment. Used up one at a time.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 2,
+      "units": "lb"
+    },
+    "price": {
+      "value": 60,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "trinket",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 300,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "repair": {
+        "amount": 20
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

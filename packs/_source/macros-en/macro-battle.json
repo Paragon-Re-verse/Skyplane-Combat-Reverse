@@ -1,0 +1,22 @@
+{
+  "_id": "goRPL7kt2RFYdxc0",
+  "_key": "!macros!goRPL7kt2RFYdxc0",
+  "name": "Start battle",
+  "type": "script",
+  "img": "icons/svg/combat.svg",
+  "command": "// Builds a battle scene for two ships: the first one goes on the left.\nconst api = game.modules.get(\"skyplane-combat-reverse\").api;\nconst ships = game.actors.filter((actor) => actor.type === \"skyplane-combat-reverse.ship\");\nif (!ships.length) return ui.notifications.warn(\"There are no skyships.\");\nconst options = ships.map((ship) => `<option value=\"${ship.uuid}\">${foundry.utils.escapeHTML(ship.name)}</option>`).join(\"\");\nif (ships.length < 2) return ui.notifications.warn(\"A battle needs two ships.\");\nconst pair = await foundry.applications.api.DialogV2.prompt({\n  window: { title: \"Start battle\" },\n  content: `<div class=\"form-group\"><label>Left</label><select name=\"left\">${options}</select></div>\n    <div class=\"form-group\"><label>Right</label><select name=\"right\">${options}</select></div>`,\n  ok: { label: \"Build the battle scene\", callback: (event, button) => [button.form.elements.left.value, button.form.elements.right.value] },\n  rejectClose: false\n});\nif (!pair) return;\nif (pair[0] === pair[1]) return ui.notifications.warn(\"Pick two different ships.\");\n(await api.startBattle(pair[0], pair[1]))?.view();",
+  "scope": "global",
+  "folder": null,
+  "sort": 200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

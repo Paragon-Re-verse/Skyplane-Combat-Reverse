@@ -1,0 +1,57 @@
+{
+  "_id": "XaqHbzR4mHBjTx8n",
+  "_key": "!items!XaqHbzR4mHBjTx8n",
+  "name": "Radar",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/recon.svg",
+  "system": {
+    "catalogId": "radar_station",
+    "systemCategory": "recon",
+    "width": 1,
+    "height": 2,
+    "hp": 8,
+    "img": "",
+    "keywords": [
+      "Recon"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "prc",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Detects enemy ships at long range, revealing hidden manoeuvres.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>A radio antenna with a circular detection screen.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "ammo": 0
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1300,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

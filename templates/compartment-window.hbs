@@ -18,6 +18,9 @@
   </div>
   {{/if}}
 
+  {{#each conditions}}{{#if active}}<span class="skyplane-condition condition-{{id}}" data-tooltip="{{hint}}">{{label}}</span>{{/if}}{{/each}}
+  {{#if canExtinguish}}<button type="button" class="skyplane-button" data-action="extinguish"><i class="fa-solid fa-fire-extinguisher"></i> {{sky "condition.burning.extinguish"}}</button>{{/if}}
+
   {{#if compartment.effect}}<p class="skyplane-effect"><strong>{{sky "systems.effect"}}:</strong> {{compartment.effect}}</p>{{/if}}
   {{#if effects.length}}
   <ul class="skyplane-effect-list compact">
@@ -31,13 +34,16 @@
     <legend>{{sky "combat.section"}}</legend>
     {{#if combat.weapon}}
     <span><strong>{{sky "systems.firepower"}}:</strong> {{combat.formula}} · <strong>{{sky "combat.ranges"}}:</strong> {{combat.rangeLabel}}</span>
+    {{#if ammo}}<span><strong>{{sky "ammo.label"}}:</strong> {{ammo.left}} / {{ammo.max}}</span>{{/if}}
     {{#if combat.specialLabel}}<span data-tooltip="{{combat.specialHint}}"><strong>{{sky "combat.special"}}:</strong> {{combat.specialLabel}} <i class="fa-solid fa-circle-info"></i></span>{{/if}}
     <span><strong>{{sky "combat.hitCheck"}}:</strong> {{combat.skillLabel}}, {{sky "combat.dc"}} {{combat.dc}}
       {{#if combat.penalized}}<em class="skyplane-warning">({{sky "combat.rangePenalty"}})</em>{{/if}}
       {{#if combat.modifier}}<em>({{combat.modifier}})</em>{{/if}}
-      {{#if combat.disadvantage}}<em class="skyplane-warning">({{sky "combat.disadvantage"}})</em>{{/if}}</span>
+      {{#if combat.disadvantage}}<em class="skyplane-warning">({{sky "combat.disadvantage"}})</em>{{/if}}
+      {{#if combat.smoky}}<em class="skyplane-warning">({{sky "condition.smokyDisadvantage"}})</em>{{/if}}</span>
     {{#if combat.canFire}}
-      {{#if combat.charging}}<p class="skyplane-hint">{{sky "combat.charging"}}</p>
+      {{#if combat.noAmmo}}<p class="skyplane-hint">{{sky "combat.noAmmo"}}</p>
+      {{else if combat.charging}}<p class="skyplane-hint">{{sky "combat.charging"}}</p>
       {{else if combat.fired}}<p class="skyplane-hint">{{sky "combat.alreadyFired"}}</p>
       {{else if combat.needsCharge}}<button type="button" class="skyplane-button" data-action="fire"><i class="fa-solid fa-bolt"></i> {{sky "combat.charge"}}</button>
       {{else}}<button type="button" class="skyplane-button" data-action="fire"><i class="fa-solid fa-burst"></i> {{sky "combat.fire"}}</button>{{/if}}
@@ -66,6 +72,16 @@
     <label><input type="checkbox" data-flag="passageUp" {{checked compartment.passageUp}}> {{sky "compartment.passageUp"}}</label>
     <label><input type="checkbox" data-flag="passageDown" {{checked compartment.passageDown}}> {{sky "compartment.passageDown"}}</label>
     <label><input type="checkbox" data-flag="isNarrow" {{checked compartment.isNarrow}}> {{sky "keyword.isNarrow"}}</label>
+    {{#unless compartment.isNoHp}}
+    {{#each conditions}}<label data-tooltip="{{hint}}"><input type="checkbox" data-condition="{{id}}" {{checked active}}> {{label}}</label>{{/each}}
+    {{/unless}}
+    {{#if ammo}}
+    <div class="skyplane-hp-input">
+      <span>{{sky "ammo.label"}}</span>
+      <input type="number" name="ammo" min="0" max="{{ammo.max}}" value="{{ammo.left}}">
+      <button type="button" class="skyplane-button" data-action="reloadAmmo"><i class="fa-solid fa-box"></i> {{sky "ammo.reload"}}</button>
+    </div>
+    {{/if}}
     {{#if hasEffects}}
     <label><input type="checkbox" data-flag="effectActive" {{checked compartment.effectActive}}> {{sky "compartment.effectActive"}}</label>
     {{/if}}

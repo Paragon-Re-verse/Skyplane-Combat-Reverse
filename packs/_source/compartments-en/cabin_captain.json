@@ -1,0 +1,58 @@
+{
+  "_id": "CqZySmgMtH9FySj2",
+  "_key": "!items!CqZySmgMtH9FySj2",
+  "name": "Captain's Cabin",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "catalogId": "cabin_captain",
+    "systemCategory": "equipment",
+    "width": 3,
+    "height": 2,
+    "hp": 12,
+    "img": "",
+    "keywords": [
+      "Residential",
+      "Special"
+    ],
+    "isResidential": true,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Residential (+1 crew). Gives +1 morale when planning operations.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>A roomy cabin with a mahogany desk, navigation charts and a sextant.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "ammo": 0
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 700,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

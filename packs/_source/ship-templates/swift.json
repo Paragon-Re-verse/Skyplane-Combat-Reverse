@@ -52,6 +52,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "CvQKlMZMCMNMmjfj",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.kVyMAmDTQGc5Ei3I",
@@ -98,6 +99,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "QxpIO6TUjsLTvgTs",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.XaqHbzR4mHBjTx8n",
@@ -145,6 +147,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [
           {
             "name": "Разведка +2",
@@ -206,6 +209,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "FC5Blb9qsCX6OC6a",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -253,6 +257,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "zXfGeq8cdzMrgy3w",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -299,6 +304,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "RMC4SlMfKxlaHGpx",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -345,6 +351,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "51HdbN3rijzlAgYN",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -392,6 +399,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "Ug94A3lAcLeHVjRF",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.9SgHTciOlG1mVyuB",
@@ -439,6 +447,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "S0wVACKuKkZMN1Oi",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.sCfrHgG7KNNLXGSJ",

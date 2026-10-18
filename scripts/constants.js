@@ -24,6 +24,8 @@ export const PERMISSION_RIGHTS = ["params", "build", "repair", "phlogiston", "co
 /** Дистанции пушки без штрафа, особые свойства пушек и грани костей урона. */
 export const RANGES = ["close", "medium", "far"];
 export const WEAPON_SPECIALS = ["splash", "charge", "volley"];
+/** Состояния отсека: горит, пробоина, задымление. */
+export const CONDITIONS = ["burning", "breach", "smoke"];
 export const DAMAGE_FACES = [4, 6, 8, 10, 12, 20];
 export const SIDES = ["left", "right"];
 /** Ключи активных эффектов, которые учитывает корабль: характеристики и боевые бонусы. */
@@ -42,6 +44,15 @@ export const PALETTE = {
   silhouette: 0x0d0907,
   sky: 0x24323d
 };
+
+/**
+ * Компендиум модуля на языке клиента: русский — «compartments», остальные языки — «compartments-en».
+ * Возвращает коллекцию вида «skyplane-combat-reverse.compartments-en»; без английской версии — русскую.
+ */
+export function localPack(name) {
+  const english = `${MODULE_ID}.${name}-en`;
+  return game.i18n.lang !== "ru" && game.packs.get(english) ? english : `${MODULE_ID}.${name}`;
+}
 
 export function localize(key) {
   return game.i18n.localize(`${MODULE_ID}.${key}`);

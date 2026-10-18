@@ -42,6 +42,8 @@ export function compartmentFields() {
       required: true, integer: true, initial: 6, choices: Object.fromEntries(DAMAGE_FACES.map((faces) => [faces, `d${faces}`]))
     }),
     damageBonus: new fields.NumberField({ required: true, integer: true, initial: 0 }),
+    // Боезапас пушки: сколько выстрелов до пополнения; 0 — без ограничения.
+    ammo: new fields.NumberField({ required: true, integer: true, min: 0, initial: 0 }),
     effect: new fields.StringField({ required: false, blank: true }),
     effectStat: new fields.StringField({
       required: false,

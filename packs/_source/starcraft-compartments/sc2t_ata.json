@@ -28,6 +28,7 @@
     "damageDice": 3,
     "damageDie": 4,
     "damageBonus": 0,
+    "ammo": 0,
     "effectStat": "",
     "effectValue": 0,
     "worksWhenDestroyed": false,

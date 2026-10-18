@@ -33,7 +33,7 @@ for (const file of fs.readdirSync(path.join(root, "packs/_source/compartments"))
 const base = {
   img: "", keywords: [], isResidential: false, isNoHp: false, ignoresPassage: false, isOutsideOnly: false,
   isStairs: false, isNarrow: false, speed: null, fuelEconomy: null, effect: "",
-  checkSkill: "", checkDc: 12, ranges: ["close", "medium", "far"], special: "", damageDice: 0, damageDie: 6, damageBonus: 0,
+  checkSkill: "", checkDc: 12, ranges: ["close", "medium", "far"], special: "", damageDice: 0, damageDie: 6, damageBonus: 0, ammo: 0,
   effectStat: "", effectValue: 0, worksWhenDestroyed: false
 };
 
@@ -41,7 +41,7 @@ const base = {
 const STARCRAFT = [
   // Терраны
   ["sc2t_bridge", "Мостик линкора", "control", 3, 2, 20, { keywords: ["Управление"], effect: "Командование: раз в раунд капитан даёт +1 к одной проверке экипажа." }, "Голографический стол, кресло капитана и вечно недовольный адъютант."],
-  ["sc2t_yamato", "Ямато-пушка", "weapons", 3, 2, 25, { keywords: ["Вооружение", "Только снаружи"], isOutsideOnly: true, checkSkill: "prc", checkDc: 15, ranges: ["medium", "far"], special: "charge", damageDice: 6, damageDie: 10, effect: "Раунд зарядки, затем один выстрел по отсеку цели." }, "Плазменное орудие главного калибра. Экипаж зовёт его «последним аргументом»."],
+  ["sc2t_yamato", "Ямато-пушка", "weapons", 3, 2, 25, { keywords: ["Вооружение", "Только снаружи"], isOutsideOnly: true, checkSkill: "prc", checkDc: 15, ranges: ["medium", "far"], special: "charge", ammo: 3, damageDice: 6, damageDie: 10, effect: "Раунд зарядки, затем один выстрел по отсеку цели." }, "Плазменное орудие главного калибра. Экипаж зовёт его «последним аргументом»."],
   ["sc2t_ats", "Батарея ATS-лазеров", "weapons", 2, 1, 12, { keywords: ["Вооружение"], checkSkill: "prc", checkDc: 12, ranges: ["close", "medium"], damageDice: 2, damageDie: 8, effect: "Против кораблей." }, "Лазеры «воздух — поверхность»: бьют по корпусу и надстройкам."],
   ["sc2t_ata", "Батарея ATA-лазеров", "weapons", 2, 1, 10, { keywords: ["Вооружение"], checkSkill: "prc", checkDc: 10, ranges: ["close", "medium"], special: "volley", damageDice: 3, damageDie: 4, effect: "Против истребителей и перехватчиков: каждая кость — отдельная цель." }, "Скорострельные лазеры «воздух — воздух»."],
   ["sc2t_reactor", "Термоядерный реактор", "engine", 3, 3, 24, { keywords: ["Машинное отделение"], speed: 4, fuelEconomy: 2, effect: "" }, "Гудит так, что в кантине дребезжат стаканы."],

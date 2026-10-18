@@ -1,0 +1,90 @@
+{
+  "_id": "Ow1ypkcR4wjxr0HA",
+  "_key": "!items!Ow1ypkcR4wjxr0HA",
+  "name": "Repair Workshop",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/equipment.svg",
+  "system": {
+    "catalogId": "workshop_repair",
+    "systemCategory": "equipment",
+    "width": 2,
+    "height": 1,
+    "hp": 12,
+    "img": "",
+    "keywords": [
+      "Equipment"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "",
+    "checkDc": 12,
+    "damageDice": 0,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Lets the chief engineer fix compartment damage in flight. Repairs with consumables on this ship restore +2 HP while the workshop is intact.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>Workbenches with vices, welding torches and a supply of sheet metal.</p>",
+    "ranges": [
+      "close",
+      "medium",
+      "far"
+    ],
+    "special": "",
+    "ammo": 0
+  },
+  "effects": [
+    {
+      "_id": "zWaJSYIBivqeqxp8",
+      "_key": "!items.effects!Ow1ypkcR4wjxr0HA.zWaJSYIBivqeqxp8",
+      "name": "Repair +2",
+      "img": "icons/svg/aura.svg",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.bonuses.repair",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {},
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "dnd5e",
+        "systemVersion": "5.3.3",
+        "createdTime": 1792108800000,
+        "modifiedTime": 1792108800000
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 1200,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

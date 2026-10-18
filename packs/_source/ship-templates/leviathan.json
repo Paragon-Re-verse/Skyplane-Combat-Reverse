@@ -52,6 +52,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "VQcbWl7oNTPSBTfz",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.sCfrHgG7KNNLXGSJ",
@@ -99,6 +100,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "Xc9twoGbOw8g1fK6",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -146,6 +148,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [
           {
             "name": "Разведка +2",
@@ -205,6 +208,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "TuWEdSOAhinOTaov",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.ljWYVnkxEQBtMdkX",
@@ -252,6 +256,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "SBTlWNFxWvVFcBX8",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -299,6 +304,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "lDOtCrRP7ibeX9MA",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.kVyMAmDTQGc5Ei3I",
@@ -345,6 +351,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "0wlXECJq1twWzxLI",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.XaqHbzR4mHBjTx8n",
@@ -390,6 +397,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 4,
         "effects": [],
         "instanceId": "sgZGAL6ADflRYW2Q",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.i7wW2PTJVHHqhlpt",
@@ -435,6 +443,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "DmOpp9GEX65aEyIa",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.ljWYVnkxEQBtMdkX",
@@ -480,6 +489,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "wOiVDabKKfIzdJDY",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.ljWYVnkxEQBtMdkX",
@@ -527,6 +537,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "AwVnBa5oaG6tw0xk",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.kZAjz2AaWJjqBOWb",
@@ -571,6 +582,7 @@
           "close"
         ],
         "special": "splash",
+        "ammo": 0,
         "effects": [],
         "instanceId": "pSX5Q6xG2zokohW4",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.QbPwM5som08chGOC",
@@ -618,6 +630,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "3LfnA2vJnesE7MBR",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -663,6 +676,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 4,
         "effects": [],
         "instanceId": "r7AasgWcAvDbkbnk",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.i7wW2PTJVHHqhlpt",
@@ -710,6 +724,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "7cpExpV9YDBTqypV",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -757,6 +772,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "6olrIikYYboATi14",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.CqZySmgMtH9FySj2",
@@ -802,6 +818,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "GVwVfrbveOWBWBBX",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.ljWYVnkxEQBtMdkX",
@@ -849,6 +866,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "jskMBvCGJ1tqK2Os",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -895,6 +913,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "yQxfHAYKK7F5Cw5E",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.A0TCIALBdkh7jUed",
@@ -941,6 +960,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "kBPpQDjbPmVuknzY",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -988,6 +1008,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "GCU1Lba8FFfbiA6G",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.sCfrHgG7KNNLXGSJ",
@@ -1035,6 +1056,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "Ei2vBVL9eM34lHiE",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -1081,6 +1103,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "L2OCf0nCCgR0YgUw",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -1127,6 +1150,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "pKUqefFCbjaZwsc9",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -1173,6 +1197,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "AoxNKtJBqcIzNIYZ",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -1220,6 +1245,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "DQWAqpJhCo2QFlac",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.sCfrHgG7KNNLXGSJ",
@@ -1267,6 +1293,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "Or1C6tdAAlBZfBtw",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.oxaAaFd9u6AKvdmc",
@@ -1314,6 +1341,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "sahZHfIta1A7WnAn",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.j6qxw2H5WYrGGkNy",
@@ -1361,6 +1389,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "u8gE22beodmrB3Fn",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.oxaAaFd9u6AKvdmc",
@@ -1407,6 +1436,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [],
         "instanceId": "8BJABtEOHWBPXTse",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.CTBtvR7L67z0D2oh",
@@ -1453,6 +1483,7 @@
           "far"
         ],
         "special": "",
+        "ammo": 0,
         "effects": [
           {
             "name": "Ремонт +2",

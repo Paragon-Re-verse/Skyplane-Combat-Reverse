@@ -1,0 +1,55 @@
+{
+  "_id": "QbPwM5som08chGOC",
+  "_key": "!items!QbPwM5som08chGOC",
+  "name": "Flamethrower",
+  "type": "skyplane-combat-reverse.compartment",
+  "img": "modules/skyplane-combat-reverse/assets/placeholders/weapons.svg",
+  "system": {
+    "catalogId": "weapon_flamethrower",
+    "systemCategory": "weapons",
+    "width": 1,
+    "height": 1,
+    "hp": 10,
+    "img": "",
+    "keywords": [
+      "Weapons"
+    ],
+    "isResidential": false,
+    "isNoHp": false,
+    "ignoresPassage": false,
+    "isOutsideOnly": false,
+    "isStairs": false,
+    "isNarrow": false,
+    "speed": null,
+    "fuelEconomy": null,
+    "checkSkill": "prc",
+    "checkDc": 11,
+    "damageDice": 3,
+    "damageDie": 6,
+    "damageBonus": 0,
+    "effect": "Sets the target and adjacent enemy compartments on fire.",
+    "effectStat": "",
+    "effectValue": 0,
+    "worksWhenDestroyed": false,
+    "description": "<p>A nozzle flamethrower with a tank of incendiary mix for close combat.</p>",
+    "ranges": [
+      "close"
+    ],
+    "special": "splash",
+    "ammo": 0
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 1500,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

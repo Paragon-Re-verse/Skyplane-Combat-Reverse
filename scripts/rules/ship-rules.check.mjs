@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import {
   checkPlacement, findFreePosition, computeStats, validateShip, findPassages,
   buildWallSegments, parseHpInput, groupSystems, planStarterKit, isDifficultTerrain,
-  isWeapon, weaponFormula, attackDifficulty, shipBonuses, adjacentCompartments, shotCount
+  isWeapon, weaponFormula, attackDifficulty, shipBonuses, adjacentCompartments, shotCount, ammoLeft, isSmoky,
+  resolveHit, resolveUndoHit
 } from "./ship-rules.js";
 
 let counter = 0;
@@ -152,9 +153,88 @@ assert.equal(shipBonuses([room({ effects: [{ disabled: true, changes: [{ key: "s
 const upgrade = room({ x: 5, effects: [{ changes: [{ key: "system.speed", mode: 4, value: "6" }] }] });
 assert.equal(computeStats([...engines, upgrade]).speed, 6);
 
+// Боезапас: 0 — без ограничения; null — полный; не больше максимума.
+assert.equal(ammoLeft(room({ ammo: 0 })), Infinity);
+assert.equal(ammoLeft(room({ ammo: 4, currentAmmo: null })), 4);
+assert.equal(ammoLeft(room({ ammo: 4, currentAmmo: 1 })), 1);
+assert.equal(ammoLeft(room({ ammo: 2, currentAmmo: 5 })), 2);
+
+// Состояния: пробоина — труднопроходимо и −1 к скорости; огонь и дым — помеха.
+assert.equal(isDifficultTerrain(room({ conditions: ["breach"] })), true);
+assert.equal(computeStats([...engines, room({ x: 6, conditions: ["breach"] })]).speed, 4);
+assert.equal(isSmoky(room({ conditions: ["smoke"] })), true);
+assert.equal(isSmoky(room({ conditions: ["breach"] })), false);
+
 // Соседи по стороне — для брызг огнемёта.
 const middle = room({ x: 2, y: 2 });
 const around = [room({ x: 1, y: 2 }), room({ x: 3, y: 2 }), room({ x: 2, y: 1 }), room({ x: 3, y: 3 })];
 assert.equal(adjacentCompartments([middle, ...around], middle).length, 3);
+
+// Попадание: урон в прочность и в отсек, исходные данные не меняются, отмена возвращает ровно снятое.
+{
+  const ship = [room({}), room({ x: 2 }), room({ x: 3 }), room({ x: 4 })];
+  const hit = resolveHit({ compartments: ship, hull: 200 }, ship[0].instanceId, 4);
+  assert.equal(hit.compartments[0].currentHp, 6);
+  assert.equal(ship[0].currentHp, 10);
+  assert.equal(hit.hull, 196);
+  assert.deepEqual(hit.lost, { hull: 4, compartment: 4, splash: [], conditions: [] });
+  assert.equal(hit.stats, null);
+  const undo = resolveUndoHit({ compartments: hit.compartments, hull: hit.hull, maxHull: 200 }, ship[0].instanceId, hit.lost);
+  assert.equal(undo.compartments[0].currentHp, 10);
+  assert.equal(undo.hull, 200);
+
+  // Отсек не уходит ниже 0; разрушенный отсек не получает пробоину; разрушение — пересчёт характеристик.
+  const kill = resolveHit({ compartments: ship, hull: 200 }, ship[1].instanceId, 15, { conditions: ["breach"] });
+  assert.equal(kill.compartments[1].currentHp, 0);
+  assert.equal(kill.lost.compartment, 10);
+  assert.equal(kill.lost.hull, 15);
+  assert.deepEqual(kill.lost.conditions, []);
+  assert.ok(kill.stats);
+
+  // «Без прочности» — урон только в прочность корабля.
+  const noHp = room({ x: 5, isNoHp: true });
+  const glancing = resolveHit({ compartments: [...ship, noHp], hull: 200 }, noHp.instanceId, 30);
+  assert.equal(glancing.lost.compartment, 0);
+  assert.equal(glancing.hull, 170);
+}
+
+// Щиты: разрушение снимает 200 максимума, прочность ложится на новый потолок; отмена возвращает и то и другое.
+{
+  const ship = [...hull, shield({})];
+  const hit = resolveHit({ compartments: ship, hull: 400 }, ship[3].instanceId, 15);
+  assert.equal(hit.stats.maxHp, 200);
+  assert.equal(hit.hull, 200);
+  assert.equal(hit.lost.hull, 200);
+  const undo = resolveUndoHit({ compartments: hit.compartments, hull: hit.hull, maxHull: 200 }, ship[3].instanceId, hit.lost);
+  assert.equal(undo.stats.maxHp, 400);
+  assert.equal(undo.hull, 400);
+}
+
+// Брызги огнемёта: соседям половина урона, только в HP; разрушенный сосед не задевается; отмена возвращает брызги.
+{
+  const center = room({ x: 2, y: 2 });
+  const left = room({ x: 1, y: 2 });
+  const weak = room({ x: 3, y: 2, currentHp: 2 });
+  const wreck = room({ x: 2, y: 1, currentHp: 0 });
+  const ship = [center, left, weak, wreck];
+  const hit = resolveHit({ compartments: ship, hull: 200 }, center.instanceId, 7, { splash: true, conditions: ["burning"] });
+  assert.deepEqual(hit.lost.splash, [{ instanceId: left.instanceId, amount: 3 }, { instanceId: weak.instanceId, amount: 2 }]);
+  assert.equal(hit.lost.hull, 7);
+  assert.deepEqual(hit.lost.conditions, ["burning"]);
+  assert.deepEqual(hit.compartments[0].conditions, ["burning"]);
+  const undo = resolveUndoHit({ compartments: hit.compartments, hull: hit.hull, maxHull: 200 }, center.instanceId, hit.lost);
+  assert.deepEqual(undo.compartments.map((compartment) => compartment.currentHp), [10, 10, 2, 0]);
+  assert.deepEqual(undo.compartments[0].conditions, []);
+}
+
+// Состояние, что уже было до попадания, не добавляется повторно и не снимается отменой; пробоина — пересчёт скорости.
+{
+  const burning = room({ conditions: ["burning"] });
+  const hit = resolveHit({ compartments: [burning], hull: 100 }, burning.instanceId, 1, { conditions: ["burning", "breach"] });
+  assert.deepEqual(hit.lost.conditions, ["breach"]);
+  assert.ok(hit.stats);
+  const undo = resolveUndoHit({ compartments: hit.compartments, hull: hit.hull, maxHull: 100 }, burning.instanceId, hit.lost);
+  assert.deepEqual(undo.compartments[0].conditions, ["burning"]);
+}
 
 console.log("ship-rules: все проверки пройдены");

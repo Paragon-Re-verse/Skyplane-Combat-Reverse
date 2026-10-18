@@ -73,7 +73,8 @@
             "viewScene": "View scene",
             "startBattle": "Start battle…",
             "battlePanel": "Battle panel",
-            "stale": "The ship layout changed — the scene is outdated, press “Rebuild”."
+            "stale": "The ship layout changed — the scene is outdated, press “Rebuild”.",
+            "image": "Image"
         },
         "status": {
             "overloaded": "Overloaded",
@@ -105,7 +106,16 @@
             "syncHint": "Placed copies of this compartment get its properties. Position, passages and damage taken are kept.",
             "syncConfirm": "Update “{name}” on ships? Placed copies: {count}.",
             "syncDone": "Updated {compartments} compartments on {ships} ships.",
-            "syncKeptSize": "The new size did not fit, the old one was kept: {names}."
+            "syncKeptSize": "The new size did not fit, the old one was kept: {names}.",
+            "pickHint": "Compartment catalog: the module's compendiums and your own catalogs from the “SkyPlane Combat Re:verse” folder.",
+            "createHint": "New catalog — your own compendium in the “SkyPlane Combat Re:verse” folder; its compartments are edited right there",
+            "createTitle": "New compartment catalog",
+            "name": "Catalog name",
+            "defaultName": "My compartment catalog",
+            "copyFrom": "Copy compartments from “{name}”",
+            "create": "Create catalog",
+            "created": "Catalog “{name}” created in compendiums, folder “SkyPlane Combat Re:verse”.",
+            "newInCatalogHint": "Create a compartment in this catalog"
         },
         "systems": {
             "name": "Name",
@@ -169,7 +179,8 @@
                 "rebuilt": "Scene “{scene}” rebuilt.",
                 "battle": "Battle: scene “{scene}”.",
                 "revealed": "The ship was revealed by enemy recon (“{scene}”).",
-                "revealedManual": "The GM revealed the ship to the enemy (“{scene}”)."
+                "revealedManual": "The GM revealed the ship to the enemy (“{scene}”).",
+                "battleEnd": "Battle with “{opponent}” is over: {result}."
             },
             "combat": {
                 "hit": "{shooter} fires “{weapon}” at “{ship}”: hit on “{target}”, {amount} damage.",
@@ -178,6 +189,14 @@
                 "undone": "The GM undid the hit by “{attacker}” with “{weapon}” on “{target}”.",
                 "splash": "Splash of fire: “{name}” −{amount} HP.",
                 "charged": "{shooter} charges “{weapon}”."
+            },
+            "condition": {
+                "on": "“{name}”: {condition}.",
+                "off": "“{name}”: {condition} removed.",
+                "fire": "Fire in “{name}”: −{amount} HP."
+            },
+            "ammo": {
+                "set": "Ammo of “{name}”: {value}/{max}."
             }
         },
         "logType": {
@@ -242,7 +261,8 @@
             "pickVolleyTarget": "Volley, shot {index} of {count}: pick an enemy compartment. Right click or Esc ends the volley.",
             "volleyNotice": "Volley: {hits} of {shots} hit, {amount} damage.",
             "effectModifier": "effects {value}",
-            "volleyCount": "volley ×{count}"
+            "volleyCount": "volley ×{count}",
+            "noAmmo": "Out of ammo: the GM reloads it in the compartment window."
         },
         "itemSheet": {
             "defaultSkill": "— default: Perception —",
@@ -304,15 +324,25 @@
                 "destroyed": "destroyed",
                 "charging": "charging",
                 "charged": "charged",
-                "uncharged": "not charged"
+                "uncharged": "not charged",
+                "empty": "empty"
             },
             "fireAsCrew": "Fire for the crew: the token in the gun shoots, otherwise the captain or the ship's crew",
-            "chargeAsCrew": "Charge for the crew"
+            "chargeAsCrew": "Charge for the crew",
+            "end": "End battle",
+            "endTitle": "End battle",
+            "endHint": "The tracker combat ends, the result goes to the chat and the ship logs, and the players return to their ship's scene.",
+            "playersShip": "Players' ship",
+            "outcome": "Outcome for the players",
+            "victory": "Victory",
+            "defeat": "Defeat",
+            "ended": "Battle over",
+            "endedBody": "“{winner}” wins, “{loser}” is defeated."
         },
         "rights": {
             "params": {
                 "label": "Edit parameters",
-                "hint": "Name, class, captain, numbers on the Parameters tab, description"
+                "hint": "Name, class, image, captain, numbers on the Parameters tab, description"
             },
             "build": {
                 "label": "Build the ship",
@@ -320,7 +350,7 @@
             },
             "repair": {
                 "label": "Repair",
-                "hint": "The “Repair…” button in the compartment window"
+                "hint": "The “Repair…” and “Extinguish” buttons in the compartment window"
             },
             "combat": {
                 "label": "Fight",
@@ -413,13 +443,16 @@
             "notShipJson": "This is not a SkyPlane ship JSON.",
             "invalidJson": "Could not read the JSON.",
             "crewDropped": "These actors are not in this world and were removed from the crew: {count}.",
-            "imported": "Ship “{name}” loaded from JSON."
+            "imported": "Ship “{name}” loaded from JSON.",
+            "notBurning": "This compartment is not burning."
         },
         "setup": {
             "exampleDescription": "A training skyship built from the compartment catalog. Deploy it, add a crew and try the builder.",
             "done": "SkyPlane Combat Re:verse is set up: the example ship “Albatross”, its scene and macros in the “SkyPlane” folder.",
             "helpLink": "Module help",
-            "failed": "SkyPlane first run did not finish, see the console."
+            "failed": "SkyPlane first run did not finish, see the console.",
+            "exampleName": "Albatross",
+            "exampleClass": "Training skyship"
         },
         "card": {
             "title": "Hit: {amount} damage",
@@ -433,7 +466,8 @@
             "apply": "Apply",
             "reject": "Reject",
             "undo": "Undo",
-            "splash": "Splash: neighbouring compartments take {amount} damage each."
+            "splash": "Splash: neighbouring compartments take {amount} damage each.",
+            "conditions": "Target compartment: {list}."
         },
         "special": {
             "none": "— regular —",
@@ -477,6 +511,34 @@
             "defense": "Defense",
             "repair": "Consumable repair",
             "scout": "Scouting"
+        },
+        "condition": {
+            "burning": {
+                "label": "Burning",
+                "hint": "At the start of each combat round the compartment takes 1d6 damage; checks in it have disadvantage. Put it out with “Extinguish” (Athletics, DC 12).",
+                "extinguish": "Extinguish",
+                "extinguishFlavor": "Fighting the fire: “{name}”",
+                "failed": "The fire is still burning.",
+                "extinguished": "The fire in “{name}” is out.",
+                "noCrew": "Your token must stand in this compartment to fight the fire.",
+                "damageFlavor": "Fire: “{name}” ({ship})"
+            },
+            "breach": {
+                "label": "Breach",
+                "hint": "Difficult terrain and −1 to the ship's speed. Closed by repairing the compartment with a consumable, or by the GM."
+            },
+            "smoke": {
+                "label": "Smoke",
+                "hint": "Checks in the compartment have disadvantage. Clears at the start of the next combat round."
+            },
+            "smokyDisadvantage": "disadvantage: fire and smoke"
+        },
+        "ammo": {
+            "label": "Ammo",
+            "reload": "Reload",
+            "max": "Ammo (shots)",
+            "maxHint": "Shots before a reload; 0 means unlimited. A volley uses one charge.",
+            "short": "Ammo {left}/{max}"
         }
     },
     "TYPES": {

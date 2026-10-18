@@ -2,7 +2,7 @@
   "id": "skyplane-combat-reverse",
   "title": "SkyPlane Combat Re:verse",
   "description": "Лист неболёта с конструктором, сцена корабля из тайлов, регионов и стен и сцена боя двух кораблей для Foundry VTT v13 и D&D 5e.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "authors": [
     {
       "name": "Saint"
@@ -121,6 +121,67 @@
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
       }
+    },
+    {
+      "name": "compartments-en",
+      "label": "SkyPlane: compartments",
+      "path": "packs/compartments-en",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "ship-templates-en",
+      "label": "SkyPlane: ship templates",
+      "path": "packs/ship-templates-en",
+      "type": "Actor",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "starcraft-compartments-en",
+      "label": "SkyPlane: StarCraft II compartments",
+      "path": "packs/starcraft-compartments-en",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "repair-items-en",
+      "label": "SkyPlane: repair consumables",
+      "path": "packs/repair-items-en",
+      "type": "Item",
+      "system": "dnd5e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros-en",
+      "label": "SkyPlane: macros",
+      "path": "packs/macros-en",
+      "type": "Macro",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "help-en",
+      "label": "SkyPlane: help",
+      "path": "packs/help-en",
+      "type": "JournalEntry",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "packFolders": [
@@ -133,14 +194,20 @@
         "starcraft-compartments",
         "repair-items",
         "macros",
-        "help"
+        "help",
+        "compartments-en",
+        "ship-templates-en",
+        "starcraft-compartments-en",
+        "repair-items-en",
+        "macros-en",
+        "help-en"
       ]
     }
   ],
   "socket": true,
   "url": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse",
   "manifest": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/releases/latest/download/module.json",
-  "download": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/releases/download/v1.1.1/module.zip",
+  "download": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/releases/download/v1.1.2/module.zip",
   "bugs": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/issues",
   "license": "LICENSE",
   "readme": "README.md",

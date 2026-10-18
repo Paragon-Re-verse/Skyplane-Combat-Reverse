@@ -1,5 +1,6 @@
 import {
-  MODULE_ID, TEMPLATE_PATH, COMPARTMENT_TYPE, SHIP_TYPE, DISTANCES, SYSTEM_CATEGORIES, PERMISSION_RIGHTS, localize, format, describeChanges, effectKeyLabel
+  MODULE_ID, TEMPLATE_PATH, COMPARTMENT_TYPE, SHIP_TYPE, DISTANCES, SYSTEM_CATEGORIES, PERMISSION_RIGHTS, localize, format, describeChanges, effectKeyLabel,
+  localPack
 } from "../constants.js";
 import { GRID_LIMITS, SHIP_BONUSES, isFunctioning } from "../rules/ship-rules.js";
 import {
@@ -17,6 +18,7 @@ const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
 const PARAM_INPUTS = {
   name: "name",
+  img: "img",
   "system.shipClass": "shipClass",
   "system.captainUuid": "captainUuid",
   "system.currentHp": "currentHp",
@@ -26,6 +28,38 @@ const PARAM_INPUTS = {
   "system.fuelEconomy": "fuelEconomy",
   "system.description": "description"
 };
+/** Компендиумы-каталоги модуля на языке клиента: основной и StarCraft II. */
+function moduleCatalogs() {
+  return [localPack("compartments"), localPack("starcraft-compartments")];
+}
+const CATALOG_INDEX_FIELDS = ["system.width", "system.height", "system.systemCategory", "system.catalogId"];
+
+/**
+ * Каталоги отсеков: два компендиума модуля и любые компендиумы предметов в папке «SkyPlane Combat Re:verse»
+ * (созданные кнопкой «Новый каталог» или вручную в Foundry). Свой каталог не заблокирован — отсеки правятся прямо в нём.
+ */
+export function compartmentCatalogs() {
+  const base = moduleCatalogs().map((id) => game.packs.get(id)).filter(Boolean);
+  const folderId = base[0]?.folder?.id;
+  const custom = folderId
+    ? game.packs.filter((pack) => pack.documentName === "Item" && pack.folder?.id === folderId && pack.metadata.packageName !== MODULE_ID)
+    : [];
+  return [...base, ...custom].filter((pack) => pack.visible);
+}
+
+function activeCatalog(catalogs) {
+  const id = game.settings.get(MODULE_ID, "activeCatalog");
+  return catalogs.find((pack) => pack.collection === id) ?? catalogs[0] ?? null;
+}
+
+function isCustomCatalog(pack) {
+  return !!pack && pack.metadata.packageName !== MODULE_ID;
+}
+
+async function compartmentIndex(pack) {
+  return (await pack.getIndex({ fields: CATALOG_INDEX_FIELDS })).filter((entry) => entry.type === COMPARTMENT_TYPE);
+}
+
 /** Папка предметов «SkyPlane» для своих отсеков каталога. */
 async function catalogFolder() {
   return game.folders.find((folder) => folder.type === "Item" && folder.name === "SkyPlane" && !folder.folder)
@@ -62,6 +96,7 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       addNote: ShipSheet.#onAddNote,
       clearLog: ShipSheet.#onClearLog,
       newCompartment: ShipSheet.#onNewCompartment,
+      createCatalog: ShipSheet.#onCreateCatalog,
       editCatalogEntry: ShipSheet.#onEditCatalogEntry,
       deleteCatalogEntry: ShipSheet.#onDeleteCatalogEntry,
       exportJson: ShipSheet.#onExportJson,
@@ -168,7 +203,7 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       ].filter(Boolean),
       grid: buildGridContext(ship, rights.build),
       gridLimits: GRID_LIMITS,
-      palette: await this.#paletteEntries(rights.build),
+      ...(await this.#paletteContext(rights.build)),
       errors: system.validation.errors.map((entry) => format(entry.key, entry.data)),
       warnings: system.validation.warnings.map((entry) => format(entry.key, entry.data)),
       systemTables: SYSTEM_CATEGORIES.map((category) => ({
@@ -227,30 +262,45 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     return context;
   }
 
-  /** Каталог: отсеки мира и компендиума; мировая копия с тем же catalogId заменяет запись компендиума. */
-  async #paletteEntries(canBuild) {
-    if (!canBuild) return [];
-    const entries = [];
-    const worldItems = game.items.filter((document) => document.type === COMPARTMENT_TYPE);
-    const overridden = new Set(worldItems.map((item) => item.system.catalogId).filter(Boolean));
-    for (const item of worldItems) {
-      entries.push({
-        uuid: item.uuid, name: item.name, width: item.system.width, height: item.system.height,
-        category: item.system.systemCategory, catalogId: item.system.catalogId, world: true
-      });
+  /**
+   * Палитра выбранного каталога.
+   * Компендиумы модуля заблокированы: их правка — копия в мире с тем же catalogId, она заменяет запись своего компендиума;
+   * свои отсеки мира (без записи в компендиумах модуля) показываются в основном каталоге.
+   * Свой каталог показывается как есть: отсеки правятся и удаляются прямо в компендиуме.
+   */
+  async #paletteContext(canBuild) {
+    if (!canBuild) return { palette: [], catalogs: [] };
+    const catalogs = compartmentCatalogs();
+    const active = activeCatalog(catalogs);
+    if (!active) return { palette: [], catalogs: [] };
+    const custom = isCustomCatalog(active);
+    const toEntry = (source, extra = {}) => ({
+      uuid: source.uuid, name: source.name, width: source.system?.width, height: source.system?.height,
+      category: source.system?.systemCategory, catalogId: source.system?.catalogId, ...extra
+    });
+    let entries = (await compartmentIndex(active)).map((entry) => toEntry(entry, { inCatalog: custom }));
+    if (!custom) {
+      const owners = new Map();
+      const [baseCatalog] = moduleCatalogs();
+      for (const id of moduleCatalogs()) {
+        const pack = game.packs.get(id);
+        for (const entry of pack ? await compartmentIndex(pack) : []) owners.set(entry.system?.catalogId, id);
+      }
+      for (const item of game.items.filter((document) => document.type === COMPARTMENT_TYPE)) {
+        const owner = owners.get(item.system.catalogId) ?? baseCatalog;
+        if (owner !== active.collection) continue;
+        entries = entries.filter((entry) => entry.catalogId !== item.system.catalogId || !item.system.catalogId);
+        entries.push(toEntry(item, { world: true }));
+      }
     }
-    const pack = game.packs.get(`${MODULE_ID}.compartments`);
-    const index = await pack?.getIndex({ fields: ["system.width", "system.height", "system.systemCategory", "system.catalogId"] });
-    for (const entry of index ?? []) {
-      if (overridden.has(entry.system?.catalogId)) continue;
-      entries.push({
-        uuid: entry.uuid, name: entry.name, width: entry.system?.width, height: entry.system?.height,
-        category: entry.system?.systemCategory, catalogId: entry.system?.catalogId
-      });
-    }
-    return entries
-      .map((entry) => ({ ...entry, categoryLabel: localize(`system.${entry.category ?? "equipment"}`) }))
-      .sort((first, second) => first.categoryLabel.localeCompare(second.categoryLabel) || first.name.localeCompare(second.name));
+    return {
+      catalogs: catalogs.map((pack) => ({ value: pack.collection, label: pack.metadata.label })),
+      activeCatalog: active.collection,
+      customCatalog: custom,
+      palette: entries
+        .map((entry) => ({ ...entry, editable: entry.world || entry.inCatalog, categoryLabel: localize(`system.${entry.category ?? "equipment"}`) }))
+        .sort((first, second) => first.categoryLabel.localeCompare(second.categoryLabel) || first.name.localeCompare(second.name))
+    };
   }
 
   #logEntries() {
@@ -272,6 +322,9 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   _onChangeForm(formConfig, event) {
     const target = event.target;
+    if (target.name === "activeCatalog") {
+      return game.settings.set(MODULE_ID, "activeCatalog", target.value).then(() => this.render({ parts: ["builder"] }));
+    }
     if (target.name === "logFilter") {
       this.logFilter = target.value;
       return this.render({ parts: ["log"] });
@@ -280,6 +333,8 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       return updateCrewMember(this.actor, target.dataset.crewUuid, { [target.dataset.crewField]: target.value });
     }
     const param = PARAM_INPUTS[target.name];
+    // Пустой путь картинки не сохраняется: возвращаем в поле текущую картинку.
+    if (param === "img" && !target.value?.trim()) return this.render({ parts: ["params"] });
     if (param) return requestAction("updateParams", this.actor, { changes: { [param]: target.value } });
   }
 
@@ -409,24 +464,68 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     await addLogNote(this.actor, input?.value);
   }
 
+  /** Новый отсек: в своём каталоге — прямо в его компендиуме, иначе — в папке предметов мира «SkyPlane». */
   static async #onNewCompartment() {
-    const folder = await catalogFolder();
-    const item = await Item.create({
+    const catalog = activeCatalog(compartmentCatalogs());
+    const data = {
       name: localize("catalog.newName"),
       type: COMPARTMENT_TYPE,
       img: placeholderFor("equipment"),
-      folder: folder.id,
       system: { catalogId: `custom_${foundry.utils.randomID(8)}` }
-    });
+    };
+    const item = isCustomCatalog(catalog)
+      ? await Item.create(data, { pack: catalog.collection })
+      : await Item.create({ ...data, folder: (await catalogFolder()).id });
     item?.sheet.render(true);
   }
 
-  /** Мировой отсек правится сразу; отсек компендиума сначала копируется в мир с тем же catalogId. */
+  /**
+   * «Новый каталог»: компендиум предметов в папке «SkyPlane Combat Re:verse».
+   * По желанию копирует отсеки текущего каталога с новыми catalogId — копии независимы от исходных и от кораблей на них.
+   */
+  static async #onCreateCatalog() {
+    const catalogs = compartmentCatalogs();
+    const source = activeCatalog(catalogs);
+    const escape = foundry.utils.escapeHTML;
+    const result = await foundry.applications.api.DialogV2.prompt({
+      window: { title: localize("catalog.createTitle"), icon: "fa-solid fa-folder-plus" },
+      content: `<div class="form-group"><label>${localize("catalog.name")}</label>
+          <input type="text" name="label" value="${escape(localize("catalog.defaultName"))}" autofocus></div>
+        <label class="checkbox"><input type="checkbox" name="copy" checked> ${escape(format("catalog.copyFrom", { name: source?.metadata.label ?? "—" }))}</label>`,
+      ok: {
+        label: localize("catalog.create"),
+        callback: (event, button) => ({ label: button.form.elements.label.value.trim(), copy: button.form.elements.copy.checked })
+      },
+      rejectClose: false
+    });
+    if (!result?.label) return;
+    const { CompendiumCollection } = foundry.documents.collections;
+    const name = `skyplane-${result.label.slugify({ strict: true }) || "catalog"}-${foundry.utils.randomID(4).toLowerCase()}`;
+    const pack = await CompendiumCollection.createCompendium({ label: result.label, name, type: "Item" });
+    const folder = game.packs.get(localPack("compartments"))?.folder;
+    if (folder) await pack.setFolder(folder);
+    if (result.copy && source) {
+      const documents = await source.getDocuments({ type: COMPARTMENT_TYPE });
+      const copies = documents.map((document) => {
+        const data = document.toObject();
+        delete data._id;
+        delete data.folder;
+        data.system.catalogId = `custom_${foundry.utils.randomID(8)}`;
+        return data;
+      });
+      await Item.createDocuments(copies, { pack: pack.collection });
+    }
+    await game.settings.set(MODULE_ID, "activeCatalog", pack.collection);
+    ui.notifications.info(format("catalog.created", { name: result.label }));
+    this.render({ parts: ["builder"] });
+  }
+
+  /** Отсек мира и своего каталога правится сразу; отсек заблокированного компендиума модуля сначала копируется в мир с тем же catalogId. */
   static async #onEditCatalogEntry(event, target) {
     event.stopPropagation();
     const source = await fromUuid(target.closest("[data-uuid]").dataset.uuid);
     if (!source) return;
-    if (!source.pack) return source.sheet.render(true);
+    if (!source.pack || !game.packs.get(source.pack)?.locked) return source.sheet.render(true);
     const folder = await catalogFolder();
     const copy = await Item.create({ ...game.items.fromCompendium(source), folder: folder.id });
     ui.notifications.info(format("catalog.copied", { name: copy.name }));
@@ -436,7 +535,7 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static async #onDeleteCatalogEntry(event, target) {
     event.stopPropagation();
     const item = await fromUuid(target.closest("[data-uuid]").dataset.uuid);
-    if (!item || item.pack) return;
+    if (!item || (item.pack && game.packs.get(item.pack)?.locked)) return;
     const confirmed = await foundry.applications.api.DialogV2.confirm({
       window: { title: localize("catalog.delete") },
       content: `<p>${format("catalog.deleteConfirm", { name: foundry.utils.escapeHTML(item.name) })}</p>`

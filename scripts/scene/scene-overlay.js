@@ -2,8 +2,8 @@
  * Надписи, рамки и области параметров и описания на канве каждого клиента.
  * Ничего не хранится документами: перерисовка с задержкой при изменении акторов текущей сцены.
  */
-import { MODULE_ID, HOOK_PREFIX, CELL_SIZE, SKY_WIDTH, PALETTE, OVERLAY_DEBOUNCE_MS, DISTANCES, localize, format } from "../constants.js";
-import { isDestroyed, isDamaged } from "../rules/ship-rules.js";
+import { MODULE_ID, HOOK_PREFIX, CELL_SIZE, SKY_WIDTH, PALETTE, OVERLAY_DEBOUNCE_MS, DISTANCES, CONDITIONS, localize, format } from "../constants.js";
+import { isDestroyed, isDamaged, hasCondition, ammoLeft } from "../rules/ship-rules.js";
 import { getShip } from "../documents/ship-actions.js";
 import { getLayout, sceneSides, sideRects, isSceneStale, confirmAndRebuild } from "./scene-builder.js";
 import { isSideRevealed } from "./reveal.js";
@@ -167,11 +167,19 @@ function drawMap(parent, { ship, side, origin }, rects, revealed) {
     });
     nameLabel.position.set(10, 4);
     hpLabel.position.set(10, 6 + nameLabel.height);
+    // Состояния и заряды — третьей строкой.
+    const extras = [
+      ...CONDITIONS.filter((condition) => hasCondition(compartment, condition)).map((condition) => localize(`condition.${condition}.label`)),
+      ...(compartment.ammo ? [format("ammo.short", { left: ammoLeft(compartment), max: compartment.ammo })] : [])
+    ];
+    const extraLabel = extras.length ? text(extras.join(" · "), { size: 28, bold: true, color: 0xffb36b, wrap: rect.width - 20 }) : null;
+    extraLabel?.position.set(10, 8 + nameLabel.height + hpLabel.height);
     const background = new PIXI.Graphics()
       .beginFill(PALETTE.wood, 0.78)
-      .drawRect(0, 0, rect.width, Math.min(rect.height, nameLabel.height + hpLabel.height + 14))
+      .drawRect(0, 0, rect.width, Math.min(rect.height, nameLabel.height + hpLabel.height + (extraLabel?.height ?? 0) + 14))
       .endFill();
     plate.addChild(background, nameLabel, hpLabel);
+    if (extraLabel) plate.addChild(extraLabel);
     plate.position.set(rect.x, rect.y);
     addHotspot({ x: rect.x, y: rect.y, width: rect.width, height: background.height }, () => openCompartmentWindow(ship, compartment.instanceId));
   }
@@ -253,7 +261,34 @@ function distancePlates(system, width) {
   return plates;
 }
 
-/** Параметры: имя и класс на всю ширину, ниже две колонки — характеристики и флогистон с дистанцией. */
+const SHIP_IMAGE_SIZE = 220;
+
+/**
+ * Картинка корабля для плашки параметров; стандартная картинка актёра не показывается.
+ * Текстура грузится один раз: пока её нет, плашка рисуется без картинки и перерисовывается после загрузки.
+ */
+function shipImage(ship) {
+  const path = ship.img;
+  if (!path || path === Actor.implementation.getDefaultArtwork(ship.toObject()).img) return null;
+  const texture = foundry.canvas.getTexture(path);
+  if (!texture) {
+    foundry.canvas.loadTexture(path).then((loaded) => loaded && scheduleOverlayRedraw());
+    return null;
+  }
+  const sprite = new PIXI.Sprite(texture);
+  const scale = SHIP_IMAGE_SIZE / Math.max(texture.width, texture.height);
+  sprite.scale.set(scale);
+  sprite.position.set((SHIP_IMAGE_SIZE - texture.width * scale) / 2, (SHIP_IMAGE_SIZE - texture.height * scale) / 2);
+  const frame = new PIXI.Container();
+  frame.addChild(
+    new PIXI.Graphics().beginFill(PALETTE.wood).drawRect(0, 0, SHIP_IMAGE_SIZE, SHIP_IMAGE_SIZE).endFill(),
+    sprite,
+    new PIXI.Graphics().lineStyle(6, PALETTE.brass).drawRect(0, 0, SHIP_IMAGE_SIZE, SHIP_IMAGE_SIZE)
+  );
+  return frame;
+}
+
+/** Параметры: картинка, имя и класс сверху, ниже две колонки — характеристики и флогистон с дистанцией. */
 function drawParams(parent, ship, rects, revealed) {
   const nearMapOnRight = rects.params.x + rects.params.width === rects.map.x;
   const params = {
@@ -264,17 +299,22 @@ function drawParams(parent, ship, rects, revealed) {
   drawFrame(parent.addChild(new PIXI.Graphics()), params);
   const content = parent.addChild(new PIXI.Container());
   const width = params.width - PADDING * 2;
-  const header = column(content, 0, 0);
-  const title = header.add(text(ship.name, { size: 110, color: PALETTE.burgundy, font: HEADING_FONT, wrap: width }), 16);
-  if (ship.system.shipClass) header.add(text(ship.system.shipClass, { size: 54, italic: true, wrap: width }), 30);
-  let height = header.height;
+  // Картинку видит только сторона, которой корабль раскрыт: силуэт не выдаёт облик противника.
+  const image = revealed ? shipImage(ship) : null;
+  const offset = image ? SHIP_IMAGE_SIZE + 30 : 0;
+  if (image) content.addChild(image);
+  const header = column(content, offset, 0);
+  const title = header.add(text(ship.name, { size: 110, color: PALETTE.burgundy, font: HEADING_FONT, wrap: width - offset }), 16);
+  if (ship.system.shipClass) header.add(text(ship.system.shipClass, { size: 54, italic: true, wrap: width - offset }), 30);
+  const headerHeight = Math.max(header.height, image ? SHIP_IMAGE_SIZE + 30 : 0);
+  let height = headerHeight;
 
   if (revealed) {
     const system = ship.system;
     const gap = 40;
     const columnWidth = (width - gap) / 2;
-    const left = column(content, 0, header.height);
-    const right = column(content, columnWidth + gap, header.height);
+    const left = column(content, 0, headerHeight);
+    const right = column(content, columnWidth + gap, headerHeight);
     const captain = fromUuidSync(system.captainUuid)?.name ?? localize("crew.noCaptain");
     left.add(text(`${localize("params.captain")}: ${captain}`, { size: 46, wrap: columnWidth }), 26);
     left.add(text(localize("params.hp"), { size: 46, bold: true }), 8);
@@ -300,7 +340,7 @@ function drawParams(parent, ship, rects, revealed) {
   content.scale.set(fit);
   content.position.set(params.x + PADDING, params.y + PADDING);
   // Нераскрытый корабль не открывает лист кликом: иначе силуэт обходится в одно касание.
-  if (revealed) addHotspot({ x: params.x + PADDING, y: params.y + PADDING, width: title.width * fit, height: title.height * fit }, () => ship.sheet.render(true));
+  if (revealed) addHotspot({ x: params.x + PADDING, y: params.y + PADDING, width: (offset + title.width) * fit, height: title.height * fit }, () => ship.sheet.render(true));
 }
 
 /* ---------------- Описание и системы ---------------- */
@@ -529,7 +569,35 @@ function showTracer(ship, weapon, enemyShip, target, damage) {
   canvas.app.ticker.add(tick);
 }
 
+/**
+ * «Победа» / «Поражение» крупно над сценой корабля игроков после боя. Хук приходит раньше, чем клиент
+ * загрузит активированную сцену, поэтому надпись ждёт canvasReady этой сцены.
+ */
+let pendingResult = null;
+
+function showBattleResult() {
+  if (!pendingResult || !canvas.ready || canvas.scene?.id !== pendingResult.sceneId) return;
+  const { victory } = pendingResult;
+  pendingResult = null;
+  canvas.interface.createScrollingText(canvas.stage.pivot, localize(victory ? "battle.victory" : "battle.defeat"), {
+    anchor: CONST.TEXT_ANCHOR_POINTS.CENTER,
+    direction: CONST.TEXT_ANCHOR_POINTS.TOP,
+    distance: 300,
+    duration: 5000,
+    fontSize: 220,
+    fontFamily: HEADING_FONT,
+    fill: victory ? 0xf2c46b : 0xff5a4a,
+    stroke: 0x000000,
+    strokeThickness: 14
+  });
+}
+
 export function registerOverlay() {
+  Hooks.on(`${HOOK_PREFIX}.battleEnded`, (playersShip, enemy, victory, shipScene) => {
+    pendingResult = { sceneId: shipScene?.id, victory };
+    showBattleResult();
+  });
+  Hooks.on("canvasReady", showBattleResult);
   Hooks.on(`${HOOK_PREFIX}.compartmentHit`, showFloatingDamage);
   Hooks.on(`${HOOK_PREFIX}.shipFired`, showTracer);
   Hooks.on("canvasReady", drawOverlay);

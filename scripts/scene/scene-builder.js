@@ -285,9 +285,8 @@ export async function deployShip(ship) {
 
   const layout = computeLayout("ship", [ship]);
   const scene = await Scene.create(sceneData(ship.name, layout, "ship", [ship]));
-  await ship.setFlag(MODULE_ID, "sceneId", scene.id);
+  await logSceneEvent(ship, format("log.scene.deployed", { scene: scene.name }), { [`flags.${MODULE_ID}.sceneId`]: scene.id });
   await replaceGeneratedObjects(scene, getLayout(scene));
-  await logSceneEvent(ship, format("log.scene.deployed", { scene: scene.name }));
   emitHook("sceneBuilt", scene, [ship]);
   return scene;
 }
@@ -344,14 +343,58 @@ export async function startBattle(leftShip, rightShip) {
     if (tokens.length) await scene.createEmbeddedDocuments("Token", tokens);
     emitHook("sceneBuilt", scene, [left, right]);
   }
-  if (created) {
-    // Фаза боя начинается на средней дистанции.
-    for (const ship of [left, right]) if (ship.system.combatDistance !== "medium") await ship.update({ "system.combatDistance": "medium" });
-  } else if (right.system.combatDistance !== left.system.combatDistance) {
-    await right.update({ "system.combatDistance": left.system.combatDistance });
+  // Фаза боя начинается на средней дистанции; при перестройке дистанция пары берётся у левого корабля.
+  const distance = created ? "medium" : left.system.combatDistance;
+  for (const ship of [left, right]) {
+    const update = ship.system.combatDistance === distance ? {} : { "system.combatDistance": distance };
+    await logSceneEvent(ship, format("log.scene.battle", { scene: scene.name }), update);
   }
-  for (const ship of [left, right]) await logSceneEvent(ship, format("log.scene.battle", { scene: scene.name }));
   return scene;
+}
+
+/** Корабль игроков на сцене боя: в экипаже есть актёр с владельцем-игроком; иначе — левый. */
+export function playersShipOf(scene) {
+  const sides = sceneSides(scene);
+  const players = sides.find(({ ship }) => ship.system.crew.some((member) => fromUuidSync(member.actorUuid)?.hasPlayerOwner));
+  return (players ?? sides[0])?.ship ?? null;
+}
+
+/**
+ * Завершение боя: бой трекера на этой сцене удаляется, отметки выстрелов и зарядки снимаются,
+ * итог уходит в журналы обоих кораблей, в чат и во флаг сцены; сцена корабля игроков активируется для всех.
+ */
+export async function endBattle(scene, playersShip, victory) {
+  if (!game.user.isGM) return ui.notifications.warn(localize("notify.gmOnly"));
+  const sides = sceneSides(scene);
+  const enemy = sides.find(({ ship }) => ship !== playersShip)?.ship;
+  if (getLayout(scene)?.mode !== "battle" || !enemy || !sides.some(({ ship }) => ship === playersShip)) {
+    return ui.notifications.warn(localize("notify.battlePair"));
+  }
+  const combatIds = game.combats.filter((entry) => entry.scene?.id === scene.id).map((entry) => entry.id);
+  if (combatIds.length) await Combat.implementation.deleteDocuments(combatIds);
+  for (const [ship, opponent, won] of [[playersShip, enemy, victory], [enemy, playersShip, !victory]]) {
+    await logSceneEvent(ship, format("log.scene.battleEnd", { opponent: opponent.name, result: localize(won ? "battle.victory" : "battle.defeat") }), {
+      [`flags.${MODULE_ID}.-=fired`]: null, [`flags.${MODULE_ID}.-=charged`]: null
+    });
+  }
+  const winner = victory ? playersShip : enemy;
+  const loser = victory ? enemy : playersShip;
+  await scene.setFlag(MODULE_ID, "result", { winnerUuid: winner.uuid, loserUuid: loser.uuid, time: Date.now() });
+  const escape = foundry.utils.escapeHTML;
+  const outcome = victory ? "victory" : "defeat";
+  await ChatMessage.create({
+    speaker: { alias: "SkyPlane Combat Re:verse" },
+    content: `<div class="skyplane-battle-result ${outcome}">
+      <h3><i class="fa-solid ${victory ? "fa-trophy" : "fa-skull-crossbones"}"></i> ${escape(localize("battle.ended"))}: ${escape(localize(`battle.${outcome}`))}</h3>
+      <p>${escape(format("battle.endedBody", { winner: winner.name, loser: loser.name }))}</p>
+    </div>`
+  });
+  const shipScene = game.scenes.get(playersShip.getFlag(MODULE_ID, "sceneId")) ?? await deployShip(playersShip);
+  // Сначала ГМ переходит сам, затем активация переводит игроков: иначе два переключения сцены сталкиваются.
+  await shipScene?.view();
+  await shipScene?.activate();
+  emitHook("battleEnded", playersShip, enemy, victory, shipScene);
+  return shipScene;
 }
 
 /** Подтверждение перестройки: ручные правки сгенерированных объектов теряются. */

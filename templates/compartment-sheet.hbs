@@ -81,6 +81,9 @@
         {{/each}}
       </div>
 
+      <label>{{sky "ammo.max"}}</label>
+      <input type="number" min="0" name="system.ammo" value="{{system.ammo}}" data-tooltip="{{sky "ammo.maxHint"}}">
+
       <label>{{sky "combat.special"}}</label>
       <select name="system.special">{{selectOptions specials selected=system.special valueAttr="value" labelAttr="label"}}</select>
 
