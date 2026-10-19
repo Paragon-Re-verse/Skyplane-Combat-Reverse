@@ -1,5 +1,5 @@
 import { MODULE_ID, TEMPLATE_PATH, DISTANCES, SIDES, CONDITIONS, localize, format } from "../constants.js";
-import { isDestroyed, parseHpInput, isWeapon, isFunctioning, weaponRanges, shotCount, ammoLeft } from "../rules/ship-rules.js";
+import { isDestroyed, parseHpInput, isWeapon, isFunctioning, weaponRanges, shotCount, ammoLeft, shotsAvailable } from "../rules/ship-rules.js";
 import { getShip, setShipHp } from "../documents/ship-actions.js";
 import { getLayout, sceneSides, endBattle, playersShipOf } from "../scene/scene-builder.js";
 import { setReveal, revealState } from "../scene/reveal.js";
@@ -20,7 +20,7 @@ function gunStatus(ship, compartment, scene) {
   const charge = compartment.special === "charge" ? chargeState(ship, compartment.instanceId, scene) : null;
   if (charge === "charging") return "charging";
   if (hasFiredThisRound(ship, compartment.instanceId, scene)) return "fired";
-  if (ammoLeft(compartment) <= 0) return "empty";
+  if (shotsAvailable(compartment) <= 0) return "empty";
   if (compartment.special === "charge") return charge ? "charged" : "uncharged";
   return "ready";
 }
@@ -66,7 +66,7 @@ export class BattlePanel extends HandlebarsApplicationMixin(ApplicationV2) {
           formula: shipWeaponFormula(ship, compartment) + (count > 1 ? ` (${format("combat.volleyCount", { count })})` : ""),
           range: weaponRanges(compartment).map((range) => localize(`range.${range}`)).join(", "),
           special: compartment.special ? localize(`special.${compartment.special}`) : "",
-          ammo: compartment.ammo ? `${ammoLeft(compartment)}/${compartment.ammo}` : "",
+          ammo: compartment.ammo ? `${ammoLeft(compartment)}/${compartment.ammo}` : compartment.ammoItem?.uuid ? `${shotsAvailable(compartment)}` : "",
           status,
           statusLabel: localize(`battle.gun.${status}`),
           canAct: status === "ready" || status === "charged" || status === "uncharged",

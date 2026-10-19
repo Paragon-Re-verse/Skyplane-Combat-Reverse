@@ -20,6 +20,14 @@ function placedCompartmentSchema() {
     effectActive: new fields.BooleanField({ initial: true }),
     // Осталось выстрелов; null — полный боезапас.
     currentAmmo: new fields.NumberField({ required: false, integer: true, min: 0, nullable: true, initial: null }),
+    // Содержимое инвентаря: данные предметов dnd5e и их место в сетке отсека.
+    inventory: new fields.ArrayField(new fields.SchemaField({
+      instanceId: new fields.StringField({ required: true, blank: false }),
+      item: new fields.ObjectField(),
+      x: new fields.NumberField({ required: true, integer: true, min: 1, initial: 1 }),
+      y: new fields.NumberField({ required: true, integer: true, min: 1, initial: 1 }),
+      rotated: new fields.BooleanField({ initial: false })
+    })),
     conditions: new fields.ArrayField(new fields.StringField({
       choices: Object.fromEntries(CONDITIONS.map((condition) => [condition, `${MODULE_ID}.condition.${condition}.label`]))
     })),

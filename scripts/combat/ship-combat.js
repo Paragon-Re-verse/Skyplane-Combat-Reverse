@@ -6,7 +6,8 @@
  * после зарядки, «Залп» (перехватчики, ATA) — каждая кость отдельный выстрел со своей целью.
  */
 import { MODULE_ID, CELL_SIZE, localize, format } from "../constants.js";
-import { isWeapon, isFunctioning, weaponFormula, attackDifficulty, shotCount, ammoLeft, isSmoky, hasCondition } from "../rules/ship-rules.js";
+import { isWeapon, isFunctioning, weaponFormula, attackDifficulty, shotCount, ammoLeft, isSmoky, hasCondition, shotsAvailable } from "../rules/ship-rules.js";
+import { takeAmmo } from "../rules/inventory-rules.js";
 import { getShip, getCompartment, canUser, registerPlayerAction, applyHit, appendLog, logEntry, battleOpponents } from "../documents/ship-actions.js";
 import { getLayout, sceneSides, compartmentAtPoint, tokenCenter } from "../scene/scene-builder.js";
 import { isSideRevealed, isTokenOnRecon, markScouted, revealState } from "../scene/reveal.js";
@@ -76,7 +77,7 @@ export function shipWeaponFormula(ship, weapon, options) {
 }
 
 /** Токен пользователя в этом отсеке: выделенный — первым. */
-function tokenInCompartment(scene, ship, instanceId, user = game.user) {
+export function tokenInCompartment(scene, ship, instanceId, user = game.user) {
   const inside = scene.tokens.filter((token) => {
     const location = compartmentAtPoint(scene, tokenCenter(token));
     return location?.ship === ship && location.compartment?.instanceId === instanceId && token.testUserPermission(user, "OWNER");
@@ -96,7 +97,7 @@ function shotBlocker(scene, ship, weapon, token, user, action = "fire") {
   const combat = sceneCombat(scene);
   if (combat && !user.isGM && combat.combatant?.tokenId !== token.id) return "combat.notYourTurn";
   if (hasFiredThisRound(ship, weapon.instanceId, scene)) return "combat.alreadyFired";
-  if (ammoLeft(weapon) <= 0) return "combat.noAmmo";
+  if (shotsAvailable(weapon) <= 0) return "combat.noAmmo";
   if (weapon.special === "charge") {
     const state = chargeState(ship, weapon.instanceId, scene);
     if (action === "charge" && state) return "combat.alreadyCharged";
@@ -319,11 +320,12 @@ async function fireWeapon(ship, { sceneId, tokenId, shooterName, weaponId, shots
   }));
   const update = key ? { [`flags.${MODULE_ID}.fired.${weaponId}`]: key } : {};
   if (weapon.special === "charge") update[`flags.${MODULE_ID}.charged.-=${weaponId}`] = null;
-  // Выстрел (и весь залп) тратит один заряд.
-  if (weapon.ammo) {
+  // Выстрел (и весь залп) тратит один заряд магазина, а без магазина — один снаряд из инвентаря отсека пушки.
+  if (weapon.ammo || weapon.ammoItem?.uuid) {
     const compartments = ship.system.toObject().compartments;
     const own = compartments.find((entry) => entry.instanceId === weaponId);
-    own.currentAmmo = ammoLeft(weapon) - 1;
+    if (weapon.ammo) own.currentAmmo = ammoLeft(weapon) - 1;
+    else own.inventory = takeAmmo(own.inventory, own.ammoItem, 1).entries;
     update["system.compartments"] = compartments;
   }
   const entries = results.map(({ target, damage, hit }) => logEntry("attack", format(hit ? "log.combat.hit" : "log.combat.miss", {

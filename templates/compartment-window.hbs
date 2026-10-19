@@ -2,6 +2,11 @@
   {{#if missing}}
   <p class="skyplane-empty">{{sky "compartment.missing"}}</p>
   {{else}}
+  {{#if inventory}}
+  <button type="button" class="skyplane-button skyplane-inventory-button" data-action="openInventory" {{#unless inventory.present}}disabled data-tooltip="{{sky "inventory.notPresent"}}"{{/unless}}>
+    <i class="fa-solid fa-boxes-stacked"></i> {{sky "inventory.button"}}{{#if inventory.count}} ({{inventory.count}}){{/if}}
+  </button>
+  {{/if}}
   <div class="skyplane-compartment-meta">
     <span><strong>{{sky "compartment.category"}}:</strong> {{categoryLabel}}</span>
     <span><strong>{{sky "compartment.size"}}:</strong> {{sizeLabel}}</span>
@@ -35,6 +40,11 @@
     {{#if combat.weapon}}
     <span><strong>{{sky "systems.firepower"}}:</strong> {{combat.formula}} · <strong>{{sky "combat.ranges"}}:</strong> {{combat.rangeLabel}}</span>
     {{#if ammo}}<span><strong>{{sky "ammo.label"}}:</strong> {{ammo.left}} / {{ammo.max}}</span>{{/if}}
+    {{#if combat.ammoItem}}
+    <span class="skyplane-ammo-item"><img src="{{combat.ammoItem.img}}" alt=""> <strong>{{sky "ammoItem.label"}}:</strong> {{combat.ammoItem.name}} — {{sky "ammoItem.inStock"}} {{combat.ammoItem.stock}}
+      {{#if combat.ammoItem.canReload}}<button type="button" class="skyplane-button" data-action="reloadFromInventory"><i class="fa-solid fa-box-open"></i> {{sky "ammoItem.reload"}}</button>{{/if}}
+    </span>
+    {{/if}}
     {{#if combat.specialLabel}}<span data-tooltip="{{combat.specialHint}}"><strong>{{sky "combat.special"}}:</strong> {{combat.specialLabel}} <i class="fa-solid fa-circle-info"></i></span>{{/if}}
     <span><strong>{{sky "combat.hitCheck"}}:</strong> {{combat.skillLabel}}, {{sky "combat.dc"}} {{combat.dc}}
       {{#if combat.penalized}}<em class="skyplane-warning">({{sky "combat.rangePenalty"}})</em>{{/if}}

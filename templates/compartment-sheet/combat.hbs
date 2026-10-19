@@ -1,0 +1,46 @@
+<section class="tab {{tab.cssClass}}" data-tab="combat" data-group="primary">
+  <fieldset class="skyplane-flags skyplane-combat-fields">
+    <legend>{{sky "combat.section"}}</legend>
+    <p class="skyplane-hint">{{sky "itemSheet.combatHint"}}</p>
+    <div class="skyplane-form-grid">
+      <label>{{sky "itemSheet.checkSkill"}}</label>
+      <select name="system.checkSkill">{{selectOptions skills selected=system.checkSkill valueAttr="value" labelAttr="label"}}</select>
+
+      <label>{{sky "combat.dc"}}</label>
+      <input type="number" min="0" name="system.checkDc" value="{{system.checkDc}}">
+
+      <label>{{sky "combat.ranges"}}</label>
+      <div class="skyplane-pair">
+        {{#each ranges}}
+        <label><input type="checkbox" name="rangeFlags.{{value}}" {{checked checked}}> {{label}}</label>
+        {{/each}}
+      </div>
+
+      <label>{{sky "ammoItem.label"}}</label>
+      <div class="skyplane-ammo-drop" data-drop-zone="ammo" data-tooltip="{{sky "ammoItem.hint"}}">
+        {{#if system.ammoItem.uuid}}
+        <img src="{{system.ammoItem.img}}" alt="">
+        <span>{{system.ammoItem.name}}</span>
+        {{#if editable}}<a data-action="clearAmmoItem" data-tooltip="{{sky "ammoItem.clear"}}"><i class="fa-solid fa-xmark"></i></a>{{/if}}
+        {{else}}
+        <span class="skyplane-hint">{{sky "ammoItem.drop"}}</span>
+        {{/if}}
+      </div>
+
+      <label>{{sky "ammo.max"}}</label>
+      <input type="number" min="0" name="system.ammo" value="{{system.ammo}}" data-tooltip="{{sky "ammo.maxHint"}}">
+
+      <label>{{sky "combat.special"}}</label>
+      <select name="system.special">{{selectOptions specials selected=system.special valueAttr="value" labelAttr="label"}}</select>
+
+      <label>{{sky "systems.firepower"}}</label>
+      <div class="skyplane-pair">
+        <input type="number" min="0" name="system.damageDice" value="{{system.damageDice}}" data-tooltip="{{sky "itemSheet.damageDice"}}">
+        <select name="system.damageDie">{{selectOptions faces selected=system.damageDie valueAttr="value" labelAttr="label"}}</select>
+        <span>+</span>
+        <input type="number" name="system.damageBonus" value="{{system.damageBonus}}" data-tooltip="{{sky "itemSheet.damageBonus"}}">
+      </div>
+    </div>
+    {{#if specialHint}}<p class="skyplane-hint">{{specialHint}}</p>{{/if}}
+  </fieldset>
+</section>

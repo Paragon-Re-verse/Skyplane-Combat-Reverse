@@ -1,0 +1,8 @@
+<footer class="skyplane-sync">
+  {{#if isGM}}
+  <button type="button" class="skyplane-button" data-action="syncShips" {{#unless placedCount}}disabled{{/unless}}>
+    <i class="fa-solid fa-rotate"></i> {{sky "catalog.sync"}} ({{placedCount}})
+  </button>
+  <p class="skyplane-hint">{{sky "catalog.syncHint"}}</p>
+  {{/if}}
+</footer>

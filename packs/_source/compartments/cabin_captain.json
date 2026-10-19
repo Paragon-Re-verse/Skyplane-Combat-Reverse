@@ -39,7 +39,9 @@
       "far"
     ],
     "special": "",
-    "ammo": 0
+    "ammo": 0,
+    "inventoryWidth": 3,
+    "inventoryHeight": 3
   },
   "effects": [],
   "folder": null,

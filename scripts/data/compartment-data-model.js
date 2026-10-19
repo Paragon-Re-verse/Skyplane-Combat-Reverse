@@ -1,5 +1,6 @@
 import { MODULE_ID, SYSTEM_CATEGORIES, EFFECT_STATS, RANGES, WEAPON_SPECIALS, DAMAGE_FACES } from "../constants.js";
 import { LEGACY_RANGES } from "../rules/ship-rules.js";
+import { INVENTORY_LIMIT } from "../rules/inventory-rules.js";
 
 const fields = foundry.data.fields;
 
@@ -44,6 +45,16 @@ export function compartmentFields() {
     damageBonus: new fields.NumberField({ required: true, integer: true, initial: 0 }),
     // Боезапас пушки: сколько выстрелов до пополнения; 0 — без ограничения.
     ammo: new fields.NumberField({ required: true, integer: true, min: 0, initial: 0 }),
+    // Снаряды пушки — предмет, перетащенный в поле «Снаряды»; пусто — пушка снарядов не тратит.
+    ammoItem: new fields.SchemaField({
+      uuid: new fields.StringField({ required: false, blank: true }),
+      source: new fields.StringField({ required: false, blank: true }),
+      name: new fields.StringField({ required: false, blank: true }),
+      img: new fields.StringField({ required: false, blank: true })
+    }),
+    // Сетка инвентаря отсека в клетках; 0 — инвентаря нет.
+    inventoryWidth: new fields.NumberField({ required: true, integer: true, min: 0, max: INVENTORY_LIMIT, initial: 0 }),
+    inventoryHeight: new fields.NumberField({ required: true, integer: true, min: 0, max: INVENTORY_LIMIT, initial: 0 }),
     effect: new fields.StringField({ required: false, blank: true }),
     effectStat: new fields.StringField({
       required: false,

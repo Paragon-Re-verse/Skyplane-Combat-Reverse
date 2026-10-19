@@ -81,6 +81,7 @@ export async function migrateData() {
   if (older("1.1")) await migrateCombatFields();
   if (older("1.1.1")) await migrateEffects();
   if (older("1.2")) await migrateEffectStats();
+  if (older("1.3")) await migrateInventory();
   await game.settings.set(MODULE_ID, "dataVersion", DATA_VERSION);
 }
 
@@ -107,7 +108,68 @@ async function migrateCombatFields() {
   }
 }
 
-const DATA_VERSION = "1.2";
+const DATA_VERSION = "1.3";
+
+/** Сетки инвентаря по умолчанию (ширина, высота): трюмы, мастерские, каюты и их аналоги StarCraft II. */
+export const INVENTORY_DEFAULTS = {
+  cargo_hold: [10, 6], sc2p_vault: [10, 6],
+  workshop_repair: [6, 4], sc2t_armory: [6, 4],
+  cabin_crew: [3, 3], cabin_captain: [3, 3], sc2p_cells: [3, 3], sc2t_barracks: [3, 3],
+  weapon_torpedo: [2, 2], sc2t_yamato: [2, 2]
+};
+
+/** Снаряды поставленных пушек: торпеды «Шмель» и заряды Ямато из компендиума грузов (оба языка подходят). */
+const AMMO_DEFAULTS = {
+  weapon_torpedo: { id: "skyCrgTorpedo001", img: "icons/weapons/thrown/bomb-fuse-black-grey.webp", key: "setup.ammoTorpedo" },
+  sc2t_yamato: { id: "skyCrgYamatoChrg", img: "icons/commodities/gems/gem-cluster-blue-white.webp", key: "setup.ammoYamato" }
+};
+
+function defaultAmmo(catalogId) {
+  const ammo = AMMO_DEFAULTS[catalogId];
+  if (!ammo) return null;
+  const [own, other] = localPack("cargo").endsWith("-en") ? ["cargo-en", "cargo"] : ["cargo", "cargo-en"];
+  return {
+    uuid: `Compendium.${MODULE_ID}.${own}.Item.${ammo.id}`,
+    source: `Compendium.${MODULE_ID}.${other}.Item.${ammo.id}`,
+    name: localize(ammo.key),
+    img: ammo.img
+  };
+}
+
+/** Данные 1.3: мировые отсеки каталога и поставленные отсеки без сетки получают сетку по умолчанию. */
+async function migrateInventory() {
+  const sized = (system) => {
+    const size = INVENTORY_DEFAULTS[system.catalogId];
+    if (!size || system.inventoryWidth) return null;
+    const ammoItem = system.ammoItem?.uuid ? null : defaultAmmo(system.catalogId);
+    return { inventoryWidth: size[0], inventoryHeight: size[1], ...(ammoItem ? { ammoItem } : {}) };
+  };
+  for (const item of game.items.filter((document) => document.type === COMPARTMENT_TYPE)) {
+    const size = sized(item.system);
+    if (size) await item.update({ system: size });
+  }
+  // Свои каталоги в папке модуля (незаблокированные): отсеки с исходным catalogId. Копии «Нового каталога»
+  // получают свой catalogId (custom_…) — их сетку ГМ задаёт во вкладке «Инвентарь».
+  const folderId = game.packs.get(localPack("compartments"))?.folder?.id;
+  const customPacks = game.packs.filter((pack) => pack.documentName === "Item" && pack.folder?.id === folderId
+    && pack.metadata.packageName !== MODULE_ID && !pack.locked);
+  for (const pack of customPacks) {
+    for (const item of await pack.getDocuments({ type: COMPARTMENT_TYPE })) {
+      const size = sized(item.system);
+      if (size) await item.update({ system: size });
+    }
+  }
+  for (const ship of game.actors.filter((actor) => actor.type === SHIP_TYPE)) {
+    let changed = false;
+    const compartments = ship.system.toObject().compartments.map((compartment) => {
+      const size = sized(compartment);
+      if (!size) return compartment;
+      changed = true;
+      return { ...compartment, ...size };
+    });
+    if (changed) await ship.update({ "system.compartments": compartments });
+  }
+}
 
 /** Старый модификатор характеристики (effectStat) как активный эффект «Прибавить». */
 function effectFromStat(stat, value) {

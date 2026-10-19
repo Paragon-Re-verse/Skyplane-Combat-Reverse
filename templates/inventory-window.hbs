@@ -1,0 +1,41 @@
+<div class="skyplane-inventory-body">
+  {{#if missing}}
+  <p class="skyplane-empty">{{sky "inventory.noInventory"}}</p>
+  {{else}}
+  {{#if isGM}}
+  <aside class="skyplane-inventory-catalog">
+    <input type="search" placeholder="{{sky "inventory.search"}}">
+    <select>
+      <option value="">{{sky "inventory.allTypes"}}</option>
+      {{selectOptions types valueAttr="value" labelAttr="label"}}
+    </select>
+    <ol>
+      {{#each catalog}}
+      <li data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" draggable="true" data-tooltip="{{pack}}">
+        <img src="{{img}}" alt="">
+        <span>{{name}}</span>
+        <a data-action="addCatalogItem" data-tooltip="{{sky "inventory.add"}}"><i class="fa-solid fa-plus"></i></a>
+      </li>
+      {{else}}
+      <li class="skyplane-empty">{{sky "inventory.catalogEmpty"}}</li>
+      {{/each}}
+    </ol>
+    <button type="button" class="skyplane-button" data-action="newCargo"><i class="fa-solid fa-box-open"></i> {{sky "inventory.newCargo"}}</button>
+  </aside>
+  {{/if}}
+  <section class="skyplane-inventory-main">
+    {{#if readOnly}}<p class="skyplane-hint"><i class="fa-solid fa-eye"></i> {{sky "inventory.readOnly"}}</p>{{/if}}
+    <div class="skyplane-inventory-grid {{#if readOnly}}readonly{{/if}}" data-inventory-grid data-ship="{{shipUuid}}" data-compartment="{{instanceId}}"
+      data-width="{{width}}" data-height="{{height}}" style="{{gridStyle}}">
+      {{#each entries}}
+      <div class="skyplane-inventory-item" data-entry-id="{{instanceId}}" style="{{style}}" data-tooltip="{{name}}">
+        <img src="{{img}}" alt="" draggable="false">
+        <span class="name">{{name}}</span>
+        {{#if multiple}}<span class="quantity">×{{quantity}}</span>{{/if}}
+      </div>
+      {{/each}}
+    </div>
+    {{#unless readOnly}}<p class="skyplane-hint">{{sky "inventory.hint"}}</p>{{/unless}}
+  </section>
+  {{/if}}
+</div>

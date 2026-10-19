@@ -45,6 +45,14 @@
         "damageDie": 4,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -64,7 +72,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -93,6 +102,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -112,7 +129,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -141,6 +159,14 @@
         "damageDie": 4,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -160,7 +186,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -189,6 +216,14 @@
         "damageDie": 4,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -208,7 +243,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -237,6 +273,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -256,7 +300,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -284,6 +329,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -317,7 +370,8 @@
         "maxHp": 16,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -345,6 +399,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -364,7 +426,8 @@
         "maxHp": 18,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -393,6 +456,14 @@
         "damageDie": 4,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -412,7 +483,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -441,6 +513,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -460,7 +540,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -488,6 +569,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -507,7 +596,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -535,6 +625,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -554,7 +652,8 @@
         "maxHp": 22,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -582,6 +681,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -601,7 +708,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -630,6 +738,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -649,7 +765,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -677,6 +794,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -696,7 +821,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -724,6 +850,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -743,7 +877,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -771,6 +906,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -790,7 +933,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -818,6 +962,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -837,7 +989,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       }
     ],
     "description": "<p>En Taro Adun! Длинный золотой корпус, четыре ангара перехватчиков по левому борту и генератор щитов, который сам по себе стоит целого корабля. Пока щиты целы, прочность выше на 200 — разбейте генератор, и авианосец станет заметно мягче.</p>"

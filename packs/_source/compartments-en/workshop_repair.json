@@ -38,7 +38,9 @@
       "far"
     ],
     "special": "",
-    "ammo": 0
+    "ammo": 0,
+    "inventoryWidth": 6,
+    "inventoryHeight": 4
   },
   "effects": [
     {

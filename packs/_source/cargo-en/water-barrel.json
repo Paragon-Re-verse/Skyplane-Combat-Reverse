@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgWaterBrl01",
+  "_key": "!items!skyCrgWaterBrl01",
+  "name": "Barrel of fresh water",
+  "type": "loot",
+  "img": "icons/containers/barrels/barrel-hogshead-cask-oak-brown.webp",
+  "system": {
+    "description": {
+      "value": "<p>Drinking water for the crew.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 60,
+      "units": "lb"
+    },
+    "price": {
+      "value": 2,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 300,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 1,
+        "height": 2
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

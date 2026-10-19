@@ -1,3 +1,4 @@
+import { CUSTOM_CARGO_PREFIX } from "./inventory-window.js";
 import {
   MODULE_ID, TEMPLATE_PATH, COMPARTMENT_TYPE, SHIP_TYPE, DISTANCES, SYSTEM_CATEGORIES, PERMISSION_RIGHTS, localize, format, describeChanges, effectKeyLabel,
   localPack
@@ -42,7 +43,8 @@ export function compartmentCatalogs() {
   const base = moduleCatalogs().map((id) => game.packs.get(id)).filter(Boolean);
   const folderId = base[0]?.folder?.id;
   const custom = folderId
-    ? game.packs.filter((pack) => pack.documentName === "Item" && pack.folder?.id === folderId && pack.metadata.packageName !== MODULE_ID)
+    ? game.packs.filter((pack) => pack.documentName === "Item" && pack.folder?.id === folderId && pack.metadata.packageName !== MODULE_ID
+      && !pack.metadata.name.startsWith(CUSTOM_CARGO_PREFIX))
     : [];
   return [...base, ...custom].filter((pack) => pack.visible);
 }
@@ -66,7 +68,7 @@ async function catalogFolder() {
     ?? Folder.create({ name: "SkyPlane", type: "Item", color: "#6b1f1a" });
 }
 
-const LOG_TYPES = ["damage", "heal", "destroyed", "restored", "repair", "disabled", "phlogiston", "distance", "build", "crew", "scene", "note"];
+const LOG_TYPES = ["attack", "damage", "heal", "destroyed", "restored", "repair", "disabled", "phlogiston", "distance", "build", "crew", "scene", "inventory", "note"];
 
 /**
  * Лист корабля виден всем. Игрок — наблюдатель: любое изменение уходит ГМу именованным действием,
@@ -95,6 +97,7 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       removeCrew: ShipSheet.#onRemoveCrew,
       addNote: ShipSheet.#onAddNote,
       clearLog: ShipSheet.#onClearLog,
+      exportLog: ShipSheet.#onExportLog,
       newCompartment: ShipSheet.#onNewCompartment,
       createCatalog: ShipSheet.#onCreateCatalog,
       editCatalogEntry: ShipSheet.#onEditCatalogEntry,
@@ -442,9 +445,19 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     requestAction("buildAction", this.actor, { op: "starterKit" });
   }
 
-  static #onRemoveCompartment(event, target) {
+  /** Отсек с вещами в инвентаре удаляется после подтверждения; Ctrl+Z вернёт его вместе с вещами. */
+  static async #onRemoveCompartment(event, target) {
     event.stopPropagation();
-    requestAction("buildAction", this.actor, { op: "remove", instanceId: target.closest("[data-instance-id]").dataset.instanceId });
+    const instanceId = target.closest("[data-instance-id]").dataset.instanceId;
+    const compartment = getCompartment(this.actor, instanceId);
+    if (compartment?.inventory.length) {
+      const confirmed = await foundry.applications.api.DialogV2.confirm({
+        window: { title: localize("inventory.removeTitle") },
+        content: `<p>${foundry.utils.escapeHTML(format("inventory.removeConfirm", { name: compartment.name, count: compartment.inventory.length }))}</p>`
+      });
+      if (!confirmed) return;
+    }
+    requestAction("buildAction", this.actor, { op: "remove", instanceId });
   }
 
   static #onOpenCompartment(event, target) {
@@ -563,6 +576,18 @@ export class ShipSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       return ui.notifications.warn(localize("notify.invalidJson"));
     }
     if (await importShipData(this.actor, data)) ui.notifications.info(format("notify.imported", { name: this.actor.name }));
+  }
+
+  /** «Экспорт в .txt»: весь журнал по порядку, строка «дата время - тип - пользователь - текст». */
+  static #onExportLog() {
+    const timeFormat = { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" };
+    const lines = getLog(this.actor).map((entry) => [
+      new Date(entry.time).toLocaleString(game.i18n.lang, timeFormat).replace(", ", " "),
+      localize(`logType.${entry.type}`),
+      game.users.get(entry.userId)?.name ?? "—",
+      entry.text
+    ].join(" - "));
+    foundry.utils.saveDataToFile(lines.join("\r\n"), "text/plain", `${format("log.fileName", { name: this.actor.name })}.txt`);
   }
 
   static async #onClearLog() {

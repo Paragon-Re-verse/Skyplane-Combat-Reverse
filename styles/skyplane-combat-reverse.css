@@ -1041,6 +1041,183 @@ body.skyplane-no-animations .skyplane-combat-reverse * {
   overflow-y: auto;
 }
 .skyplane-combat-reverse .window-content > .skyplane-sheet-header,
+.skyplane-combat-reverse .window-content > .skyplane-item-header,
+.skyplane-combat-reverse .window-content > .skyplane-sync,
 .skyplane-combat-reverse .window-content > nav.tabs {
   flex-shrink: 0;
+}
+
+.skyplane-compartment-sheet nav.tabs {
+  border-bottom: 1px solid #b08d57;
+  margin-bottom: 8px;
+}
+.skyplane-compartment-sheet nav.tabs > a,
+.skyplane-compartment-sheet nav.tabs > button {
+  color: #3b2a1a;
+  text-shadow: none;
+}
+.skyplane-compartment-sheet nav.tabs > .active {
+  color: #6b1f1a;
+  font-weight: bold;
+  border-bottom: 2px solid #b08d57;
+}
+
+.skyplane-compartment-window .skyplane-inventory-button {
+  float: right;
+  margin: 0 0 6px 8px;
+}
+.skyplane-compartment-window .skyplane-ammo-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.skyplane-compartment-window .skyplane-ammo-item img {
+  width: 20px;
+  height: 20px;
+  border: none;
+}
+.skyplane-compartment-window .skyplane-ammo-item button {
+  margin-left: auto;
+}
+
+.skyplane-inventory-window .window-content {
+  padding: 8px;
+}
+.skyplane-inventory-window .skyplane-inventory-body {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.skyplane-inventory-window .skyplane-inventory-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 230px;
+  flex: none;
+}
+.skyplane-inventory-window .skyplane-inventory-catalog ol {
+  max-height: 340px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.skyplane-inventory-window .skyplane-inventory-catalog li {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 2px 4px;
+  cursor: grab;
+}
+.skyplane-inventory-window .skyplane-inventory-catalog li img {
+  width: 24px;
+  height: 24px;
+  border: none;
+}
+.skyplane-inventory-window .skyplane-inventory-catalog li span {
+  flex: 1;
+}
+.skyplane-inventory-window .skyplane-inventory-catalog li:hover {
+  background: rgba(176, 141, 87, 0.2);
+}
+.skyplane-inventory-window .skyplane-inventory-grid {
+  position: relative;
+  border: 2px solid #b08d57;
+  background-color: rgba(0, 0, 0, 0.06);
+  background-image: linear-gradient(to right, rgba(176, 141, 87, 0.45) 1px, transparent 1px), linear-gradient(to bottom, rgba(176, 141, 87, 0.45) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  box-sizing: content-box;
+}
+
+.skyplane-inventory-item,
+.skyplane-inventory-ghost {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid #6b1f1a;
+  border-radius: 3px;
+  background: rgba(239, 227, 197, 0.92);
+  color: #2a1d10;
+  font-size: 11px;
+  line-height: 1.1;
+  cursor: grab;
+  user-select: none;
+}
+.skyplane-inventory-item img,
+.skyplane-inventory-ghost img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.55;
+  border: none;
+}
+.skyplane-inventory-item .name,
+.skyplane-inventory-item .quantity,
+.skyplane-inventory-ghost .name,
+.skyplane-inventory-ghost .quantity {
+  position: relative;
+  text-shadow: 0 0 2px #fff;
+}
+.skyplane-inventory-item .quantity,
+.skyplane-inventory-ghost .quantity {
+  align-self: flex-end;
+  font-weight: bold;
+}
+.skyplane-inventory-item.dragging,
+.skyplane-inventory-ghost.dragging {
+  opacity: 0.35;
+}
+
+.skyplane-inventory-grid.readonly .skyplane-inventory-item {
+  cursor: default;
+}
+
+.skyplane-inventory-ghost {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  border: 2px dashed #b08d57;
+}
+.skyplane-inventory-ghost.invalid {
+  border-color: #b3261e;
+  background: rgba(179, 38, 30, 0.25);
+}
+
+.skyplane-quantity {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.skyplane-quantity input[type=range] {
+  flex: 1;
+}
+.skyplane-quantity output {
+  min-width: 2em;
+  text-align: right;
+  font-weight: bold;
+}
+
+.skyplane-compartment-sheet .skyplane-ammo-drop {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-height: 32px;
+  padding: 2px 6px;
+  border: 1px dashed #b08d57;
+  border-radius: 3px;
+}
+.skyplane-compartment-sheet .skyplane-ammo-drop img {
+  width: 26px;
+  height: 26px;
+  border: none;
+}
+.skyplane-compartment-sheet .skyplane-ammo-drop span {
+  flex: 1;
 }

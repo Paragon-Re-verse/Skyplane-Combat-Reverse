@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgSpareParts",
+  "_key": "!items!skyCrgSpareParts",
+  "name": "Spare parts kit",
+  "type": "loot",
+  "img": "icons/commodities/tech/cog-brass.webp",
+  "system": {
+    "description": {
+      "value": "<p>Gears, valves and rivets for repairing machinery.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 25,
+      "units": "lb"
+    },
+    "price": {
+      "value": 30,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 600,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 2,
+        "height": 1
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

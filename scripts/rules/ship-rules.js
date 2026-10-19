@@ -6,6 +6,8 @@
  * Тексты ошибок не формируются здесь: возвращаются ключи i18n и данные для format.
  */
 
+import { ammoCount } from "./inventory-rules.js";
+
 export const GRID_LIMITS = Object.freeze({
   minWidth: 4,
   minHeight: 3,
@@ -15,7 +17,9 @@ export const GRID_LIMITS = Object.freeze({
   defaultHeight: 6
 });
 
+/** Размер сетки в пределах; не числа — null (запрос отклоняется). */
 export function clampGridSize(width, height) {
+  if (!Number.isFinite(Number(width)) || !Number.isFinite(Number(height)) || width === "" || height === "" || width == null || height == null) return null;
   return {
     width: Math.max(GRID_LIMITS.minWidth, Math.min(GRID_LIMITS.maxWidth, Math.round(width))),
     height: Math.max(GRID_LIMITS.minHeight, Math.min(GRID_LIMITS.maxHeight, Math.round(height)))
@@ -56,6 +60,13 @@ export function isSmoky(compartment) {
 export function ammoLeft(compartment) {
   if (!compartment.ammo) return Infinity;
   return Math.min(compartment.ammo, compartment.currentAmmo ?? compartment.ammo);
+}
+
+/** Сколько можно выстрелить: магазин, а без магазина — снаряды из инвентаря отсека; без снарядов — без ограничения. */
+export function shotsAvailable(compartment) {
+  if (compartment.ammo) return ammoLeft(compartment);
+  if (compartment.ammoItem?.uuid) return ammoCount(compartment.inventory ?? [], compartment.ammoItem);
+  return Infinity;
 }
 
 /* ---------------- Геометрия ---------------- */

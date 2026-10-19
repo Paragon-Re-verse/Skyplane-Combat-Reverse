@@ -78,7 +78,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "bridge_leather",
@@ -126,7 +127,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_captain",
@@ -163,6 +165,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "ABRX1EitZE8sQ9zC",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.CqZySmgMtH9FySj2",
@@ -174,7 +178,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "radar_station",
@@ -221,7 +226,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "engine_hobgoblin",
@@ -269,7 +275,8 @@
         "maxHp": 20,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -315,7 +322,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -363,7 +371,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -411,7 +420,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -459,7 +469,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_falconet",
@@ -507,7 +518,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -543,6 +555,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "DMgoxb4W5Y3oyosS",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -554,7 +568,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -590,6 +605,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "28JabjUw70Th3gRF",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -601,7 +618,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "mess_hall",
@@ -648,7 +666,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cargo_hold",
@@ -685,6 +704,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effects": [],
         "instanceId": "vGv3IhfPn4rlN4tx",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.oxaAaFd9u6AKvdmc",
@@ -696,7 +717,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cargo_hold",
@@ -733,6 +755,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effects": [],
         "instanceId": "t0G3jElG9OobMv84",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.oxaAaFd9u6AKvdmc",
@@ -744,7 +768,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cargo_hold",
@@ -781,6 +806,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effects": [],
         "instanceId": "jwSaXqxisYUAg9z3",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.oxaAaFd9u6AKvdmc",
@@ -792,7 +819,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       }
     ],
     "description": "<p>Пузатый торговец с тремя трюмами. Медленный, но доживает до порта — на корме «Хобгоблин», на носу пара пушек от пиратов.</p>"

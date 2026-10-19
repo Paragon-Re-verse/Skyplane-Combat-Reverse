@@ -1,0 +1,32 @@
+<section class="tab {{tab.cssClass}}" data-tab="details" data-group="primary">
+  <div class="skyplane-form-grid">
+    <label>{{sky "compartment.category"}}</label>
+    <select name="system.systemCategory">{{selectOptions categories selected=system.systemCategory valueAttr="value" labelAttr="label"}}</select>
+
+    <label>{{sky "itemSheet.size"}}</label>
+    <div class="skyplane-pair">
+      <input type="number" min="1" max="8" name="system.height" value="{{system.height}}">
+      <span>×</span>
+      <input type="number" min="1" max="14" name="system.width" value="{{system.width}}">
+    </div>
+
+    <label>{{sky "itemSheet.hp"}}</label>
+    <input type="number" min="0" name="system.hp" value="{{system.hp}}">
+
+    <label>{{sky "itemSheet.tileImage"}}</label>
+    <file-picker name="system.img" type="image" value="{{system.img}}"></file-picker>
+
+    <label>{{sky "params.speed"}}</label>
+    <input type="number" min="0" name="system.speed" value="{{system.speed}}">
+
+    <label>{{sky "params.fuelEconomy"}}</label>
+    <input type="number" min="0" name="system.fuelEconomy" value="{{system.fuelEconomy}}">
+  </div>
+
+  <fieldset class="skyplane-flags">
+    <legend>{{sky "itemSheet.flags"}}</legend>
+    {{#each flags}}
+    <label><input type="checkbox" name="system.{{key}}" {{checked checked}}> {{label}}</label>
+    {{/each}}
+  </fieldset>
+</section>

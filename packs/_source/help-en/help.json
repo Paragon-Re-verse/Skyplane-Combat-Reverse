@@ -186,6 +186,32 @@
       }
     },
     {
+      "_id": "skyHelpInventory",
+      "_key": "!journal.pages!6oe1AgAJbLIhXV6w.skyHelpInventory",
+      "name": "Inventory",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Compartments with a grid (by default the Cargo hold 10×6, the Workshop 6×4, cabins 3×3) have an inventory. The grid size is on the Inventory tab of the compartment sheet; 0 means no inventory.</p>\n<h3>Access</h3>\n<p>The compartment window has an Inventory button. A player opens it only while their character's token stands in that compartment (on the ship or battle scene, including an enemy ship's compartment when boarding). If the token leaves, the window stays view-only. The GM sees every compartment's inventory.</p>\n<h3>Items</h3>\n<ul>\n<li>Drag an item from a character sheet onto the grid: a “How many?” slider appears; the item is moved, not copied.</li>\n<li>Drag an item from the grid onto a character sheet, onto another compartment's grid or another ship's.</li>\n<li>While an item is dragged on the grid, F rotates it (change it in the keybinding settings).</li>\n<li>Right-click: Rotate, Size…, Split stack…, Take, Delete (GM).</li>\n<li>Identical items (same source) share one stack. Default sizes: consumable and loot 1×1, equipment and tool 1×2, weapon 1×3, container 2×2. A container moves together with its contents.</li>\n</ul>\n<h3>GM catalog</h3>\n<p>The left side of the inventory window lists the module's cargo and repair kits and your own item compendiums in the “SkyPlane Combat Re:verse” folder, with search and a type filter. “New cargo” creates a Loot item in the “Custom cargo” compendium.</p>\n<h3>Ammunition</h3>\n<p>On a gun's sheet, Combat tab, the Ammunition field: drop an item there. A gun with an Ammo capacity is reloaded with the Reload button in the compartment window — rounds are taken from the gun compartment's inventory up to a full magazine. A gun without Ammo capacity but with Ammunition uses one round from its compartment's inventory per shot or volley. The torpedo launcher and the Yamato cannon already use “Bumblebee” torpedoes and Yamato charges from the cargo compendium.</p>\n<p>Every store, take, transfer and reload goes to the ship log — filter “Inventory”.</p>"
+      },
+      "sort": 650,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "dnd5e",
+        "systemVersion": "5.3.3",
+        "createdTime": 1792108800000,
+        "modifiedTime": 1792108800000
+      }
+    },
+    {
       "_id": "nEl2gcvB9bDvYDOk",
       "_key": "!journal.pages!6oe1AgAJbLIhXV6w.nEl2gcvB9bDvYDOk",
       "name": "Ship templates",

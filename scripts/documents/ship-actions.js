@@ -8,6 +8,7 @@ import {
   checkPlacement, findFreePosition, computeStats, clampGridSize, isDestroyed, planStarterKit, hasCondition,
   needsRecalc, resolveHit, resolveUndoHit
 } from "../rules/ship-rules.js";
+import { fitsGrid } from "../rules/inventory-rules.js";
 import { userHasRight } from "../settings.js";
 import { emitHook } from "../socket.js";
 
@@ -113,7 +114,8 @@ export function buildPlacedCompartment(item, x, y) {
     maxHp: source.hp,
     passageUp: false,
     passageDown: false,
-    effectActive: true
+    effectActive: true,
+    inventory: []
   };
 }
 
@@ -126,7 +128,7 @@ async function writeShip(ship, { compartments = null, hull = null, update = {}, 
   const result = { ...update };
   const logEntries = [...entries];
   const oldHull = ship.system.currentHp;
-  let newHull = hull == null ? null : Math.max(0, Math.round(hull));
+  let newHull = hull == null || !Number.isFinite(Number(hull)) ? null : Math.max(0, Math.round(hull));
   const destroyed = [];
   const restored = [];
   if (compartments) {
@@ -164,6 +166,7 @@ async function writeShip(ship, { compartments = null, hull = null, update = {}, 
  * Возвращает обновлённый отсек или null.
  */
 async function writeCompartmentHp(ship, instanceId, value, user, { entries = [], conditions = {} } = {}) {
+  if (!Number.isFinite(Number(value))) return null;
   const compartments = ship.system.toObject().compartments;
   const compartment = compartments.find((entry) => entry.instanceId === instanceId);
   if (!compartment) return null;
@@ -198,7 +201,8 @@ const PARAM_FIELDS = {
 };
 const NUMERIC_PARAMS = ["currentHp", "maxHp", "maxCrew", "speed", "fuelEconomy"];
 
-async function updateParams(ship, { changes = {}, recalc = false }, user) {
+async function updateParams(ship, { changes, recalc = false }, user) {
+  changes = changes && typeof changes === "object" ? changes : {};
   if (recalc) {
     await ship.update(statsUpdate(ship, ship.system.compartments));
     return { ok: true };
@@ -271,7 +275,9 @@ async function buildAction(ship, payload, user, { fromUndo = false } = {}) {
   if (payload.op === "undo") {
     const inverse = undoStack(ship, user).pop();
     if (!inverse) return denied("notify.nothingToUndo");
-    return buildAction(ship, inverse, user, { fromUndo: true });
+    const result = await buildAction(ship, inverse, user, { fromUndo: true });
+    if (!result.ok) undoStack(ship, user).push(inverse);
+    return result;
   }
   if (INTERNAL_OPS.includes(payload.op) && !fromUndo) return denied("notify.unknownAction");
   const { gridWidth, gridHeight } = ship.system;
@@ -312,6 +318,8 @@ async function buildAction(ship, payload, user, { fromUndo = false } = {}) {
     case "remove": {
       const index = compartments.findIndex((entry) => entry.instanceId === payload.instanceId);
       if (index < 0) return denied("notify.notFound");
+      // Отмена не удаляет отсек с вещами молча: подтверждение есть только у кнопки «Удалить».
+      if (fromUndo && compartments[index].inventory?.length) return denied("inventory.undoBlocked", { name: compartments[index].name });
       const [removed] = compartments.splice(index, 1);
       entries.push(logEntry("build", format("log.build.remove", { name: removed.name }), user));
       inverse = { op: "restore", compartment: removed };
@@ -330,12 +338,15 @@ async function buildAction(ship, payload, user, { fromUndo = false } = {}) {
     case "removeMany": {
       const removed = compartments.filter((entry) => payload.instanceIds.includes(entry.instanceId));
       if (!removed.length) return denied("notify.notFound");
+      const filled = removed.find((entry) => entry.inventory?.length);
+      if (filled) return denied("inventory.undoBlocked", { name: filled.name });
       for (const entry of removed) compartments.splice(compartments.indexOf(entry), 1);
       entries.push(logEntry("build", format("log.build.removeMany", { count: removed.length }), user));
       break;
     }
     case "resize": {
       const size = clampGridSize(payload.width, payload.height);
+      if (!size) return denied("notify.invalidNumber");
       const outside = compartments.find((entry) => entry.x + entry.width - 1 > size.width || entry.y + entry.height - 1 > size.height);
       if (outside) return denied("rules.resizeBlocked", { name: outside.name });
       if (!fromUndo) pushUndo(ship, user, { op: "resize", width: gridWidth, height: gridHeight });
@@ -459,6 +470,7 @@ async function setDistance(ship, { value }, user) {
  * splash (огнемёт): соседние по стороне отсеки получают половину урона — только в свои HP, не в прочность.
  */
 export async function applyHit(ship, instanceId, amount, user, logText, { splash = false, conditions = [] } = {}) {
+  amount = Math.max(0, Math.round(Number(amount) || 0));
   // Огнемёт поджигает цель, критическое попадание пробивает её; расчёт — в правилах, здесь одна запись и хуки.
   const hit = resolveHit({ compartments: ship.system.toObject().compartments, hull: ship.system.currentHp }, instanceId, amount, {
     splash, conditions: conditions.filter((condition) => CONDITIONS.includes(condition))
@@ -479,6 +491,7 @@ export async function applyHit(ship, instanceId, amount, user, logText, { splash
 /** Отмена попадания: возвращает то, что попадание сняло с прочности, отсека и соседей, и снимает его состояния. */
 export async function undoHit(ship, instanceId, lost, logText) {
   if (!requireGM()) return;
+  lost ??= {};
   const removed = (lost.conditions ?? []).filter((condition) => hasCondition(getCompartment(ship, instanceId) ?? {}, condition));
   const undo = resolveUndoHit({ compartments: ship.system.toObject().compartments, hull: ship.system.currentHp, maxHull: ship.system.maxHp }, instanceId, lost);
   const find = (id) => undo.compartments.find((compartment) => compartment.instanceId === id);
@@ -528,7 +541,8 @@ async function executePlayerAction(name, shipUuid, payload, user) {
   const definition = PLAYER_ACTIONS[name];
   const ship = getShip(await fromUuid(shipUuid));
   if (!definition || !ship) return denied("notify.unknownAction");
-  if (!canUser(user, ship, definition.right)) {
+  // right: null — действие само проверяет присутствие токена (инвентарь, в том числе на вражеском корабле).
+  if (definition.right && !canUser(user, ship, definition.right)) {
     console.warn(`${MODULE_ID} | ${user.name}: отказ в действии ${name} для ${ship.name}`);
     return denied();
   }
@@ -542,36 +556,46 @@ async function executePlayerAction(name, shipUuid, payload, user) {
 
 /* ---------------- Действия только ГМа ---------------- */
 
-export async function damageShip(ship, amount) {
+/*
+ * Прямые изменения ГМа идут через ту же очередь, что и действия игроков: каждое пишет массив отсеков целиком
+ * и иначе затёрло бы инвентарь, положенный игроком в ту же секунду. Задачи очереди эти функции не вызывают.
+ */
+export function damageShip(ship, amount) {
   if (!requireGM()) return;
-  await writeShip(ship, { hull: ship.system.currentHp - Math.abs(Number(amount) || 0) }, game.user);
+  return serialized(() => writeShip(ship, { hull: ship.system.currentHp - Math.abs(Number(amount) || 0) }, game.user));
 }
 
-export async function healShip(ship, amount) {
+export function healShip(ship, amount) {
   if (!requireGM()) return;
-  await writeShip(ship, { hull: Math.min(ship.system.maxHp, ship.system.currentHp + Math.abs(Number(amount) || 0)) }, game.user);
+  return serialized(() => writeShip(ship, { hull: Math.min(ship.system.maxHp, ship.system.currentHp + Math.abs(Number(amount) || 0)) }, game.user));
 }
 
-export async function setShipHp(ship, value) {
+export function setShipHp(ship, value) {
   if (!requireGM()) return;
-  await writeShip(ship, { hull: Math.min(ship.system.maxHp, value) }, game.user);
+  return serialized(() => writeShip(ship, { hull: Math.min(ship.system.maxHp, value) }, game.user));
 }
 
-export async function damageCompartment(ship, instanceId, amount) {
+export function damageCompartment(ship, instanceId, amount) {
   if (!requireGM()) return null;
-  const compartment = getCompartment(ship, instanceId);
-  if (!compartment) return null;
-  return writeCompartmentHp(ship, instanceId, compartment.currentHp - Math.abs(Number(amount) || 0), game.user);
+  return serialized(() => {
+    const compartment = getCompartment(ship, instanceId);
+    if (!compartment) return null;
+    return writeCompartmentHp(ship, instanceId, compartment.currentHp - Math.abs(Number(amount) || 0), game.user);
+  });
 }
 
-export async function setCompartmentHp(ship, instanceId, value) {
+export function setCompartmentHp(ship, instanceId, value) {
   if (!requireGM()) return null;
-  return writeCompartmentHp(ship, instanceId, value, game.user);
+  return serialized(() => writeCompartmentHp(ship, instanceId, value, game.user));
 }
 
 /** Галочки ГМа: проходы вверх/вниз, «Узкий», включение эффекта. */
-export async function setCompartmentFlags(ship, instanceId, flags) {
+export function setCompartmentFlags(ship, instanceId, flags) {
   if (!requireGM()) return;
+  return serialized(() => writeCompartmentFlags(ship, instanceId, flags));
+}
+
+async function writeCompartmentFlags(ship, instanceId, flags) {
   const compartments = foundry.utils.deepClone(ship.system.compartments);
   const compartment = compartments.find((entry) => entry.instanceId === instanceId);
   if (!compartment) return;
@@ -611,14 +635,18 @@ async function writeConditions(ship, instanceId, changes, user = game.user) {
   if (entries.length) await writeShip(ship, { compartments, entries }, user);
 }
 
-export async function setCompartmentConditions(ship, instanceId, changes) {
+export function setCompartmentConditions(ship, instanceId, changes) {
   if (!requireGM()) return;
-  await writeConditions(ship, instanceId, changes);
+  return serialized(() => writeConditions(ship, instanceId, changes));
 }
 
 /** ГМ ставит число зарядов пушки; без аргумента — пополняет до максимума. */
-export async function setCompartmentAmmo(ship, instanceId, value = null) {
+export function setCompartmentAmmo(ship, instanceId, value = null) {
   if (!requireGM()) return;
+  return serialized(() => writeCompartmentAmmo(ship, instanceId, value));
+}
+
+async function writeCompartmentAmmo(ship, instanceId, value) {
   const compartments = ship.system.toObject().compartments;
   const compartment = compartments.find((entry) => entry.instanceId === instanceId);
   if (!compartment?.ammo) return;
@@ -724,10 +752,14 @@ export function countPlacedFrom(item) {
  * «Обновить на кораблях»: поставленные копии отсека получают свойства из каталога.
  * Место, проходы, включённость эффекта и полученный урон сохраняются; новый размер — только если отсек влезает.
  */
-export async function syncCatalogItem(item) {
+export function syncCatalogItem(item) {
   if (!requireGM()) return null;
+  return serialized(() => writeCatalogSync(item));
+}
+
+async function writeCatalogSync(item) {
   const definition = buildPlacedCompartment(item, 1, 1);
-  const result = { ships: 0, compartments: 0, keptSize: [] };
+  const result = { ships: 0, compartments: 0, keptSize: [], keptInventory: [] };
   for (const ship of game.actors.filter(isShip)) {
     const compartments = ship.system.toObject().compartments;
     let changed = 0;
@@ -744,8 +776,15 @@ export async function syncCatalogItem(item) {
         effectActive: compartment.effectActive,
         conditions: compartment.conditions ?? [],
         currentAmmo: compartment.currentAmmo == null || !definition.ammo ? null : Math.min(compartment.currentAmmo, definition.ammo),
-        currentHp: Math.max(0, definition.maxHp - damage)
+        currentHp: Math.max(0, definition.maxHp - damage),
+        inventory: compartment.inventory ?? []
       };
+      // Сетка инвентаря меняется, только если содержимое в неё помещается.
+      if (!fitsGrid(next.inventory, next.inventoryWidth, next.inventoryHeight)) {
+        next.inventoryWidth = compartment.inventoryWidth;
+        next.inventoryHeight = compartment.inventoryHeight;
+        result.keptInventory.push(`${ship.name}: ${compartment.name}`);
+      }
       const others = compartments.filter((other) => other.instanceId !== compartment.instanceId);
       const resized = next.width !== compartment.width || next.height !== compartment.height;
       if (resized && !checkPlacement(next, others, ship.system.gridWidth, ship.system.gridHeight).ok) {
@@ -777,7 +816,17 @@ export async function importShipData(ship, data) {
     return false;
   }
   const system = foundry.utils.deepClone(data.system);
-  system.crew = (system.crew ?? []).filter((member) => fromUuidSync(member.actorUuid));
+  system.crew = (Array.isArray(system.crew) ? system.crew : [])
+    .filter((member) => typeof member?.actorUuid === "string" && fromUuidSync(member.actorUuid));
+  // Сначала проверка на копии: файл без отсеков или с битыми данными не должен стереть корабль.
+  try {
+    if (!Array.isArray(system.compartments)) throw new Error("compartments");
+    new Actor.implementation({ name: data.name || ship.name, type: SHIP_TYPE, system }, { strict: true });
+  } catch (error) {
+    console.error(`${MODULE_ID} | импорт`, error);
+    ui.notifications.error(localize("notify.invalidJson"));
+    return false;
+  }
   if (!system.crew.some((member) => member.actorUuid === system.captainUuid)) system.captainUuid = "";
   const dropped = (data.system.crew?.length ?? 0) - system.crew.length;
   try {

@@ -115,7 +115,8 @@
             "copyFrom": "Copy compartments from “{name}”",
             "create": "Create catalog",
             "created": "Catalog “{name}” created in compendiums, folder “SkyPlane Combat Re:verse”.",
-            "newInCatalogHint": "Create a compartment in this catalog"
+            "newInCatalogHint": "Create a compartment in this catalog",
+            "syncKeptInventory": "Inventory grid not reduced — the contents do not fit: {names}."
         },
         "systems": {
             "name": "Name",
@@ -197,6 +198,16 @@
             },
             "ammo": {
                 "set": "Ammo of “{name}”: {value}/{max}."
+            },
+            "export": "Export to .txt",
+            "fileName": "{name} — log",
+            "inventory": {
+                "store": "“{item}” ×{count}: {actor} → “{compartment}”.",
+                "take": "“{item}” ×{count}: “{compartment}” → {actor}.",
+                "transfer": "“{item}” ×{count}: “{from}” → “{to}” ({ship}).",
+                "add": "“{item}” ×{count} placed in “{compartment}”.",
+                "delete": "“{item}” ×{count} removed from “{compartment}”.",
+                "reload": "“{weapon}” reloaded: +{count} “{item}”."
             }
         },
         "logType": {
@@ -212,7 +223,8 @@
             "crew": "Crew",
             "scene": "Scene",
             "note": "Note",
-            "attack": "Combat"
+            "attack": "Combat",
+            "inventory": "Inventory"
         },
         "range": {
             "close": "Close",
@@ -275,7 +287,16 @@
             "tileImage": "Tile image",
             "keywordsHint": "comma separated",
             "effectStat": "Stat modifier",
-            "flags": "Rule keywords"
+            "flags": "Rule keywords",
+            "tab": {
+                "description": "Description",
+                "details": "Details",
+                "combat": "Combat",
+                "inventory": "Inventory",
+                "effects": "Effects"
+            },
+            "inventorySize": "Grid (width × height)",
+            "inventoryHint": "Inventory cells of the compartment; 0 means no inventory. Players open it while their token stands in the compartment."
         },
         "compartment": {
             "title": "Compartment",
@@ -452,7 +473,9 @@
             "helpLink": "Module help",
             "failed": "SkyPlane first run did not finish, see the console.",
             "exampleName": "Albatross",
-            "exampleClass": "Training skyship"
+            "exampleClass": "Training skyship",
+            "ammoTorpedo": "“Bumblebee” torpedo",
+            "ammoYamato": "Yamato charge"
         },
         "card": {
             "title": "Hit: {amount} damage",
@@ -484,6 +507,10 @@
             "undo": {
                 "name": "Undo in the builder",
                 "hint": "Undoes the last placement, move or removal in the open ship builder."
+            },
+            "rotate": {
+                "name": "Rotate inventory item",
+                "hint": "While an item is being dragged on a compartment inventory grid."
             }
         },
         "effects": {
@@ -539,6 +566,47 @@
             "max": "Ammo (shots)",
             "maxHint": "Shots before a reload; 0 means unlimited. A volley uses one charge.",
             "short": "Ammo {left}/{max}"
+        },
+        "ammoItem": {
+            "label": "Ammunition",
+            "drop": "Drop an item here — without one the gun uses no ammunition",
+            "clear": "Remove ammunition",
+            "hint": "The gun uses such items from its compartment's inventory: same source as the dropped item.",
+            "inStock": "in stock",
+            "reload": "Reload"
+        },
+        "inventory": {
+            "notPresent": "Stand in this compartment with your token.",
+            "noSpace": "No room in “{name}”.",
+            "noInventory": "This compartment has no inventory.",
+            "notPhysical": "This item cannot be stored.",
+            "magazineFull": "The gun is already fully loaded.",
+            "noAmmoStock": "No “{item}” in this compartment.",
+            "title": "Inventory: {compartment} — {ship}",
+            "search": "Search cargo",
+            "allTypes": "All types",
+            "add": "Put into the compartment",
+            "catalogEmpty": "The catalog is empty",
+            "newCargo": "New cargo",
+            "customPack": "Custom cargo",
+            "readOnly": "View only: stand in the compartment with your token to take and store items.",
+            "hint": "Drag an item from a character sheet onto the grid. While dragging, F rotates the item; right-click opens the menu.",
+            "onlyFromCharacter": "You can store items from your character sheet.",
+            "noReceiver": "Nobody to receive it: no token of yours in the compartment and no assigned character.",
+            "quantityTitle": "How many?",
+            "quantityOk": "Done",
+            "rotate": "Rotate",
+            "resize": "Size…",
+            "split": "Split stack…",
+            "take": "Take",
+            "delete": "Delete",
+            "deleteConfirm": "Delete “{item}” ×{count} from the inventory?",
+            "button": "Inventory",
+            "removeTitle": "Remove a compartment with items",
+            "removeConfirm": "“{name}” holds {count} item stacks. They will be lost with the compartment (Ctrl+Z restores everything).",
+            "undoBlocked": "Undo would remove “{name}” with its items. Take the items out first or remove the compartment with its button.",
+            "badQuantity": "Invalid quantity.",
+            "actorNotPresent": "“{name}” is not standing in this compartment."
         }
     },
     "TYPES": {

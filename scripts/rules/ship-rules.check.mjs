@@ -4,7 +4,7 @@ import {
   checkPlacement, findFreePosition, computeStats, validateShip, findPassages,
   buildWallSegments, parseHpInput, groupSystems, planStarterKit, isDifficultTerrain,
   isWeapon, weaponFormula, attackDifficulty, shipBonuses, adjacentCompartments, shotCount, ammoLeft, isSmoky,
-  resolveHit, resolveUndoHit
+  resolveHit, resolveUndoHit, shotsAvailable, clampGridSize
 } from "./ship-rules.js";
 
 let counter = 0;
@@ -236,5 +236,20 @@ assert.equal(adjacentCompartments([middle, ...around], middle).length, 3);
   const undo = resolveUndoHit({ compartments: hit.compartments, hull: hit.hull, maxHull: 100 }, burning.instanceId, hit.lost);
   assert.deepEqual(undo.compartments[0].conditions, ["burning"]);
 }
+
+// Доступные выстрелы: магазин; без магазина — снаряды в инвентаре отсека; без снарядов — без ограничения.
+{
+  const ammoItem = { uuid: "Compendium.x.cargo.Item.t", source: "" };
+  const shell = (quantity) => ({ instanceId: `s${quantity}`, x: 1, y: 1, rotated: false, item: { type: "loot", system: { quantity }, _stats: { compendiumSource: ammoItem.uuid } } });
+  assert.equal(shotsAvailable(room({ ammo: 3, currentAmmo: 1, ammoItem, inventory: [shell(5)] })), 1);
+  assert.equal(shotsAvailable(room({ ammo: 0, ammoItem, inventory: [shell(2), shell(3)] })), 5);
+  assert.equal(shotsAvailable(room({ ammo: 0, ammoItem, inventory: [] })), 0);
+  assert.equal(shotsAvailable(room({ ammo: 0 })), Infinity);
+}
+
+// Размер сетки из запроса: не число — null (отказ), иначе в пределах.
+assert.equal(clampGridSize("a", 5), null);
+assert.equal(clampGridSize(NaN, NaN), null);
+assert.deepEqual(clampGridSize(99, 1), { width: 14, height: 3 });
 
 console.log("ship-rules: все проверки пройдены");

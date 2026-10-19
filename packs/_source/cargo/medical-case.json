@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgMedCase001",
+  "_key": "!items!skyCrgMedCase001",
+  "name": "Медицинский ящик",
+  "type": "loot",
+  "img": "icons/containers/bags/case-leather-tan.webp",
+  "system": {
+    "description": {
+      "value": "<p>Бинты, антисептик и обезболивающее для лазарета.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 5,
+      "units": "lb"
+    },
+    "price": {
+      "value": 25,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 500,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

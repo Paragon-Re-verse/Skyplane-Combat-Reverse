@@ -63,7 +63,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "engine_hobgoblin",
@@ -111,7 +112,8 @@
         "maxHp": 20,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -157,7 +159,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -205,7 +208,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "bridge_compact",
@@ -252,7 +256,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -298,7 +303,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -346,7 +352,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "workshop_repair",
@@ -382,6 +389,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 6,
+        "inventoryHeight": 4,
         "effects": [
           {
             "name": "Ремонт +2",
@@ -407,7 +416,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_falconet",
@@ -455,7 +465,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_falconet",
@@ -503,7 +514,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "crows_nest",
@@ -565,7 +577,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_flamethrower",
@@ -590,7 +603,7 @@
         "damageDice": 3,
         "damageDie": 6,
         "damageBonus": 0,
-        "effect": "Поджигает смежные отсеки врага.",
+        "effect": "Поджигает цель и задевает соседние отсеки врага.",
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -610,7 +623,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -658,7 +672,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -694,6 +709,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "DydfSxoOCznNEAQx",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -705,7 +722,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -741,6 +759,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "TwO27iTRWg92nvyq",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.FQG0yli77uyHw140",
@@ -752,7 +772,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_torpedo",
@@ -787,6 +808,14 @@
         ],
         "special": "",
         "ammo": 4,
+        "ammoItem": {
+          "uuid": "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgTorpedo001",
+          "source": "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgTorpedo001",
+          "name": "Торпеда «Шмель»",
+          "img": "icons/weapons/thrown/bomb-fuse-black-grey.webp"
+        },
+        "inventoryWidth": 2,
+        "inventoryHeight": 2,
         "effects": [],
         "instanceId": "4orXO6y5oj4VgN8R",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments.Item.i7wW2PTJVHHqhlpt",
@@ -798,7 +827,8 @@
         "maxHp": 14,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       }
     ],
     "description": "<p>Рейдер для коротких злых стычек: огнемёт на носу, торпеды на корме и пушки на каждой палубе.</p>"

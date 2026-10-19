@@ -30,6 +30,14 @@
     "damageDie": 6,
     "damageBonus": 0,
     "ammo": 0,
+    "ammoItem": {
+      "uuid": "",
+      "source": "",
+      "name": "",
+      "img": ""
+    },
+    "inventoryWidth": 6,
+    "inventoryHeight": 4,
     "effectStat": "",
     "effectValue": 0,
     "worksWhenDestroyed": false,

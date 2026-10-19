@@ -1262,7 +1262,211 @@ body.skyplane-no-animations .skyplane-combat-reverse {
   }
 
   > .skyplane-sheet-header,
+  > .skyplane-item-header,
+  > .skyplane-sync,
   > nav.tabs {
     flex-shrink: 0;
+  }
+}
+
+// Вкладки листа отсека: тёмный текст на пергаменте, активная — бордовая с латунной чертой.
+.skyplane-compartment-sheet nav.tabs {
+  border-bottom: 1px solid $brass;
+  margin-bottom: 8px;
+
+  > a,
+  > button {
+    color: #3b2a1a;
+    text-shadow: none;
+  }
+
+  > .active {
+    color: $burgundy;
+    font-weight: bold;
+    border-bottom: 2px solid $brass;
+  }
+}
+
+// Кнопка «Инвентарь» сбоку окна отсека и строка снарядов пушки.
+.skyplane-compartment-window {
+  .skyplane-inventory-button {
+    float: right;
+    margin: 0 0 6px 8px;
+  }
+
+  .skyplane-ammo-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+
+    img {
+      width: 20px;
+      height: 20px;
+      border: none;
+    }
+
+    button {
+      margin-left: auto;
+    }
+  }
+}
+
+// Окно инвентаря: каталог ГМа слева, сетка клеток справа.
+.skyplane-inventory-window {
+  .window-content {
+    padding: 8px;
+  }
+
+  .skyplane-inventory-body {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .skyplane-inventory-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 230px;
+    flex: none;
+
+    ol {
+      max-height: 340px;
+      overflow-y: auto;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 2px 4px;
+      cursor: grab;
+
+      img {
+        width: 24px;
+        height: 24px;
+        border: none;
+      }
+
+      span {
+        flex: 1;
+      }
+
+      &:hover {
+        background: rgba($brass, 0.2);
+      }
+    }
+  }
+
+  .skyplane-inventory-grid {
+    position: relative;
+    border: 2px solid $brass;
+    background-color: rgba(0, 0, 0, 0.06);
+    background-image:
+      linear-gradient(to right, rgba($brass, 0.45) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba($brass, 0.45) 1px, transparent 1px);
+    background-size: var(--cell) var(--cell);
+    box-sizing: content-box;
+  }
+}
+
+.skyplane-inventory-item,
+.skyplane-inventory-ghost {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid $burgundy;
+  border-radius: 3px;
+  background: rgba(#efe3c5, 0.92);
+  color: #2a1d10;
+  font-size: 11px;
+  line-height: 1.1;
+  cursor: grab;
+  user-select: none;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.55;
+    border: none;
+  }
+
+  .name,
+  .quantity {
+    position: relative;
+    text-shadow: 0 0 2px #fff;
+  }
+
+  .quantity {
+    align-self: flex-end;
+    font-weight: bold;
+  }
+
+  &.dragging {
+    opacity: 0.35;
+  }
+}
+
+.skyplane-inventory-grid.readonly .skyplane-inventory-item {
+  cursor: default;
+}
+
+.skyplane-inventory-ghost {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  border: 2px dashed $brass;
+
+  &.invalid {
+    border-color: #b3261e;
+    background: rgba(#b3261e, 0.25);
+  }
+}
+
+.skyplane-quantity {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  input[type="range"] {
+    flex: 1;
+  }
+
+  output {
+    min-width: 2em;
+    text-align: right;
+    font-weight: bold;
+  }
+}
+
+// Поле «Снаряды» листа отсека: сюда перетаскивают предмет.
+.skyplane-compartment-sheet .skyplane-ammo-drop {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-height: 32px;
+  padding: 2px 6px;
+  border: 1px dashed $brass;
+  border-radius: 3px;
+
+  img {
+    width: 26px;
+    height: 26px;
+    border: none;
+  }
+
+  span {
+    flex: 1;
   }
 }

@@ -2,7 +2,7 @@
   "id": "skyplane-combat-reverse",
   "title": "SkyPlane Combat Re:verse",
   "description": "Лист неболёта с конструктором, сцена корабля из тайлов, регионов и стен и сцена боя двух кораблей для Foundry VTT v13 и D&D 5e.",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "authors": [
     {
       "name": "Saint"
@@ -182,6 +182,28 @@
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
       }
+    },
+    {
+      "name": "cargo",
+      "label": "SkyPlane: грузы неболёта",
+      "path": "packs/cargo",
+      "type": "Item",
+      "system": "dnd5e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "cargo-en",
+      "label": "SkyPlane: skyship cargo",
+      "path": "packs/cargo-en",
+      "type": "Item",
+      "system": "dnd5e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "packFolders": [
@@ -200,14 +222,16 @@
         "starcraft-compartments-en",
         "repair-items-en",
         "macros-en",
-        "help-en"
+        "help-en",
+        "cargo",
+        "cargo-en"
       ]
     }
   ],
   "socket": true,
   "url": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse",
   "manifest": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/releases/latest/download/module.json",
-  "download": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/releases/download/v1.1.2/module.zip",
+  "download": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/releases/download/v1.1.3/module.zip",
   "bugs": "https://github.com/Paragon-Re-verse/Skyplane-Combat-Reverse/issues",
   "license": "LICENSE",
   "readme": "README.md",

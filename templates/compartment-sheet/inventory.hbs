@@ -1,0 +1,11 @@
+<section class="tab {{tab.cssClass}}" data-tab="inventory" data-group="primary">
+  <p class="skyplane-hint">{{sky "itemSheet.inventoryHint"}}</p>
+  <div class="skyplane-form-grid">
+    <label>{{sky "itemSheet.inventorySize"}}</label>
+    <div class="skyplane-pair">
+      <input type="number" min="0" max="12" name="system.inventoryWidth" value="{{system.inventoryWidth}}">
+      <span>×</span>
+      <input type="number" min="0" max="12" name="system.inventoryHeight" value="{{system.inventoryHeight}}">
+    </div>
+  </div>
+</section>

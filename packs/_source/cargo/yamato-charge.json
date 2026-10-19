@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgYamatoChrg",
+  "_key": "!items!skyCrgYamatoChrg",
+  "name": "Заряд Ямато",
+  "type": "loot",
+  "img": "icons/commodities/gems/gem-cluster-blue-white.webp",
+  "system": {
+    "description": {
+      "value": "<p>Плазменная ячейка Ямато-пушки. Перезарядка берёт заряды из инвентаря отсека пушки.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 40,
+      "units": "lb"
+    },
+    "price": {
+      "value": 200,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 800,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 1,
+        "height": 2
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

@@ -64,7 +64,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "radar_station",
@@ -111,7 +112,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "crows_nest",
@@ -173,7 +175,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -221,7 +224,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -269,7 +273,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -305,6 +310,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "RMC4SlMfKxlaHGpx",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.FQG0yli77uyHw140",
@@ -316,7 +323,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -352,6 +360,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "51HdbN3rijzlAgYN",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.FQG0yli77uyHw140",
@@ -363,7 +373,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "engine_steam_compact",
@@ -411,7 +422,8 @@
         "maxHp": 15,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_falconet",
@@ -459,7 +471,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       }
     ],
     "description": "<p>A light courier: mail, diplomats and everything that had to arrive yesterday. One deck, two cabins, a gun at the stern.</p>"

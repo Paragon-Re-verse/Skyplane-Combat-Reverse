@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgYamatoChrg",
+  "_key": "!items!skyCrgYamatoChrg",
+  "name": "Yamato charge",
+  "type": "loot",
+  "img": "icons/commodities/gems/gem-cluster-blue-white.webp",
+  "system": {
+    "description": {
+      "value": "<p>Plasma cell for the Yamato cannon. Reloading takes charges from the cannon compartment's inventory.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 40,
+      "units": "lb"
+    },
+    "price": {
+      "value": 200,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 800,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 1,
+        "height": 2
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

@@ -37,7 +37,15 @@
       "far"
     ],
     "special": "",
-    "ammo": 4
+    "ammo": 4,
+    "ammoItem": {
+      "uuid": "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgTorpedo001",
+      "source": "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgTorpedo001",
+      "name": "“Bumblebee” torpedo",
+      "img": "icons/weapons/thrown/bomb-fuse-black-grey.webp"
+    },
+    "inventoryWidth": 2,
+    "inventoryHeight": 2
   },
   "effects": [],
   "folder": null,

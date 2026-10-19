@@ -1,0 +1,14 @@
+<section class="tab {{tab.cssClass}}" data-tab="description" data-group="primary">
+  <div class="skyplane-form-grid">
+    <label>{{sky "compartment.keywords"}}</label>
+    <input type="text" name="system.keywords" value="{{keywordsText}}" placeholder="{{sky "itemSheet.keywordsHint"}}">
+
+    <label>{{sky "systems.effect"}}</label>
+    <textarea name="system.effect" rows="3">{{system.effect}}</textarea>
+  </div>
+
+  <h3 class="skyplane-heading">{{sky "description.title"}}</h3>
+  <prose-mirror name="system.description" value="{{system.description}}" toggled {{#unless editable}}disabled{{/unless}}>
+    {{{descriptionHtml}}}
+  </prose-mirror>
+</section>

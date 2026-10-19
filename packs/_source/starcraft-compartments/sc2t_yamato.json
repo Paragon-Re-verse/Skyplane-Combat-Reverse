@@ -30,6 +30,14 @@
     "damageDie": 10,
     "damageBonus": 0,
     "ammo": 3,
+    "ammoItem": {
+      "uuid": "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgYamatoChrg",
+      "source": "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgYamatoChrg",
+      "name": "Заряд Ямато",
+      "img": "icons/commodities/gems/gem-cluster-blue-white.webp"
+    },
+    "inventoryWidth": 2,
+    "inventoryHeight": 2,
     "effectStat": "",
     "effectValue": 0,
     "worksWhenDestroyed": false,

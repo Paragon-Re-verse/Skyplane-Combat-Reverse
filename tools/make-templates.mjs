@@ -34,6 +34,7 @@ const base = {
   img: "", keywords: [], isResidential: false, isNoHp: false, ignoresPassage: false, isOutsideOnly: false,
   isStairs: false, isNarrow: false, speed: null, fuelEconomy: null, effect: "",
   checkSkill: "", checkDc: 12, ranges: ["close", "medium", "far"], special: "", damageDice: 0, damageDie: 6, damageBonus: 0, ammo: 0,
+  ammoItem: { uuid: "", source: "", name: "", img: "" }, inventoryWidth: 0, inventoryHeight: 0,
   effectStat: "", effectValue: 0, worksWhenDestroyed: false
 };
 
@@ -41,14 +42,14 @@ const base = {
 const STARCRAFT = [
   // Терраны
   ["sc2t_bridge", "Мостик линкора", "control", 3, 2, 20, { keywords: ["Управление"], effect: "Командование: раз в раунд капитан даёт +1 к одной проверке экипажа." }, "Голографический стол, кресло капитана и вечно недовольный адъютант."],
-  ["sc2t_yamato", "Ямато-пушка", "weapons", 3, 2, 25, { keywords: ["Вооружение", "Только снаружи"], isOutsideOnly: true, checkSkill: "prc", checkDc: 15, ranges: ["medium", "far"], special: "charge", ammo: 3, damageDice: 6, damageDie: 10, effect: "Раунд зарядки, затем один выстрел по отсеку цели." }, "Плазменное орудие главного калибра. Экипаж зовёт его «последним аргументом»."],
+  ["sc2t_yamato", "Ямато-пушка", "weapons", 3, 2, 25, { inventoryWidth: 2, inventoryHeight: 2, ammoItem: { uuid: "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgYamatoChrg", source: "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgYamatoChrg", name: "Заряд Ямато", img: "icons/commodities/gems/gem-cluster-blue-white.webp" }, keywords: ["Вооружение", "Только снаружи"], isOutsideOnly: true, checkSkill: "prc", checkDc: 15, ranges: ["medium", "far"], special: "charge", ammo: 3, damageDice: 6, damageDie: 10, effect: "Раунд зарядки, затем один выстрел по отсеку цели." }, "Плазменное орудие главного калибра. Экипаж зовёт его «последним аргументом»."],
   ["sc2t_ats", "Батарея ATS-лазеров", "weapons", 2, 1, 12, { keywords: ["Вооружение"], checkSkill: "prc", checkDc: 12, ranges: ["close", "medium"], damageDice: 2, damageDie: 8, effect: "Против кораблей." }, "Лазеры «воздух — поверхность»: бьют по корпусу и надстройкам."],
   ["sc2t_ata", "Батарея ATA-лазеров", "weapons", 2, 1, 10, { keywords: ["Вооружение"], checkSkill: "prc", checkDc: 10, ranges: ["close", "medium"], special: "volley", damageDice: 3, damageDie: 4, effect: "Против истребителей и перехватчиков: каждая кость — отдельная цель." }, "Скорострельные лазеры «воздух — воздух»."],
   ["sc2t_reactor", "Термоядерный реактор", "engine", 3, 3, 24, { keywords: ["Машинное отделение"], speed: 4, fuelEconomy: 2, effect: "" }, "Гудит так, что в кантине дребезжат стаканы."],
   ["sc2t_warp", "Ядро тактического прыжка", "equipment", 2, 2, 16, { keywords: ["Оборудование"], effect: "Раз в бой: корабль выходит из боя или меняет дистанцию на любую." }, "Тактический варп-прыжок. Отсчёт идёт под гробовое молчание мостика."],
-  ["sc2t_barracks", "Казарма морпехов", "equipment", 3, 1, 10, { keywords: ["Жилой"], isResidential: true, effects: [["Вместимость экипажа +2", "system.maxCrew", 2]], effect: "Жилой отсек на отделение: +3 к вместимости вместо +1. Морпехи готовы к абордажу за 30 секунд." }, "Шкафчики, скафандры CMC-300 и запах стимуляторов."],
+  ["sc2t_barracks", "Казарма морпехов", "equipment", 3, 1, 10, { inventoryWidth: 3, inventoryHeight: 3, keywords: ["Жилой"], isResidential: true, effects: [["Вместимость экипажа +2", "system.maxCrew", 2]], effect: "Жилой отсек на отделение: +3 к вместимости вместо +1. Морпехи готовы к абордажу за 30 секунд." }, "Шкафчики, скафандры CMC-300 и запах стимуляторов."],
   ["sc2t_cantina", "Кантина", "equipment", 2, 1, 8, { keywords: ["Оборудование"], effect: "Музыкальный автомат и бармен: +1 к боевому духу экипажа после отдыха." }, "Здесь всегда пахнет виски и чьими-то заговорами."],
-  ["sc2t_armory", "Оружейная Свона", "equipment", 2, 1, 12, { keywords: ["Оборудование"], effect: "Ремонтные расходники в этом отсеке чинят на 2 HP больше (по решению ГМа)." }, "«Не трогай ничего, что искрит», — табличка на двери."],
+  ["sc2t_armory", "Оружейная Свона", "equipment", 2, 1, 12, { inventoryWidth: 6, inventoryHeight: 4, keywords: ["Оборудование"], effect: "Ремонтные расходники в этом отсеке чинят на 2 HP больше (по решению ГМа)." }, "«Не трогай ничего, что искрит», — табличка на двери."],
   ["sc2t_sensor", "Сенсорная башня", "recon", 1, 2, 10, { keywords: ["Разведка", "Только снаружи"], isOutsideOnly: true, checkSkill: "prc", checkDc: 12, effect: "Обнаруживает корабли противника на любой дистанции." }, "Радар дальнего обнаружения на выносной мачте."],
   ["sc2t_vikings", "Ангар «Викингов»", "weapons", 2, 2, 14, { keywords: ["Вооружение"], checkSkill: "prc", checkDc: 12, damageDice: 2, damageDie: 6, effect: "Звено истребителей: атака по кораблю или перехват вражеских истребителей." }, "Трансформирующиеся истребители на магнитных захватах."],
   ["sc2t_matrix", "Защитная матрица", "equipment", 1, 1, 8, { keywords: ["Оборудование"], effects: [["Прочность +100", "system.maxHp", 100]], effect: "+100 к прочности корабля, пока отсек цел." }, "Генератор поля, поглощающего попадания."],
@@ -62,9 +63,9 @@ const STARCRAFT = [
   ["sc2p_shields", "Генератор щитов", "equipment", 2, 2, 16, { keywords: ["Оборудование"], effects: [["Щиты: прочность +200", "system.maxHp", 200]], effect: "Щиты: +200 к прочности корабля, пока генератор цел." }, "Синее мерцание вокруг корпуса — первое, что видят враги."],
   ["sc2p_catapult", "Гравитационная катапульта", "equipment", 1, 1, 8, { keywords: ["Оборудование"], effect: "Перехватчики вылетают уже в первом раунде боя." }, "Улучшение, за которое воздушная флотилия молится на Совет."],
   ["sc2p_lift", "Гравитационный лифт", "equipment", 1, 1, 0, { keywords: ["Лестница", "Без прочности"], isStairs: true, isNoHp: true, effect: "Вертикальный проход: соединён с лифтом выше и ниже." }, "Столб мягкого света между палубами."],
-  ["sc2p_cells", "Зал медитации", "equipment", 2, 1, 8, { keywords: ["Жилой"], isResidential: true, effect: "Жилой отсек для тамплиеров экипажа." }, "Тихие кельи, где слышно Кхалу."],
+  ["sc2p_cells", "Зал медитации", "equipment", 2, 1, 8, { inventoryWidth: 3, inventoryHeight: 3, keywords: ["Жилой"], isResidential: true, effect: "Жилой отсек для тамплиеров экипажа." }, "Тихие кельи, где слышно Кхалу."],
   ["sc2p_oracle", "Сенсор-пророк", "recon", 1, 1, 8, { keywords: ["Разведка"], checkSkill: "prc", checkDc: 10, effect: "Пророческое зрение: раскрывает корабль противника." }, "Кристалл, видящий на несколько мгновений вперёд."],
-  ["sc2p_vault", "Кристаллическое хранилище", "equipment", 3, 1, 0, { keywords: ["Без прочности"], isNoHp: true, effect: "Груз и запасные кристаллы. Не учитывается в прочности." }, "Ряды кхайдариновых кристаллов в стазисе."]
+  ["sc2p_vault", "Кристаллическое хранилище", "equipment", 3, 1, 0, { inventoryWidth: 10, inventoryHeight: 6, keywords: ["Без прочности"], isNoHp: true, effect: "Груз и запасные кристаллы. Не учитывается в прочности." }, "Ряды кхайдариновых кристаллов в стазисе."]
 ];
 
 /** Активный эффект предмета каталога: одно изменение «Прибавить». */
@@ -114,6 +115,7 @@ function placed(catalogId, x, y, extra = {}, seed) {
     passageUp: false,
     passageDown: false,
     effectActive: true,
+    inventory: [],
     ...extra
   };
 }

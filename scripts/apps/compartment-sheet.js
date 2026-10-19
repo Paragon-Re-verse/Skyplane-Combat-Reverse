@@ -19,13 +19,67 @@ export class CompartmentItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
       addEffect: CompartmentItemSheet.#onAddEffect,
       editEffect: CompartmentItemSheet.#onEditEffect,
       deleteEffect: CompartmentItemSheet.#onDeleteEffect,
-      toggleEffect: CompartmentItemSheet.#onToggleEffect
+      toggleEffect: CompartmentItemSheet.#onToggleEffect,
+      clearAmmoItem: CompartmentItemSheet.#onClearAmmoItem
     }
   };
 
   static PARTS = {
-    body: { template: `${TEMPLATE_PATH}/compartment-sheet.hbs`, scrollable: [""] }
+    header: { template: `${TEMPLATE_PATH}/compartment-sheet/header.hbs` },
+    tabs: { template: "templates/generic/tab-navigation.hbs" },
+    description: { template: `${TEMPLATE_PATH}/compartment-sheet/description.hbs`, scrollable: [""] },
+    details: { template: `${TEMPLATE_PATH}/compartment-sheet/details.hbs`, scrollable: [""] },
+    combat: { template: `${TEMPLATE_PATH}/compartment-sheet/combat.hbs`, scrollable: [""] },
+    inventory: { template: `${TEMPLATE_PATH}/compartment-sheet/inventory.hbs`, scrollable: [""] },
+    effects: { template: `${TEMPLATE_PATH}/compartment-sheet/effects.hbs`, scrollable: [""] },
+    footer: { template: `${TEMPLATE_PATH}/compartment-sheet/footer.hbs` }
   };
+
+  /** Вкладки как у листа предмета dnd5e: лист отсека не растёт в длину. */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "description", icon: "fa-solid fa-feather" },
+        { id: "details", icon: "fa-solid fa-list" },
+        { id: "combat", icon: "fa-solid fa-burst" },
+        { id: "inventory", icon: "fa-solid fa-boxes-stacked" },
+        { id: "effects", icon: "fa-solid fa-bolt" }
+      ],
+      initial: "description",
+      labelPrefix: `${MODULE_ID}.itemSheet.tab`
+    }
+  };
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    context.tab = context.tabs[partId];
+    return context;
+  }
+
+  /** Поле «Снаряды» принимает перетащенный предмет: ссылка, источник (компендиум), название и картинка. */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+    const zone = this.element.querySelector('[data-drop-zone="ammo"]');
+    if (!zone || !this.isEditable || zone.dataset.bound) return;
+    zone.dataset.bound = "true";
+    zone.addEventListener("dragover", (event) => event.preventDefault());
+    zone.addEventListener("drop", (event) => this.#onDropAmmo(event));
+  }
+
+  async #onDropAmmo(event) {
+    event.preventDefault();
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    if (data?.type !== "Item") return;
+    const item = await fromUuid(data.uuid);
+    if (!item) return;
+    await this.item.update({
+      "system.ammoItem": { uuid: item.uuid, source: item._stats?.compendiumSource ?? "", name: item.name, img: item.img }
+    });
+  }
+
+  static async #onClearAmmoItem() {
+    await this.item.update({ "system.ammoItem": { uuid: "", source: "", name: "", img: "" } });
+  }
 
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
@@ -67,6 +121,7 @@ export class CompartmentItemSheet extends HandlebarsApplicationMixin(ItemSheetV2
     if (!result) return;
     ui.notifications.info(format("catalog.syncDone", { compartments: result.compartments, ships: result.ships }));
     if (result.keptSize.length) ui.notifications.warn(format("catalog.syncKeptSize", { names: result.keptSize.join(", ") }), { permanent: true });
+    if (result.keptInventory.length) ui.notifications.warn(format("catalog.syncKeptInventory", { names: result.keptInventory.join(", ") }), { permanent: true });
     this.render();
   }
 

@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgContraband",
+  "_key": "!items!skyCrgContraband",
+  "name": "Контрабанда",
+  "type": "loot",
+  "img": "icons/containers/chest/chest-elm-steel-brown.webp",
+  "system": {
+    "description": {
+      "value": "<p>Груз без накладных. Лучше не показывать таможне.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 10,
+      "units": "lb"
+    },
+    "price": {
+      "value": 100,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 900,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

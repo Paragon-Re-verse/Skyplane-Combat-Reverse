@@ -4,6 +4,7 @@
       <option value="">{{sky "log.filterAll"}}</option>
       {{selectOptions logTypes selected=logFilter valueAttr="value" labelAttr="label"}}
     </select>
+    <button type="button" class="skyplane-button" data-action="exportLog"><i class="fa-solid fa-file-lines"></i> {{sky "log.export"}}</button>
     <button type="button" class="skyplane-button" data-action="clearLog"><i class="fa-solid fa-broom"></i> {{sky "log.clear"}}</button>
   </div>
   <div class="skyplane-log-note">

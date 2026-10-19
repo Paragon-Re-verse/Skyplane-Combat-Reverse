@@ -43,6 +43,14 @@
         "damageDie": 8,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -62,7 +70,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": true,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -89,6 +98,14 @@
         "damageDie": 8,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -108,7 +125,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": true,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -136,6 +154,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -155,7 +181,8 @@
         "maxHp": 16,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -184,6 +211,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -203,7 +238,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -232,6 +268,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -251,7 +295,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -279,6 +324,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -298,7 +351,8 @@
         "maxHp": 20,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -326,6 +380,14 @@
         "damageDie": 10,
         "damageBonus": 0,
         "ammo": 3,
+        "ammoItem": {
+          "uuid": "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgYamatoChrg",
+          "source": "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgYamatoChrg",
+          "name": "Yamato charge",
+          "img": "icons/commodities/gems/gem-cluster-blue-white.webp"
+        },
+        "inventoryWidth": 2,
+        "inventoryHeight": 2,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -345,7 +407,8 @@
         "maxHp": 25,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -373,6 +436,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -392,7 +463,8 @@
         "maxHp": 24,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -420,6 +492,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -453,7 +533,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -481,6 +562,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -500,7 +589,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -529,6 +619,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -548,7 +646,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -576,6 +675,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 6,
+        "inventoryHeight": 4,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -595,7 +702,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -622,6 +730,14 @@
         "damageDie": 4,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -641,7 +757,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -669,6 +786,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -688,7 +813,8 @@
         "maxHp": 14,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -716,6 +842,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -749,7 +883,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -778,6 +913,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -797,7 +940,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "img": "",
@@ -826,6 +970,14 @@
         "damageDie": 6,
         "damageBonus": 0,
         "ammo": 0,
+        "ammoItem": {
+          "uuid": "",
+          "source": "",
+          "name": "",
+          "img": ""
+        },
+        "inventoryWidth": 0,
+        "inventoryHeight": 0,
         "effectStat": "",
         "effectValue": 0,
         "worksWhenDestroyed": false,
@@ -845,7 +997,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cargo_hold",
@@ -882,6 +1035,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effects": [],
         "instanceId": "HT3rNgxIewsFV7lK",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.oxaAaFd9u6AKvdmc",
@@ -893,7 +1048,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       }
     ],
     "description": "<p>Flagship of Raynor's Raiders, a skyship on paper. A Yamato cannon at the bow, a cantina with a jukebox, Swann's armory and a tactical jump in case everything goes according to plan. The ATS batteries on the upper deck connect to the compartments below through hatches — those are the “Passage down” checkboxes.</p>"

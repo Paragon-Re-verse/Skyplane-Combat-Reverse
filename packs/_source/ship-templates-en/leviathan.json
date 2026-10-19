@@ -64,7 +64,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -112,7 +113,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "crows_nest",
@@ -174,7 +176,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -220,7 +223,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -268,7 +272,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "bridge_leather",
@@ -316,7 +321,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "radar_station",
@@ -363,7 +369,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_torpedo",
@@ -398,6 +405,14 @@
         ],
         "special": "",
         "ammo": 4,
+        "ammoItem": {
+          "uuid": "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgTorpedo001",
+          "source": "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgTorpedo001",
+          "name": "“Bumblebee” torpedo",
+          "img": "icons/weapons/thrown/bomb-fuse-black-grey.webp"
+        },
+        "inventoryWidth": 2,
+        "inventoryHeight": 2,
         "effects": [],
         "instanceId": "sgZGAL6ADflRYW2Q",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.i7wW2PTJVHHqhlpt",
@@ -409,7 +424,8 @@
         "maxHp": 14,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -455,7 +471,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -501,7 +518,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "engine_titan",
@@ -549,7 +567,8 @@
         "maxHp": 30,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_flamethrower",
@@ -594,7 +613,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -642,7 +662,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_torpedo",
@@ -677,6 +698,14 @@
         ],
         "special": "",
         "ammo": 4,
+        "ammoItem": {
+          "uuid": "Compendium.skyplane-combat-reverse.cargo-en.Item.skyCrgTorpedo001",
+          "source": "Compendium.skyplane-combat-reverse.cargo.Item.skyCrgTorpedo001",
+          "name": "“Bumblebee” torpedo",
+          "img": "icons/weapons/thrown/bomb-fuse-black-grey.webp"
+        },
+        "inventoryWidth": 2,
+        "inventoryHeight": 2,
         "effects": [],
         "instanceId": "r7AasgWcAvDbkbnk",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.i7wW2PTJVHHqhlpt",
@@ -688,7 +717,8 @@
         "maxHp": 14,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -736,7 +766,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_captain",
@@ -773,6 +804,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "6olrIikYYboATi14",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.CqZySmgMtH9FySj2",
@@ -784,7 +817,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_carbolin",
@@ -830,7 +864,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -878,7 +913,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "mess_hall",
@@ -925,7 +961,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -961,6 +998,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "kBPpQDjbPmVuknzY",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.FQG0yli77uyHw140",
@@ -972,7 +1011,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_falconet",
@@ -1020,7 +1060,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -1068,7 +1109,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -1104,6 +1146,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "L2OCf0nCCgR0YgUw",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.FQG0yli77uyHw140",
@@ -1115,7 +1159,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -1151,6 +1196,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "pKUqefFCbjaZwsc9",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.FQG0yli77uyHw140",
@@ -1162,7 +1209,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cabin_crew",
@@ -1198,6 +1246,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 3,
+        "inventoryHeight": 3,
         "effects": [],
         "instanceId": "AoxNKtJBqcIzNIYZ",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.FQG0yli77uyHw140",
@@ -1209,7 +1259,8 @@
         "maxHp": 6,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "weapon_falconet",
@@ -1257,7 +1308,8 @@
         "maxHp": 8,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cargo_hold",
@@ -1294,6 +1346,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effects": [],
         "instanceId": "Or1C6tdAAlBZfBtw",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.oxaAaFd9u6AKvdmc",
@@ -1305,7 +1359,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "stairs_vert",
@@ -1353,7 +1408,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "cargo_hold",
@@ -1390,6 +1446,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 10,
+        "inventoryHeight": 6,
         "effects": [],
         "instanceId": "u8gE22beodmrB3Fn",
         "sourceUuid": "Compendium.skyplane-combat-reverse.compartments-en.Item.oxaAaFd9u6AKvdmc",
@@ -1401,7 +1459,8 @@
         "maxHp": 0,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "medbay_auto",
@@ -1448,7 +1507,8 @@
         "maxHp": 10,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       },
       {
         "catalogId": "workshop_repair",
@@ -1484,6 +1544,8 @@
         ],
         "special": "",
         "ammo": 0,
+        "inventoryWidth": 6,
+        "inventoryHeight": 4,
         "effects": [
           {
             "name": "Repair +2",
@@ -1509,7 +1571,8 @@
         "maxHp": 12,
         "passageUp": false,
         "passageDown": false,
-        "effectActive": true
+        "effectActive": true,
+        "inventory": []
       }
     ],
     "description": "<p>The squadron flagship: a “Pacific Titan” at the stern, a medbay and a workshop on the lower deck, torpedoes and guns all along the side.</p>"

@@ -1,0 +1,47 @@
+{
+  "_id": "skyCrgAmmoCrate1",
+  "_key": "!items!skyCrgAmmoCrate1",
+  "name": "Ящик боеприпасов",
+  "type": "loot",
+  "img": "icons/containers/boxes/crate-reinforced-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>Патроны и порох для ручного оружия экипажа и абордажной команды.</p>",
+      "chat": ""
+    },
+    "quantity": 1,
+    "weight": {
+      "value": 30,
+      "units": "lb"
+    },
+    "price": {
+      "value": 25,
+      "denomination": "gp"
+    },
+    "type": {
+      "value": "gear",
+      "subtype": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "skyplane-combat-reverse": {
+      "size": {
+        "width": 2,
+        "height": 1
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "createdTime": 1792108800000,
+    "modifiedTime": 1792108800000
+  }
+}

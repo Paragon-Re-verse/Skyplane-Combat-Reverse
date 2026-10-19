@@ -16,6 +16,9 @@ import { CompartmentWindow } from "./apps/compartment-window.js";
 import { registerBattlePanel } from "./apps/battle-panel.js";
 import { firstRun, migrateData } from "./setup/first-run.js";
 import "./combat/ship-combat.js";
+import "./documents/inventory-actions.js";
+import { InventoryWindow } from "./apps/inventory-window.js";
+import { rotateActiveDrag, isDragging } from "./apps/parts/inventory-grid.js";
 import { registerHitCards } from "./combat/hit-card.js";
 
 // socketlib вызывает socketlib.ready на своём init — подписка нужна до него.
@@ -34,6 +37,14 @@ Hooks.once("init", () => {
   });
 
   registerSettings();
+  // Поворот предмета инвентаря, пока его перетаскивают; в остальное время клавиша не съедается.
+  game.keybindings.register(MODULE_ID, "rotateInventoryItem", {
+    name: `${MODULE_ID}.keybinding.rotate.name`,
+    hint: `${MODULE_ID}.keybinding.rotate.hint`,
+    editable: [{ key: "KeyF" }],
+    precedence: CONST.KEYBINDING_PRECEDENCE.PRIORITY,
+    onDown: () => rotateActiveDrag()
+  });
   // Ctrl+Z в открытом конструкторе корабля; в остальных случаях клавиша достаётся Foundry.
   game.keybindings.register(MODULE_ID, "undoBuild", {
     name: `${MODULE_ID}.keybinding.undo.name`,
@@ -107,10 +118,31 @@ Hooks.on("updateCombat", (combat, changed) => {
   }
 });
 
-// Открытые окна отсеков перерисовываются вслед за кораблём.
+// Открытые окна отсеков и инвентаря перерисовываются вслед за кораблём (инвентарь — не посреди перетаскивания).
 Hooks.on("updateActor", (actor) => {
   if (!getShip(actor)) return;
   for (const application of foundry.applications.instances.values()) {
     if (application instanceof CompartmentWindow && application.ship === actor) application.render();
+    if (application instanceof InventoryWindow && application.ship === actor && !isDragging()) application.render();
   }
 });
+
+// Корабль удалён: его окна отсеков и инвентаря закрываются.
+Hooks.on("deleteActor", (actor) => {
+  for (const application of foundry.applications.instances.values()) {
+    if ((application instanceof CompartmentWindow || application instanceof InventoryWindow) && application.ship === actor) application.close();
+  }
+});
+
+// Токен вошёл в отсек, вышел, появился или исчез на текущей сцене: доступ к инвентарю меняется.
+function refreshPresence(token) {
+  if (token.parent !== canvas.scene) return;
+  for (const application of foundry.applications.instances.values()) {
+    if ((application instanceof InventoryWindow && !isDragging()) || application instanceof CompartmentWindow) application.render();
+  }
+}
+Hooks.on("updateToken", (token, changed) => {
+  if ("x" in changed || "y" in changed) refreshPresence(token);
+});
+Hooks.on("createToken", refreshPresence);
+Hooks.on("deleteToken", refreshPresence);

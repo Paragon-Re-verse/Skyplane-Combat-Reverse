@@ -1,0 +1,30 @@
+<section class="tab {{tab.cssClass}}" data-tab="effects" data-group="primary">
+  <fieldset class="skyplane-flags skyplane-effects">
+    <legend>{{sky "effects.title"}}</legend>
+    <p class="skyplane-hint">{{sky "effects.hint"}}</p>
+    <ol class="skyplane-effect-list">
+      {{#each effects}}
+      <li data-effect-id="{{id}}" class="{{#if disabled}}disabled{{/if}}">
+        <img src="{{img}}" alt="">
+        <span class="name">{{name}}</span>
+        <span class="summary">{{summary}}</span>
+        {{#if @root.editable}}
+        <a data-action="toggleEffect" data-tooltip="{{sky "effects.toggle"}}"><i class="fa-solid {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i></a>
+        <a data-action="editEffect" data-tooltip="{{sky "effects.edit"}}"><i class="fa-solid fa-pen"></i></a>
+        <a data-action="deleteEffect" data-tooltip="{{sky "effects.delete"}}"><i class="fa-solid fa-trash"></i></a>
+        {{else}}
+        <a data-action="editEffect" data-tooltip="{{sky "effects.edit"}}"><i class="fa-solid fa-eye"></i></a>
+        {{/if}}
+      </li>
+      {{else}}
+      <li class="skyplane-empty">{{sky "effects.empty"}}</li>
+      {{/each}}
+    </ol>
+    {{#if editable}}
+    <div class="skyplane-pair">
+      <select data-effect-preset>{{selectOptions effectPresets valueAttr="value" labelAttr="label"}}</select>
+      <button type="button" class="skyplane-button" data-action="addEffect"><i class="fa-solid fa-plus"></i> {{sky "effects.add"}}</button>
+    </div>
+    {{/if}}
+  </fieldset>
+</section>

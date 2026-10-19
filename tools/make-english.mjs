@@ -35,6 +35,14 @@ function translateCompartment(target, catalogId) {
   return translation.name;
 }
 
+/** Снаряды пушки: английский каталог смотрит на cargo-en, русский cargo принимается источником. */
+function translateAmmo(system) {
+  if (!system.ammoItem?.uuid) return;
+  const swap = (uuid) => uuid.replace(`Compendium.${MODULE_ID}.cargo.`, "@@").replace(`Compendium.${MODULE_ID}.cargo-en.`, `Compendium.${MODULE_ID}.cargo.`).replace("@@", `Compendium.${MODULE_ID}.cargo-en.`);
+  const id = system.ammoItem.uuid.split(".").pop();
+  system.ammoItem = { ...system.ammoItem, uuid: swap(system.ammoItem.uuid), source: swap(system.ammoItem.source), name: need(T.cargo[id], `снаряд ${id}`).name };
+}
+
 function translateEffects(effects) {
   for (const effect of effects) effect.name = need(T.effects[effect.name], `эффект ${effect.name}`);
 }
@@ -45,6 +53,7 @@ for (const pack of CATALOG_PACKS) {
   for (const { file, document } of readPack(pack)) {
     document.name = translateCompartment(document.system, document.system.catalogId);
     translateEffects(document.effects);
+    translateAmmo(document.system);
     writePack(pack, file, document);
   }
 }
@@ -58,6 +67,7 @@ for (const { file, document } of readPack("ship-templates")) {
   for (const compartment of document.system.compartments) {
     compartment.name = translateCompartment(compartment, compartment.catalogId);
     translateEffects(compartment.effects);
+    translateAmmo(compartment);
     for (const pack of CATALOG_PACKS) {
       compartment.sourceUuid = compartment.sourceUuid.replace(`Compendium.${MODULE_ID}.${pack}.`, `Compendium.${MODULE_ID}.${pack}${SUFFIX}.`);
     }
@@ -70,6 +80,13 @@ for (const { file, document } of readPack("repair-items")) {
   document.name = translation.name;
   document.system.description.value = translation.description;
   writePack("repair-items", file, document);
+}
+
+for (const { file, document } of readPack("cargo")) {
+  const translation = need(T.cargo[document._id], `груз ${document.name}`);
+  document.name = translation.name;
+  document.system.description.value = translation.description;
+  writePack("cargo", file, document);
 }
 
 for (const { file, document } of readPack("macros")) {
